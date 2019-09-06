@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:noNamespaceSchemaLocation="../../../../../../../vendor/magento/framework/View/Layout/etc/page_configuration.xsd">
+    <head>
+        <css src="Wolf_Filter::css/categoryfilter.css" />
+        <!--<css src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/css/bootstrap.min.css"  src_type="url"/>-->
+    </head>
+    <body>
+        <referenceContainer name="before.body.end">
+            <block class="Magento\Framework\View\Element\Template" template="Wolf_Filter::footer.phtml" name="module_js"/>
+        </referenceContainer>
+        <referenceBlock name="catalog.topnav">
+            <action method="setTemplate">
+                <argument name="template" xsi:type="string">Wolf_Filter::topnav.phtml</argument>
+            </action>
+        </referenceBlock>
+    </body>
+</page>

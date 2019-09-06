@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<widgets xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="../../../../../vendor/magento/module-widget/etc/widget.xsd">
+    <widget id="categoryfilter_navigation" class="Wolf\Filter\Block\Navigation" is_email_compatible="true"
+            placeholder_image="Magento_Catalog::images/product_widget_new.png" ttl="86400">
+        <label translate="true">Category Dropdowns</label>
+        <description translate="true">One select box for each category level</description>
+        <parameters>
+            <parameter name="title" xsi:type="text" visible="true" sort_order="0">
+                <label translate="true">Title</label>
+                <value>Find products here</value>
+            </parameter>
+            <parameter name="levels" xsi:type="text" required="true" visible="true" sort_order="10">
+                <label translate="true">Levels</label>
+                <value>2</value>
+            </parameter>
+            <parameter name="select_labels" xsi:type="text" visible="true" sort_order="30">
+                <label translate="true">Dropdown Labels</label>
+                <description translate="true">Initial values for dropdowns. Comma seprated vlues for each field.
+                </description>
+            </parameter>
+            <parameter name="labels_embedded" xsi:type="select" required="true" visible="true" sort_order="40">
+                <label translate="true">Show Labels</label>
+                <options>
+                    <option name="outside" value="outside" selected="true">
+                        <label translate="true">Outside DropDowns</label>
+                    </option>
+                    <option name="embedded" value="embedded">
+                        <label translate="true">Inside in DropDowns</label>
+                    </option>
+                </options>
+            </parameter>
+            <parameter name="root_category" xsi:type="block" visible="true" required="true" sort_order="100">
+                <label translate="true">Root Category</label>
+                <block class="Magento\Catalog\Block\Adminhtml\Category\Widget\Chooser">
+                    <data>
+                        <item name="button" xsi:type="array">
+                            <item name="open" xsi:type="string" translate="true">Select Category...</item>
+                        </item>
+                    </data>
+                </block>
+            </parameter>
+        </parameters>
+    </widget>
+</widgets>

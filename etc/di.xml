@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../vendor/magento/framework/ObjectManager/etc/config.xsd">
+    <preference for="Magento\Theme\Block\Html\Topmenu" type="Wolf\Filter\Block\Topmenu" />
+<!-- 2019-08-11 Dmitry Fedyuk https://www.upwork.com/fl/mage2pro
+«Decrease TTFB»: https://www.upwork.com/ab/f/contracts/22599890 -->
+<!--
+	<type name='Magento\Theme\Block\Html\Topmenu'>
+		<plugin name='catalogTopmenu' disabled='true' />
+	</type>
+-->
+</config>

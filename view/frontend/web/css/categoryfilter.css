@@ -1,0 +1,205 @@
+.block-categoryfilters .block-content { padding: 5px 10px;}
+.block-categoryfilters label { font-weight:bold; color:#666; }
+.block-categoryfilters label, .block-categoryfilters select { display: block; width: 100%; margin: 3px 0 2px 0; }
+.block-categoryfilters select  { min-height:37px; }
+.block-categoryfilters ul li { list-style: none;}
+.block-categoryfilters { clear:both; }
+.block-categoryfilters {background: #F2F2F2;float: left;width: 100%;padding: 20px;}
+.std .block-categoryfilters .block-title {border:0; }
+
+.nav-categoryfilters { text-align: left; box-sizing: border-box; min-height: 69px; }
+.nav-categoryfilters label { font-weight:bold; color:#666; }
+.nav-categoryfilters ul li { float: left; margin:0 10px; background: none; }
+.nav-categoryfilters select { width: 250px; margin:0 0 10px 0;  height: 2.2em; font-size: 0.8em; }
+.nav-categoryfilters .input-box {font-size:1.5em; font-weight:bold; line-height: normal;}
+.nav-categoryfilters span.label{margin-right:0.2em;}
+.nav-categoryfilters ul li{ list-style: none;}
+.nav-categoryfilters ul { width:100%; clear:both; }
+.nav-categoryfilters label  { display: block; width: 100%; margin: 3px 0 2px 0; }
+.nav-categoryfilters h2.drop-down-title { clear:both; }
+.nav-categoryfilters ul { float: left; }
+.nav-categoryfilters {background: #F0F0F0;float: left; width: 100%; padding: 20px 20px 19px;}
+
+.select-outer {
+    box-sizing: border-box;
+    margin-right: 10px;
+    margin-top: 10px;
+    font-size: 0.8em;
+    width: 19%;
+}
+
+
+.select-outer-last {
+    margin-right: 0;
+}
+
+.select-outer select{
+    width: 100%;
+    margin: 3px 0 2px 0;
+    min-height: 37px;
+    font-size: 15px;
+    box-sizing: border-box;
+}
+
+.garage-select-outer {
+    width: 100% !important;
+    margin-top: 0;
+    margin-right: 0;
+}
+
+.garage-select-outer select {
+    margin-right: 0;
+}
+
+.garage-selected-car-cont {
+    display: none; /* Changed by _loadGarage */
+    margin-bottom: 2rem;
+
+}
+
+.btn-link {
+    background:none!important;
+    border:none;
+    padding:0!important;
+    color: #1979c3;
+    font-weight: normal;
+
+}
+.btn-link:hover{
+    text-decoration:underline;
+    background:none!important;
+    border:none;
+    padding:0!important;
+    color: #1979c3;
+    font-weight: normal;
+}
+
+.loading-message {
+    font-size: 1.4rem;
+    display: none;
+}
+
+.title-row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: .7rem;
+}
+
+.subtitle {
+    padding-top: .8rem;
+    margin-top: 1rem;
+    text-align:  right;
+    border-top: 1px solid white;
+    width: 100%;
+    text-align: right;
+    box-sizing: border-box;
+}
+
+#change-car.row, #add-new-car > .row, #add-new-car.row {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    flex-wrap: wrap;
+}
+
+
+.change-car-form {
+    margin-top: 1em;
+    display: inline-block;
+}
+
+.garage-cont {
+    display: none;
+}
+
+.garage-form {
+    margin-top: 0;
+    display: none;
+}
+
+.garage-spacer {
+    display: none;
+    margin-bottom: 0;
+}
+
+.garage-opening-message {
+    padding: 1.9rem 0 0 .9rem;
+}
+
+.garage-table {
+    width: 100%;
+}
+
+.garage-table tr {
+    background-color: #f6f6f6;
+    border-bottom: .2em solid #f1f1f1;
+    padding: 0;
+    vertical-align: middle;
+    height: 4.6rem;
+}
+
+.garage-table-row { /* same as previous block */
+
+}
+
+.garage-table-row-over {
+    background-color: white !important;
+    height: 4.6rem;
+}
+
+
+.garage-table tr td button {
+    padding: .1em;
+    width: 1.8em;
+}
+
+.remove-car-button {
+    display: none;
+    font-weight: normal;
+}
+
+.remove-car-button-cont {
+    text-align: right;
+    color: #F1F1F1;
+    min-width: 45px;
+}
+
+.remove-car-button-cont span {
+    color: #E0E0E0;
+}
+
+@media (max-width: 1078px) {
+    .select-outer {
+        width: 23%;
+    }
+    .garage-select-outer {
+        width: 100%;
+    }
+}
+
+@media (max-width: 829px) {
+    .select-outer {
+        width: 48%;
+    }
+    .garage-select-outer {
+        width: 100%;
+    }
+    .select-outer-last {
+        margin-right: 10px;
+    }
+
+}
+
+@media (max-width: 569px) {
+    .select-outer {
+        width: 100%;
+        margin-rigth: 0;
+    }
+    .garage-select-outer {
+        width: 100%;
+    }
+    .select-outer {
+        margin-right: 0;
+    }
+
+}

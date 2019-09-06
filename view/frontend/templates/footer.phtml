@@ -1,0 +1,29 @@
+<script type="text/javascript">
+
+    require([
+        "jquery",
+        "jquery/ui"
+    ], function (jQuery) {
+        "use strict";
+
+        <?php /* prevent anchor to jump */ ?>
+        jQuery( 'a[href="#add-new-car"]' ).click(function (e) {
+            var x = window.pageXOffset,
+                y = window.pageYOffset;
+            jQuery(window).one('scroll', function () {
+                window.scrollTo(x, y);
+            })
+        });
+
+        <?php /* prevent anchor to jump */ ?>
+        jQuery( 'a[href="#change-car"]' ).click(function (e) {
+            var x = window.pageXOffset,
+                y = window.pageYOffset;
+            jQuery(window).one('scroll', function () {
+                window.scrollTo(x, y);
+            })
+        });
+
+    });
+
+</script>

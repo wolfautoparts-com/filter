@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="../../../../../../vendor/magento/framework/App/etc/routes.xsd">
+    <router id="standard">
+        <route id="categoryfinder" frontName="categoryfinder">
+            <module name="Wolf_Filter"/>
+        </route>
+    </router>
+</config>
