@@ -5,9 +5,7 @@ $config = $b->getConfigJson();
 $categoriesByLevel = $config['categoriesByLevel'];
 $selectedCarContStyle = '';
 $selectedCarContStyle1 = '';
-$objectManager = \Magento\Framework\App\ObjectManager::getInstance();
-$request = $objectManager->get('\Magento\Framework\App\Request\Http');
-$actionName = $request->getFullActionName();
+$actionName = df_request()->getFullActionName();
 if ($actionName == "catalog_category_view" || $actionName == "catalogsearch_result_index" || $actionName="cms_noroute_index") {
 	$selectedCarContStyle = 'style="display: block;"';
 	$selectedCarContStyle1 = 'style="display: none;"';
@@ -42,7 +40,7 @@ if ($actionName == "catalog_category_view" || $actionName == "catalogsearch_resu
 					<div id="cd-<?= $b->getNameInLayout() ?>" class="block-content row">
 						<?php
 						$lastSelect = false;
-						$levels = $b->getLevels();
+						$levels = $b['levels'];
 						for ($l = 0; $l < $levels; $l++) {
 							if ($l == ($levels - 1)) {
 								$lastSelect = true;
@@ -90,7 +88,7 @@ if ($actionName == "catalog_category_view" || $actionName == "catalogsearch_resu
 	requirejs(['jquery', 'categoryFilter'], function (jQuery) {
 		var categoryFilters = {
 			'labelembedded': '<?= $b->getLabelsEmbedded(); ?>',
-			'levels': '<?= $b->getLevels(); ?>',
+			'levels': '<?= $b['levels'] ?>',
 			'nameInLayout': '<?= $b->getNameInLayout() ?>',
 			'url': '<?= $b->getBaseUrl(); ?>categoryfinder/index/change/'
 		};

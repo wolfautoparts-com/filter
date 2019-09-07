@@ -62,11 +62,6 @@ class Navigation extends \Magento\Catalog\Block\Navigation implements BlockInter
 	/**
 	 * @return mixed
 	 */
-	function getLevels() {return $this->getData('levels');}
-
-	/**
-	 * @return mixed
-	 */
 	function getLabelsEmbedded() {return $this->getData('labels_embedded');}
 
 	/**
@@ -151,7 +146,7 @@ class Navigation extends \Magento\Catalog\Block\Navigation implements BlockInter
 			$label = $this->getLabelsEmbedded();
 		}
 		$config = array(
-			'levels' => $this->getLevels(),
+			'levels' => $this['levels'],
 			'id' => 'cd-' . $this->getNameInLayout(),
 			'current_category_id' =>($this->_registry->registry('current_category') ? $this->_registry->registry('current_category')->getId() : 0),
 			'fetch_children_url' => $this->getUrl('categoryfilter/ajax/fetchChildren'),
