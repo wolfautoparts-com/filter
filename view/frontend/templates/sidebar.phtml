@@ -44,21 +44,24 @@ list($selectedCarContStyle, $selectedCarContStyle1) =
 								$lastSelect = true;
 							}
 							?>
-							<div class="    select-outer<?php if ($lastSelect) echo ' select-outer-last'; ?>">
-								<?php if ($b->getLabelsEmbedded() == 'outside' && $label = $b->getSelectLabel($l)): ?>
+							<div class="select-outer<?php if ($lastSelect) echo ' select-outer-last'; ?>">
+								<?php if ($b->getLabelsEmbedded() == 'outside' && $label = $b->getSelectLabel($l)) { ?>
 									<label><?= $label ?></label>
-								<?php endif ?>
+								<?php } ?>
 								<?php $j = $l + 1; ?>
-
-								<select dataId="<?= $j; ?>"
-										id="<?= $b->getNameInLayout() ?><?= $j; ?>"
-										class="category-filter-select">
-									<?php if ($b->getLabelsEmbedded() == 'embedded' && $label = $b->getSelectLabel($l)): ?>
-										<option value=""><?= $label ?></option>
-									<?php else: ?>
-										<option value="">Please Select</option>
-									<?php endif ?>
+								<select 
+									class='category-filter-select'
+									dataId='<?= $j; ?>'
+									id='<?= $b->getNameInLayout() ?><?= $j; ?>'
+								>
 									<?php
+										if (
+											$b->getLabelsEmbedded() == 'embedded'
+											&& $label = $b->getSelectLabel($l)) { ?>
+										<option value=""><?= $label ?></option>
+										<?php } else { ?>
+											<option value="">Please Select</option>
+										<?php }
 									if ($l == 0) { // only fill first select
 										if (isset($categoriesByLevel[$l])) {
 											foreach ($categoriesByLevel[$l] as $cat) {
@@ -85,7 +88,7 @@ list($selectedCarContStyle, $selectedCarContStyle1) =
 <script type='text/javascript'>
 	requirejs(['jquery', 'categoryFilter'], function($) {
 		$('#cd-<?= $b->getNameInLayout() ?>').categoryfilter({
-			'labelembedded': '<?= $b->getLabelsEmbedded(); ?>'
+			'labelembedded': '<?= $b->getLabelsEmbedded() ?>'
 			,'levels': '<?= $b['levels'] ?>'
 			,'nameInLayout': '<?= $b->getNameInLayout() ?>'
 			,'url': '<?= $b->getBaseUrl(); ?>categoryfinder/index/change/'
