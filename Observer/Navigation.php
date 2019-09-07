@@ -32,7 +32,7 @@ class Navigation implements ObserverInterface {
 		$counter = 1;
 		$itemPosition = 0;
 		$childrenCount = $children->count();
-		$result = array();
+		$result = [];
 		foreach ($children as $child) {
 			if ( $childLevel === 0 && $child->getData( 'is_parent_active' ) === false ) {
 				continue;
@@ -47,25 +47,25 @@ class Navigation implements ObserverInterface {
 			if($childrenCount) {
 				$subChildren = $this->tree($child);
 				if($subChildren && !empty($subChildren)) {
-					$result[$id] = array(
+					$result[$id] = [
 						'id' => $id,
 						'name' => $child->getName(),
 						'url' => $child->getUrl(),
 						'children' => $subChildren
-					);
+					];
 				} else {
-					$result[$id] = array(
+					$result[$id] = [
 						'id' => $id,
 						'name' => $child->getName(),
 						'url' => $child->getUrl()
-					);
+					];
 				}
 			} else {
-				$result[$id] = array(
+				$result[$id] = [
 					'id' => $id,
 					'name' => $child->getName(),
 					'url' => $child->getUrl()
-				);
+				];
 			}
 			$itemPosition++;
 			$counter++;
