@@ -18,20 +18,13 @@ class Change extends _P {
 	 */
 	function execute() {
 		$catId = (int)df_request('selectedValue'); /** @var int $catId «3613» */
-		/** @var string $cacheId */
-		if (false !== ($data = df_cache_load($cacheId = "category_filter_$catId"))) {
+		if (false !== ($data = df_cache_load($cacheId = "category_filter_$catId"))) { /** @var string $cacheId */
 			$categoryArray = unserialize($data);
 		} 
 		else {
 			$levels = (int)df_request('levels'); /** @var int $levels «5» */
 			$dataId = (int)df_request('dataId');/** @var int $dataId «1» */
-			$cacheTags = ['WOLF_CATEGORY_FILTER'];
-			if (false !== ($data = df_cache_load(Ob::CACHE))) {
-				$menuTree = unserialize($data);
-			} 
-			else {
-				$menuTree = [];
-			}
+			$menuTree = false === ($data = df_cache_load(Ob::CACHE)) ? [] : unserialize($data);
 			$levelValues = [];
 			$bTree = $menuTree;
 			for ($i = 0; $i < $levels; $i++) {
@@ -60,7 +53,7 @@ class Change extends _P {
 					strtolower($first['name']) > strtolower($second['name'])
 				;});
 			}
-			df_cache_save(serialize($categoryArray), $cacheId, $cacheTags);
+			df_cache_save(serialize($categoryArray), $cacheId, ['WOLF_CATEGORY_FILTER']);
 		}
 		return Json::i($categoryArray);
 	}
