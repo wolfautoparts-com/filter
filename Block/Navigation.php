@@ -56,7 +56,11 @@ class Navigation extends \Magento\Catalog\Block\Navigation implements BlockInter
 			$catalogCategory, $registry, $flatState, $data);
 	}
 
-	function _construct() {parent::_construct(); $this->setTemplate('sidebar.phtml');}
+	/**
+	 * @override
+	 * @see \Magento\Catalog\Block\Navigation::_construct()
+	 */
+	protected function _construct() {parent::_construct(); $this->setTemplate('sidebar.phtml');}
 
 	function getTitle() {return $this->getData('title');}
 
