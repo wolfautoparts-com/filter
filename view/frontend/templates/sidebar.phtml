@@ -2,7 +2,6 @@
 use Wolf\Filter\Block\Navigation as B;
 $b = $block; /** @var B $block */ /** @var B $b */
 $config = $b->getConfigJson();
-$categoriesByLevel = $config['categoriesByLevel'];
 list($selectedCarContStyle, $selectedCarContStyle1) =
 	!df_action_is('catalog_category_view', 'catalogsearch_result_index', 'cms_noroute_index')
 	? ['', ''] : ['style="display: block;"', 'style="display: none;"']
@@ -36,40 +35,7 @@ list($selectedCarContStyle, $selectedCarContStyle1) =
 			<div class="garage-block-filters">
 				<form action='' class='row category-form' id='add-new-car' method='post' name='category-form'>
 					<div class='block-content row' id='cd-<?= $b->getNameInLayout() ?>'>
-						<?php
-						$lastSelect = false;
-						$levels = $b['levels'];
-						for ($l = 0; $l < $levels; $l++) {
-							if ($l == ($levels - 1)) {
-								$lastSelect = true;
-							}
-							$label = $b->getSelectLabel($l); /** @var string $label */
-							$j = $l + 1; /** @var int $j */
-							echo df_tag('div', df_cc_s('select-outer', !$lastSelect ? '' : 'select-outer-last'), [
-								'outside' !== $b->getLabelsEmbedded() || !$label ? null : df_tag('label', [], $label)
-								,df_tag('select'
-									,[
-										'class' => 'category-filter-select'
-										,'dataId' => $j
-										,'id' => "{$b->getNameInLayout()}$j"
-									]
-									,array_merge(
-										[
-											df_tag('option', ['value' => ''],
-												'embedded' === $b->getLabelsEmbedded() && $label
-												? $label : 'Please Select'
-											)
-										]
-										,$l || !($dfCats = dfa($categoriesByLevel, $l)) ? [] : df_map(
-											$dfCats, function($c) {return df_tag('option'
-												,['dataUrl' => $c['url'], 'value' => $c['id']]
-												,$c['name']
-											);}
-										)
-									)
-								)
-							]);
-						} ?>
+						<?= $b->hDropdowns() ?>
 					</div>
 				</form>
 			</div>

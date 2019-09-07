@@ -28,7 +28,6 @@ class Navigation extends \Magento\Catalog\Block\Navigation implements BlockInter
 	 * @param Category $catalogCategory
 	 * @param Registry $registry
 	 * @param State $flatState
-	 * @param LoggerInterface $logger
 	 * @param CacheInterface $cache
 	 * @param array $data
 	 */
@@ -42,7 +41,6 @@ class Navigation extends \Magento\Catalog\Block\Navigation implements BlockInter
 		Category $catalogCategory,
 		Registry $registry,
 		State $flatState,
-		LoggerInterface $logger,
 		CacheInterface $cache,
 		array $data = []
 	) {
@@ -53,7 +51,6 @@ class Navigation extends \Magento\Catalog\Block\Navigation implements BlockInter
 		$this->_flatState = $flatState;
 		$this->_categoryInstance = $categoryFactory->create();
 		$this->_categoryRepository = $categoryRepository;
-		$this->_logger = $logger;
 		$this->_cache = $cache;
 		parent::__construct($context, $categoryFactory, $productCollectionFactory, $layerResolver, $httpContext,
 			$catalogCategory, $registry, $flatState, $data);
@@ -117,7 +114,7 @@ class Navigation extends \Magento\Catalog\Block\Navigation implements BlockInter
 	/**
 	 * @return array
 	 */
-	function getConfigJson() {
+	function getConfigJson() {return dfc($this, function() {
 		$objectManager = \Magento\Framework\App\ObjectManager::getInstance();
 		$catalogSession = $objectManager->get('\Magento\Newsletter\Model\Session');
 		$urlPath = "";
@@ -125,15 +122,15 @@ class Navigation extends \Magento\Catalog\Block\Navigation implements BlockInter
 		if(@$_GET['cat']!=""){
 			$catid = @$_GET['cat'];
 			$object_manager = $objectManager->create('Magento\Catalog\Model\Category')->load($catid);
-			$arr = $object_manager->getData();			
+			$arr = $object_manager->getData();
 			if($arr['url_path']!=""){
 				$urlPath = $object_manager->getUrl();
 				$urlName = str_replace("-"," ",str_replace("/"," ",$arr['url_path']));
 			}
 		}elseif($catalogSession->getMyvalue()!=""){
-			$catid = $catalogSession->getMyvalue();  
+			$catid = $catalogSession->getMyvalue();
 			$object_manager = $objectManager->create('Magento\Catalog\Model\Category')->load($catid);
-			$arr = $object_manager->getData();			
+			$arr = $object_manager->getData();
 			if($arr['url_path']!=""){
 				$urlPath = $object_manager->getUrl();
 				$urlName = str_replace("-"," ",str_replace("/"," ",$arr['url_path']));
@@ -169,10 +166,9 @@ class Navigation extends \Magento\Catalog\Block\Navigation implements BlockInter
 			if(false !==($data = $this->_cache->load($selectedCategoriesCacheId))) {
 				$selectedCategories = unserialize($data);
 			} else {
-				$this->_logger->debug('cannot fetch selected categories from cache');
 				$selectedCategories = [];
 			}
-		} 
+		}
 		else {
 			$categoriesByLevel = [];
 			// 2019-09-05 Dmitry Fedyuk https://www.upwork.com/fl/mage2pro
@@ -222,11 +218,53 @@ class Navigation extends \Magento\Catalog\Block\Navigation implements BlockInter
           $config['customer_garage_uri_name'] = $urlName;
 		}else{
 		$config['customer_garage_uri'] = $this->_registry->registry('wolfCustomerGarageUri');
-        $config['customer_garage_uri_name'] = $this->_registry->registry('wolfCustomerGarageUriName');	
+        $config['customer_garage_uri_name'] = $this->_registry->registry('wolfCustomerGarageUriName');
 		}
-		$this->_logger->debug('Wolf_Filter Navigation $config');
-		$this->_logger->debug(json_encode($config));
 		return $config;
+	});}
+
+	/**
+	 * 2019-09-08
+	 * @used-by vendor/wolfautoparts.com/filter/view/frontend/templates/sidebar.phtml
+	 * @return string
+	 */
+	function hDropdowns() {
+		$r = '';
+		$categoriesByLevel = $this->getConfigJson()['categoriesByLevel'];
+		$lastSelect = false;
+		$levels = $this['levels'];
+		for ($l = 0; $l < $levels; $l++) {
+			if ($l == ($levels - 1)) {
+				$lastSelect = true;
+			}
+			$label = $this->getSelectLabel($l); /** @var string $label */
+			$j = $l + 1; /** @var int $j */
+			$r .= df_tag('div', df_cc_s('select-outer', !$lastSelect ? '' : 'select-outer-last'), [
+				'outside' !== $this->getLabelsEmbedded() || !$label ? null : df_tag('label', [], $label)
+				,df_tag('select'
+					,[
+						'class' => 'category-filter-select'
+						,'dataId' => $j
+						,'id' => "{$this->getNameInLayout()}$j"
+					]
+					,array_merge(
+						[
+							df_tag('option', ['value' => ''],
+								'embedded' === $this->getLabelsEmbedded() && $label
+								? $label : 'Please Select'
+							)
+						]
+						,$l || !($dfCats = dfa($categoriesByLevel, $l)) ? [] : df_map(
+							$dfCats, function($c) {return df_tag('option'
+								,['dataUrl' => $c['url'], 'value' => $c['id']]
+								,$c['name']
+							);}
+						)
+					)
+				)
+			]);
+		}
+		return $r;
 	}
 
 	/**
@@ -255,7 +293,6 @@ class Navigation extends \Magento\Catalog\Block\Navigation implements BlockInter
 	protected $_categoryRepository;
 	protected $_flatState;
 	protected $_httpContext;
-	protected $_logger;	
 	protected $_productCollectionFactory;
 	protected $_registry;
 }
