@@ -83,14 +83,12 @@ list($selectedCarContStyle, $selectedCarContStyle1) =
 </div>
 <div class='clearfix'></div>
 <script type='text/javascript'>
-	requirejs(['jquery', 'categoryFilter'], function (jQuery) {
-		var categoryFilters = {
-			'labelembedded': '<?= $b->getLabelsEmbedded(); ?>',
-			'levels': '<?= $b['levels'] ?>',
-			'nameInLayout': '<?= $b->getNameInLayout() ?>',
-			'url': '<?= $b->getBaseUrl(); ?>categoryfinder/index/change/'
-		};
-		var mainDivId = '#cd-<?= $b->getNameInLayout() ?>';
-		jQuery(mainDivId).categoryfilter(categoryFilters);
+	requirejs(['jquery', 'categoryFilter'], function($) {
+		$('#cd-<?= $b->getNameInLayout() ?>').categoryfilter({
+			'labelembedded': '<?= $b->getLabelsEmbedded(); ?>'
+			,'levels': '<?= $b['levels'] ?>'
+			,'nameInLayout': '<?= $b->getNameInLayout() ?>'
+			,'url': '<?= $b->getBaseUrl(); ?>categoryfinder/index/change/'
+		});
 	});
 </script>
