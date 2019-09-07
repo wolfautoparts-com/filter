@@ -49,33 +49,30 @@ list($selectedCarContStyle, $selectedCarContStyle1) =
 									<label><?= $label ?></label>
 								<?php } ?>
 								<?php $j = $l + 1; ?>
-								<select 
-									class='category-filter-select'
-									dataId='<?= $j; ?>'
-									id='<?= $b->getNameInLayout() ?><?= $j; ?>'
-								>
-									<?php
-										if (
-											$b->getLabelsEmbedded() == 'embedded'
-											&& $label = $b->getSelectLabel($l)) { ?>
-										<option value=""><?= $label ?></option>
-										<?php } else { ?>
-											<option value="">Please Select</option>
-										<?php }
-									if ($l == 0) { // only fill first select
-										if (isset($categoriesByLevel[$l])) {
-											foreach ($categoriesByLevel[$l] as $cat) {
-												?>
-												<option value="<?= $cat['id']; ?>"
-														dataUrl="<?= $cat['url']; ?>">
-													<?= $cat['name']; ?>
-												</option>
-												<?php
-											}
-										}
-									}
-									?>
-								</select>
+								<?=
+									df_tag('select'
+										,[
+											'class' => 'category-filter-select'
+											,'dataId' => $j
+											,'id' => "{$b->getNameInLayout()}$j"
+										]
+										,array_merge(
+											[
+												df_tag('option', ['value' => ''],
+													'embedded' === $b->getLabelsEmbedded()
+													&& ($label = $b->getSelectLabel($l))
+													? $label : 'Please Select'
+												)
+											]
+											,$l || !($dfCats = dfa($categoriesByLevel, $l)) ? [] : df_map(
+ 												$dfCats, function($c) {return df_tag('option'
+													,['dataUrl' => $c['url'], 'value' => $c['id']]
+													,$c['name']
+												);}
+											)
+										)
+									)
+								?>
 							</div>
 						<?php } ?>
 					</div>
