@@ -63,8 +63,8 @@ class Change extends Action {
 			$levelValues = [];
 			$bTree = $menuTree;
 			for ($i = 0; $i < $levels; $i++) {
-				$levelValues[$i] = (int)$this->getRequest()->getParam('level_' . $i . '_value');
-				if ($levelValues[$i] > 0) {
+				$levelValues[$i] = (int)df_request("level_{$i}_value");
+				if (0 < $levelValues[$i]) {
 					if (isset($bTree[$levelValues[$i]])) {
 						if (isset($bTree[$levelValues[$i]]['children'])) {
 							$bTree = $bTree[$levelValues[$i]]['children'];
@@ -74,22 +74,19 @@ class Change extends Action {
 			}
 			$categoryArray = [];
 			foreach ($bTree as $menuEntry) {
-				$tEntry = array(
-					'id'   => $menuEntry['id'],
-					'name' => $menuEntry['name'],
-					'url'  => $menuEntry['url'],
-				);
-				array_push($categoryArray, $tEntry);
+				array_push($categoryArray, [
+					'id' => $menuEntry['id'], 'name' => $menuEntry['name'], 'url' => $menuEntry['url']
+				]);
 			}
 			if ($dataId == 1) {// For changing sort(desc) order of Year
-				usort($categoryArray, function ($first, $second) {
-				   return strtolower($first['name']) < strtolower($second['name']);
-			    });
+				usort($categoryArray, function ($first, $second) {return
+					strtolower($first['name']) < strtolower($second['name'])
+				;});
 			} 
 			else { // For rest dropdown
-				usort($categoryArray, function ($first, $second) {
-				   return strtolower($first['name']) > strtolower($second['name']);
-			    });
+				usort($categoryArray, function ($first, $second) {return
+					strtolower($first['name']) > strtolower($second['name'])
+				;});
 			}
 			$this->_cache->save(serialize($categoryArray), $cacheId, $cacheTags);
 		}
