@@ -15,7 +15,10 @@ use Psr\Log\LoggerInterface;
 use Wolf\Filter\Observer\Navigation as Ob;
 class Navigation extends \Magento\Catalog\Block\Navigation implements BlockInterface {
 	/**
-	 * Navigation constructor.
+	 * 2019-09-07
+	 * @override
+	 * @see \Magento\Catalog\Block\Navigation::__construct()
+	 * @used-by \Magento\Framework\View\Element\BlockFactory::createBlock()
 	 * @param Context $context
 	 * @param CategoryFactory $categoryFactory
 	 * @param CategoryRepositoryInterface $categoryRepository
@@ -55,12 +58,6 @@ class Navigation extends \Magento\Catalog\Block\Navigation implements BlockInter
 		parent::__construct($context, $categoryFactory, $productCollectionFactory, $layerResolver, $httpContext,
 			$catalogCategory, $registry, $flatState, $data);
 	}
-
-	/**
-	 * @override
-	 * @see \Magento\Catalog\Block\Navigation::_construct()
-	 */
-	protected function _construct() {parent::_construct(); $this->setTemplate('sidebar.phtml');}
 
 	function getTitle() {return $this->getData('title');}
 
@@ -246,6 +243,13 @@ class Navigation extends \Magento\Catalog\Block\Navigation implements BlockInter
 		$this->_logger->debug(json_encode($config));
 		return $config;
 	}
+
+	/**
+	 * 2019-09-07
+	 * @override
+	 * @see \Magento\Catalog\Block\Navigation::_construct()
+	 */
+	protected function _construct() {parent::_construct(); $this->setTemplate('sidebar.phtml');}
 	
 	/**
 	 * @param $name
