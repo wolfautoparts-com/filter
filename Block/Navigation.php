@@ -231,38 +231,38 @@ class Navigation extends \Magento\Catalog\Block\Navigation implements BlockInter
 	function hDropdowns() {
 		$r = '';
 		$categoriesByLevel = $this->getConfigJson()['categoriesByLevel'];
-		$lastSelect = false;
 		$levels = $this['levels'];
+		$lastLevel = $levels - 1;
 		for ($l = 0; $l < $levels; $l++) {
-			if ($l == ($levels - 1)) {
-				$lastSelect = true;
-			}
 			$label = $this->getSelectLabel($l); /** @var string $label */
 			$j = $l + 1; /** @var int $j */
-			$r .= df_tag('div', df_cc_s('select-outer', !$lastSelect ? '' : 'select-outer-last'), [
-				'outside' !== $this->getLabelsEmbedded() || !$label ? null : df_tag('label', [], $label)
-				,df_tag('select'
-					,[
-						'class' => 'category-filter-select'
-						,'dataId' => $j
-						,'id' => "{$this->getNameInLayout()}$j"
-					]
-					,array_merge(
-						[
-							df_tag('option', ['value' => ''],
-								'embedded' === $this->getLabelsEmbedded() && $label
-								? $label : 'Please Select'
-							)
+			$r .= df_tag('div'
+				,df_cc_s('select-outer', $l !== $lastLevel ? '' : 'select-outer-last')
+				,[
+					'outside' !== $this->getLabelsEmbedded() || !$label ? null : df_tag('label', [], $label)
+					,df_tag('select'
+						,[
+							'class' => 'category-filter-select'
+							,'dataId' => $j
+							,'id' => "{$this->getNameInLayout()}$j"
 						]
-						,$l || !($dfCats = dfa($categoriesByLevel, $l)) ? [] : df_map(
-							$dfCats, function($c) {return df_tag('option'
-								,['dataUrl' => $c['url'], 'value' => $c['id']]
-								,$c['name']
-							);}
+						,array_merge(
+							[
+								df_tag('option', ['value' => ''],
+									'embedded' === $this->getLabelsEmbedded() && $label
+									? $label : 'Please Select'
+								)
+							]
+							,$l || !($dfCats = dfa($categoriesByLevel, $l)) ? [] : df_map(
+								$dfCats, function($c) {return df_tag('option'
+									,['dataUrl' => $c['url'], 'value' => $c['id']]
+									,$c['name']
+								);}
+							)
 						)
 					)
-				)
-			]);
+				]
+			);
 		}
 		return $r;
 	}
