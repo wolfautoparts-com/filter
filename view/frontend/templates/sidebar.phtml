@@ -3,13 +3,10 @@ use Wolf\Filter\Block\Navigation as B;
 $b = $block; /** @var B $block */ /** @var B $b */
 $config = $b->getConfigJson();
 $categoriesByLevel = $config['categoriesByLevel'];
-$selectedCarContStyle = '';
-$selectedCarContStyle1 = '';
-$actionName = df_request()->getFullActionName();
-if ($actionName == "catalog_category_view" || $actionName == "catalogsearch_result_index" || $actionName="cms_noroute_index") {
-	$selectedCarContStyle = 'style="display: block;"';
-	$selectedCarContStyle1 = 'style="display: none;"';
-}
+list($selectedCarContStyle, $selectedCarContStyle1) =
+	!df_action_is('catalog_category_view', 'catalogsearch_result_index', 'cms_noroute_index')
+	? ['', ''] : ['style="display: block;"', 'style="display: none;"']
+;
 ?>
 <div class="block" style="margin-bottom: 0; min-height: 40px;">
 	<div class="garage-selected-car-cont" <?= $selectedCarContStyle; ?>>
