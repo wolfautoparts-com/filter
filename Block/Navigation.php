@@ -56,20 +56,9 @@ class Navigation extends \Magento\Catalog\Block\Navigation implements BlockInter
 			$catalogCategory, $registry, $flatState, $data);
 	}
 
-	/**
-	 *
-	 */
-	function _construct() {
-		parent::_construct();
-		$this->setTemplate('sidebar.phtml');
-	}
+	function _construct() {parent::_construct(); $this->setTemplate('sidebar.phtml');}
 
-	/**
-	 * @return mixed
-	 */
-	function getTitle() {
-		return $this->getData('title');
-	}
+	function getTitle() {return $this->getData('title');}
 
 	function getLoadingMessage() {
 		$loadingMessage = $this->getData('loading_message');
@@ -82,24 +71,17 @@ class Navigation extends \Magento\Catalog\Block\Navigation implements BlockInter
 	/**
 	 * @return mixed
 	 */
-	function getLevels()
-	{
-		return $this->getData('levels');
-	}
+	function getLevels() {return $this->getData('levels');}
 
 	/**
 	 * @return mixed
 	 */
-	function getLabelsEmbedded()
-	{
-		return $this->getData('labels_embedded');
-	}
+	function getLabelsEmbedded() {return $this->getData('labels_embedded');}
 
 	/**
 	 * @return array
 	 */
-	function getSelectLabels()
-	{
+	function getSelectLabels() {
 		$labels = array();
 		foreach(explode(",", $this->getData('select_labels')) as $label) {
 			$labels[] = __($label);
@@ -111,8 +93,7 @@ class Navigation extends \Magento\Catalog\Block\Navigation implements BlockInter
 	 * @param $i
 	 * @return mixed
 	 */
-	function getSelectLabel($i)
-	{
+	function getSelectLabel($i) {
 		$labels = $this->getSelectLabels();
 		if(isset($labels[$i])) {
 			return __($labels[$i]);
@@ -124,16 +105,12 @@ class Navigation extends \Magento\Catalog\Block\Navigation implements BlockInter
 	/**
 	 * @return mixed
 	 */
-	function getBaseUrl()
-	{
-		return $this->_storeManager->getStore()->getBaseUrl();
-	}
+	function getBaseUrl() {return $this->_storeManager->getStore()->getBaseUrl();}
 
 	/**
 	 * @return array
 	 */
-	function getCacheKeyInfo()
-	{
+	function getCacheKeyInfo() {
 		$shortCacheId = [
 			'CATEGORY_FILTER',
 			$this->_storeManager->getStore()->getId(),
@@ -141,27 +118,20 @@ class Navigation extends \Magento\Catalog\Block\Navigation implements BlockInter
 			$this->_httpContext->getValue('wolf_categoryfilter'),
 			'template' => $this->getTemplate(),
 			'name' => $this->getNameInLayout()
-//			$this->getCurrentCategoryKey(),
-//			$this->getRootCategory(),
-//			$this->getLevels()
 		];
 		$cacheId = $shortCacheId;
-
 		$shortCacheId = array_values($shortCacheId);
 		$shortCacheId = implode('|', $shortCacheId);
 		$shortCacheId = md5($shortCacheId);
-
 		$cacheId['category_path'] = $this->getCurrentCategoryKey();
 		$cacheId['short_cache_id'] = $shortCacheId;
-
 		return $cacheId;
 	}
 
 	/**
 	 * @return array
 	 */
-	function getConfigJson()
-	{ 
+	function getConfigJson() {
 		$objectManager = \Magento\Framework\App\ObjectManager::getInstance();
 		$catalogSession = $objectManager->get('\Magento\Newsletter\Model\Session');
 		$urlPath = "";
@@ -282,19 +252,15 @@ class Navigation extends \Magento\Catalog\Block\Navigation implements BlockInter
 	
 	/**
 	 * @param $name
-	 *
 	 * @return mixed
 	 */
 	private function sanitizeUrl($name) {
-
 		$name = strtolower($name);
 		$pos = strpos($name, '.html');
 		if($pos > 0) {
 			$name = substr($name, 0, $pos);
 		}
-
 		$name = str_replace(array('.', '-'), ' ', $name);
-
 		return $name;
 	}	
 	
