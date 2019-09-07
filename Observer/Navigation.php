@@ -41,38 +41,25 @@ class Navigation implements ObserverInterface {
 			$child->setLevel($childLevel);
 			$child->setIsFirst($counter == 1);
 			$child->setIsLast($counter == $childrenCount);
-
-			$id = $child->getId();
-			$id = str_replace('category-node-', '', $id);
-			$id = (int) $id;
-			if($childrenCount) {
-				$subChildren = $this->node($child);
-				if($subChildren && !empty($subChildren)) {
-					$result[$id] = [
-						'id' => $id,
-						'name' => $child->getName(),
-						'url' => $child->getUrl(),
-						'children' => $subChildren
-					];
-				} else {
-					$result[$id] = [
-						'id' => $id,
-						'name' => $child->getName(),
-						'url' => $child->getUrl()
-					];
-				}
-			} else {
-				$result[$id] = [
-					'id' => $id,
-					'name' => $child->getName(),
-					'url' => $child->getUrl()
-				];
-			}
+			$id = (int)str_replace('category-node-', '', $child->getId());
+			$result[$id] = $this->r($id, $child, !$childrenCount ? null : $this->node($child));
 			$itemPosition++;
 			$counter++;
 		}
 		return $result;
 	}
+
+	/**
+	 * 2019-09-07
+	 * @used-by node()
+	 * @param int $id
+	 * @param N $node
+	 * @param mixed|null $children [optional]
+	 * @return array(string => mixed)
+	 */
+	private function r($id, N $node, $children = null) {return df_clean([
+		'children' => $children, 'id' => $id, 'name' => $node->getName(), 'url' => $node->getUrl()
+	]);}
 
 	/**
 	 * 2019-09-06
