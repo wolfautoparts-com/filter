@@ -1,18 +1,30 @@
 <?php
 namespace Wolf\Filter\Observer;
-use Magento\Framework\Event\Observer;
+use Magento\Framework\Event\Observer as Ob;
 use Magento\Framework\Event\ObserverInterface;
+// 2019-09-07
 class Navigation implements ObserverInterface {
-	function execute(Observer $observer) {
-		if (!($menuTree = wolf_tree_load())) {
-			$menuTree = $this->_getMenuTree($observer->getData('menu'));
-			df_cache_save(serialize($menuTree), self::CACHE_KEY, [self::CACHE_TAG]);
+	/**
+	 * 2019-09-07
+	 * @override
+	 * @see ObserverInterface::execute()
+	 * @used-by \Magento\Framework\Event\Invoker\InvokerDefault::_callObserverMethod()
+	 * @param Ob $o
+	 */
+	function execute(Ob $o) {
+		if (!($r = wolf_tree_load())) {
+			df_cache_save(serialize($r = $this->tree($o['menu'])), self::CACHE_KEY, [self::CACHE_TAG]);
 		}
-		df_register('wolfCategoryMenuTree', $menuTree);
+		df_register('wolfCategoryMenuTree', $r);
 	}
 
-	// @todo code compress difference this
-	protected function _getMenuTree ($menuTree) {
+	/**
+	 * 2019-09-07
+	 * @used-by execute()
+	 * @param $menuTree
+	 * @return array
+	 */
+	private function tree($menuTree) {
 		$children = $menuTree->getChildren();
 		$parentLevel = $menuTree->getLevel();
 		$childLevel = $parentLevel === null ? 0 : $parentLevel + 1;
@@ -69,7 +81,6 @@ class Navigation implements ObserverInterface {
 	/**
 	 * 2019-09-07
 	 * @used-by execute()
-	 * @used-by \Wolf\Filter\Block\Navigation::getConfigJson()
 	 * @used-by \Wolf\Filter\Controller\Index\Change::execute()
 	 * @used-by \Wolf\Filter\Model\Cache\Type::__construct()
 	 */
