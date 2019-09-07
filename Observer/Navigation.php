@@ -24,20 +24,15 @@ class Navigation implements ObserverInterface {
 	 * @used-by execute()
 	 * @used-by node()
 	 * @param N $node
-	 * @param int $level [optional]
 	 * @return array
 	 */
-	private function node(N $node, $level = 0) {
-		$children = $node->getChildren(); /** @var NC $children */
-		$counter = 1; /** @var int $counter */
-		$childrenCount = $children->count(); /** @var int $childrenCount */
+	private function node(N $node) {
+		$items = $node->getChildren(); /** @var NC $children */
+		$isLeaf = !$items->count(); /** @var bool $isLeaf */
 		$r = [];
-		foreach ($children as $child) { /** @var N $child */
-			if ($level || $child['is_parent_active']) {
-				$id = (int)str_replace('category-node-', '', $child->getId());
-				$r[$id] = $this->r($id, $child, !$childrenCount ? null : $this->node($child, ++$level));
-				$counter++;
-			}
+		foreach ($items as $n) { /** @var N $n */
+			$id = (int)str_replace('category-node-', '', $n->getId());
+			$r[$id] = $this->r($id, $n, $isLeaf ? null : $this->node($n));
 		}
 		return $r;
 	}
