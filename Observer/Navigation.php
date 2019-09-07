@@ -15,7 +15,6 @@ class Navigation implements ObserverInterface {
 		if (!($r = wolf_tree_load())) {
 			df_cache_save(serialize($r = $this->tree($o['menu'])), self::CACHE_KEY, [self::CACHE_TAG]);
 		}
-		df_register('wolfCategoryMenuTree', $r);
 	}
 
 	/**
