@@ -18,7 +18,6 @@ class Change extends _P {
 	 */
 	function execute() {return Json::i(df_cache_get_simple('category_filter_' . df_request('selectedValue'), function() {
 		$levels = (int)df_request('levels'); /** @var int $levels «5» */
-		$dataId = (int)df_request('dataId');/** @var int $dataId «1» */
 		$menuTree = false === ($data = df_cache_load(Ob::CACHE_KEY)) ? [] : unserialize($data);
 		$levelValues = [];
 		$bTree = $menuTree;
@@ -32,14 +31,11 @@ class Change extends _P {
 				}
 			}
 		}
-		$r = [];
-		foreach ($bTree as $menuEntry) {
-			array_push($r, [
-				'id' => $menuEntry['id'], 'name' => $menuEntry['name'], 'url' => $menuEntry['url']
-			]);
-		}
-		$r = df_sort($r, function($a, $b) {return strcasecmp($a['name'], $b['name']);});
+		$r = df_sort(
+			df_map($bTree, function($v) {return dfa_select($v, ['id', 'name', 'url']);})
+			,function($a, $b) {return strcasecmp($a['name'], $b['name']);}
+		);
 		// 2019-09-07 We show years in the reverse order.
-		return 1 !== $dataId ? $r : array_reverse($r);
+		return 1 !== (int)df_request('dataId') ? $r : array_reverse($r);
 	}, [Ob::CACHE_TAG]));}
 }
