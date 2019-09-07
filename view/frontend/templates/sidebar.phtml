@@ -7,15 +7,12 @@ $selectedCarContStyle = '';
 $selectedCarContStyle1 = '';
 $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
 $request = $objectManager->get('\Magento\Framework\App\Request\Http');
-//$checkModule = $request->getModuleName();
 $actionName = $request->getFullActionName();
-//if (!$config['customer_garage_uri']) {
 if ($actionName == "catalog_category_view" || $actionName == "catalogsearch_result_index" || $actionName="cms_noroute_index") {
 	$selectedCarContStyle = 'style="display: block;"';
 	$selectedCarContStyle1 = 'style="display: none;"';
 }
 ?>
-
 <div class="block" style="margin-bottom: 0; min-height: 40px;">
 	<div class="garage-selected-car-cont" <?= $selectedCarContStyle; ?>>
 		Selected Car: &nbsp;&nbsp;
@@ -24,13 +21,9 @@ if ($actionName == "catalog_category_view" || $actionName == "catalogsearch_resu
 		<?php else:?>
 			<a class="garage-selected-car-link" href="#"><?= __('No Car Selected'); ?></a>
 		<?php endif; ?>
-		
 		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 		<button class="btn-link change-car-btn">Change Car</button>
-		<!--        <a href="#change-car" class="change-car-btn">Change Car</a>-->
-
 	</div>
-
 	<div class="block nav-categoryfilters garage-cont" <?= $selectedCarContStyle1; ?>>
 
 		<div class="block-title title-row">
@@ -39,30 +32,22 @@ if ($actionName == "catalog_category_view" || $actionName == "catalogsearch_resu
 				<div class="loading-message">
 					<?= __($b->getLoadingMessage()); ?>
 				</div>
-				<!--                <a class="add-new-car-btn" href="#add-new-car">Add New Car</a>-->
 			</div>
-
 		</div>
 		<div style="garage-block">
 			<div class="garage-block-cars">
 				<form action="" name="change-car-form" id="change-car" method="post" class="row change-car-form"></form>
 			</div>
 			<div class="garage-block-filters">
-
 				<form action="" name="category-form" id="add-new-car" method="post" class="row category-form">
 					<div id="cd-<?= $b->getNameInLayout() ?>" class="block-content row">
 						<?php
-
 						$lastSelect = false;
 						$levels = $b->getLevels();
-
 						for ($l = 0; $l < $levels; $l++) {
-
 							if ($l == ($levels - 1)) {
 								$lastSelect = true;
 							}
-
-
 							?>
 							<div class="    select-outer<?php if ($lastSelect) echo ' select-outer-last'; ?>">
 								<?php if ($b->getLabelsEmbedded() == 'outside' && $label = $b->getSelectLabel($l)): ?>
@@ -78,69 +63,32 @@ if ($actionName == "catalog_category_view" || $actionName == "catalogsearch_resu
 									<?php else: ?>
 										<option value="">Please Select</option>
 									<?php endif ?>
-
 									<?php
-
 									if ($l == 0) { // only fill first select
-
 										if (isset($categoriesByLevel[$l])) {
 											foreach ($categoriesByLevel[$l] as $cat) {
 												?>
-
 												<option value="<?= $cat['id']; ?>"
 														dataUrl="<?= $cat['url']; ?>">
 													<?= $cat['name']; ?>
 												</option>
-
 												<?php
 											}
-
 										}
-
 									}
-
 									?>
-
-
 								</select>
 							</div>
-
 						<?php } ?>
-
-
 					</div>
-
-					<!--            <div class="block-title title-row garage-spacer">-->
-					<!--                <div class="subtitle"></div>-->
-					<!--            </div>-->
-
 				</form>
-
 			</div>
 		</div>
-
-		<!--    <form action="" name="garage-form" method="post" class="row garage-form">-->
-		<!---->
-		<!--        <div class="select-outer garage-select-outer">-->
-		<!--            <select class="garage-select" disable="true" onchange="jQuery('.add-new-car-btn').css('display', 'none'); jQuery('.loading-message').css('display', 'inline-block'); window.location = this.value;">-->
-		<!--            </select>-->
-		<!--        </div>-->
-		<!---->
-		<!--    </form>-->
-
 	</div>
 </div>
-<!--<div id="dialog-confirm-delete" title="Remove this car from garage?" style="display: none">-->
-<!--    <p><span class="ui-icon ui-icon-alert" style="float:left; margin:12px 12px 20px 0;"></span>Are you sure?</p>-->
-<!--</div>-->
-<!--<div id="dialog-confirm-delete-all" title="Remove all cars from garage?" style="display: none">-->
-<!--    <p><span class="ui-icon ui-icon-alert" style="float:left; margin:12px 12px 20px 0;"></span>Are you sure?</p>-->
-<!--</div>-->
-
 <div class="clearfix"></div>
 <script type="text/javascript">
 	requirejs(['jquery', 'categoryFilter'], function (jQuery) {
-
 		var categoryFilters = {
 			'labelembedded': '<?= $b->getLabelsEmbedded(); ?>',
 			'levels': '<?= $b->getLevels(); ?>',
@@ -149,9 +97,5 @@ if ($actionName == "catalog_category_view" || $actionName == "catalogsearch_resu
 		};
 		var mainDivId = '#cd-<?= $b->getNameInLayout() ?>';
 		jQuery(mainDivId).categoryfilter(categoryFilters);
-
-
 	});
-	
 </script>
- 
