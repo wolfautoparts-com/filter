@@ -8,8 +8,8 @@ list($selectedCarContStyle, $selectedCarContStyle1) =
 	? ['', ''] : ['style="display: block;"', 'style="display: none;"']
 ;
 ?>
-<div class="block" style="margin-bottom: 0; min-height: 40px;">
-	<div class="garage-selected-car-cont" <?= $selectedCarContStyle; ?>>
+<div class='block' style='margin-bottom: 0; min-height: 40px;'>
+	<div class='garage-selected-car-cont' <?= $selectedCarContStyle; ?>>
 		Selected Car: &nbsp;&nbsp;
 		<?php if ($config['customer_garage_uri'] && !$config['customer_garage_is_empty']) { ?>
 			<a
@@ -81,8 +81,8 @@ list($selectedCarContStyle, $selectedCarContStyle1) =
 		</div>
 	</div>
 </div>
-<div class="clearfix"></div>
-<script type="text/javascript">
+<div class='clearfix'></div>
+<script type='text/javascript'>
 	requirejs(['jquery', 'categoryFilter'], function (jQuery) {
 		var categoryFilters = {
 			'labelembedded': '<?= $b->getLabelsEmbedded(); ?>',
