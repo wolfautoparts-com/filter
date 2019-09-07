@@ -38,7 +38,7 @@ class Change extends _P {
 				,function($a, $b) {return strcasecmp($a['name'], $b['name']);}
 			);
 			// 2019-09-07 We show years in the reverse order.
-			$r = 1 !== (int)df_request('dataId') ? $r : array_reverse($r);
+			$r = array_values(1 !== (int)df_request('dataId') ? $r : array_reverse($r));
 		}
 		return $r;
 	}, [Ob::CACHE_TAG]));}
