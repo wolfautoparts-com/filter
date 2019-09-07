@@ -33,7 +33,7 @@ class Navigation implements ObserverInterface {
 		$counter = 1;
 		$itemPosition = 0;
 		$childrenCount = $children->count();
-		$result = [];
+		$r = [];
 		foreach ($children as $child) {
 			if ($childLevel === 0 && $child->getData('is_parent_active') === false) {
 				continue;
@@ -42,11 +42,11 @@ class Navigation implements ObserverInterface {
 			$child->setIsFirst($counter == 1);
 			$child->setIsLast($counter == $childrenCount);
 			$id = (int)str_replace('category-node-', '', $child->getId());
-			$result[$id] = $this->r($id, $child, !$childrenCount ? null : $this->node($child));
+			$r[$id] = $this->r($id, $child, !$childrenCount ? null : $this->node($child));
 			$itemPosition++;
 			$counter++;
 		}
-		return $result;
+		return $r;
 	}
 
 	/**
