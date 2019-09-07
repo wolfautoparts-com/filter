@@ -1,6 +1,7 @@
 <?php
 namespace Wolf\Filter\Observer;
-use Magento\Framework\Data\Tree\Node;
+use Magento\Framework\Data\Tree\Node as N;
+use Magento\Framework\Data\Tree\Node\Collection as NC;
 use Magento\Framework\Event\Observer as Ob;
 use Magento\Framework\Event\ObserverInterface;
 // 2019-09-07
@@ -22,13 +23,13 @@ class Navigation implements ObserverInterface {
 	 * 2019-09-07
 	 * @used-by execute()
 	 * @used-by tree()
-	 * @param Node $node
+	 * @param N $node
 	 * @return array
 	 */
-	private function node(Node $node) {
-		$children = $node->getChildren();
-		$parentLevel = $node->getLevel();
-		$childLevel = $parentLevel === null ? 0 : $parentLevel + 1;
+	private function node(N $node) {
+		$children = $node->getChildren(); /** @var NC $children */
+		$parentLevel = $node->getLevel(); /** @var int|null $parentLevel */
+		$childLevel = $parentLevel === null ? 0 : $parentLevel + 1; /** @var int $childLevel */
 		$counter = 1;
 		$itemPosition = 0;
 		$childrenCount = $children->count();
