@@ -201,7 +201,7 @@ class Navigation extends \Magento\Catalog\Block\Navigation implements BlockInter
                         $category = array(
                             'id' => $menuTreeEntry['id'],
                             'name' => $menuTreeEntry['name'],
-                            'url' => $menuTreeEntry['url'],
+                            'url' => dfa($menuTreeEntry, 'url'),
                             'selected' => false
                        );
                         if(isset($config['params'][$l]) && $this->sanitizeUrl($menuTreeEntry['name']) == $config['params'][$l]['name']) {
