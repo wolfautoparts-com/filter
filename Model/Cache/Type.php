@@ -1,17 +1,10 @@
 <?php
-
 namespace Wolf\Filter\Model\Cache;
-
-use \Magento\Framework\Cache\Frontend\Decorator\TagScope;
-use \Magento\Framework\App\Cache\Type\FrontendPool;
-
-
+use Magento\Framework\Cache\Frontend\Decorator\TagScope;
+use Magento\Framework\App\Cache\Type\FrontendPool;
+use Wolf\Filter\Observer\Navigation as Ob;
 class Type extends TagScope {
-
-	const TYPE_IDENTIFIER = 'category_filter_cache';
-	const CACHE_TAG = 'WOLF_CATEGORY_FILTER';
-
 	function __construct(  FrontendPool $cacheFrontendPool ) {
-		parent::__construct( $cacheFrontendPool->get( self::TYPE_IDENTIFIER ), self::CACHE_TAG );
+		parent::__construct( $cacheFrontendPool->get('category_filter_cache'), Ob::CACHE_TAG);
 	}
 }

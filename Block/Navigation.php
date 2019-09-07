@@ -9,12 +9,10 @@ use Magento\Catalog\Model\ResourceModel\Product\CollectionFactory;
 use Magento\Framework\App\CacheInterface;
 use Magento\Framework\App\Http\Context as HttpContext;
 use Magento\Framework\Registry;
-use Magento\Framework\UrlInterface;
 use Magento\Framework\View\Element\Template\Context;
 use Magento\Widget\Block\BlockInterface;
 use Psr\Log\LoggerInterface;
 use Wolf\Filter\Observer\Navigation as Ob;
-
 class Navigation extends \Magento\Catalog\Block\Navigation implements BlockInterface
 {
 
@@ -245,8 +243,8 @@ class Navigation extends \Magento\Catalog\Block\Navigation implements BlockInter
 			'labels_embedded' => $label ,
 			'please_wait_text' => __ ( 'Please wait...' ) ,
 		);
-		$cacheTags = array('WOLF_CATEGORY_FILTER');
-		if (false !== ($data = $this->_cache->load(Ob::CACHE))) {
+		$cacheTags = [Ob::CACHE_TAG];
+		if (false !== ($data = $this->_cache->load(Ob::CACHE_KEY))) {
 			$menuTree = unserialize( $data );
 			$this->_logger->debug('Navigation block $menuTree gathered from cache');
 		} else {

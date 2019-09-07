@@ -24,7 +24,7 @@ class Change extends _P {
 		else {
 			$levels = (int)df_request('levels'); /** @var int $levels «5» */
 			$dataId = (int)df_request('dataId');/** @var int $dataId «1» */
-			$menuTree = false === ($data = df_cache_load(Ob::CACHE)) ? [] : unserialize($data);
+			$menuTree = false === ($data = df_cache_load(Ob::CACHE_KEY)) ? [] : unserialize($data);
 			$levelValues = [];
 			$bTree = $menuTree;
 			for ($i = 0; $i < $levels; $i++) {
@@ -53,7 +53,7 @@ class Change extends _P {
 					strtolower($first['name']) > strtolower($second['name'])
 				;});
 			}
-			df_cache_save(serialize($categoryArray), $cacheId, ['WOLF_CATEGORY_FILTER']);
+			df_cache_save(serialize($categoryArray), $cacheId, [Ob::CACHE_TAG]);
 		}
 		return Json::i($categoryArray);
 	}

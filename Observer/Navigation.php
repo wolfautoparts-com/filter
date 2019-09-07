@@ -35,8 +35,8 @@ class Navigation implements ObserverInterface
 	}
 
 	function execute(Observer $observer) {
-		$cacheTags = array('WOLF_CATEGORY_FILTER');
-		if (false !== ($data = $this->_cache->load(self::CACHE))) {
+		$cacheTags = [self::CACHE_TAG];
+		if (false !== ($data = $this->_cache->load(self::CACHE_KEY))) {
 			$menuTree = unserialize($data);
 		}
 		else {
@@ -44,7 +44,7 @@ class Navigation implements ObserverInterface
 			$this->_logger->debug('$menu');
 			$this->_logger->debug(json_encode($menu));
 			$menuTree = $this->_getMenuTree($menu);
-			$this->_cache->save(serialize($menuTree), self::CACHE, $cacheTags);
+			$this->_cache->save(serialize($menuTree), self::CACHE_KEY, $cacheTags);
 		}
 		// Store the menuTree on registry for later use on Block Navigation
         $this->_registry->register('wolfCategoryMenuTree', $menuTree);
@@ -120,5 +120,13 @@ class Navigation implements ObserverInterface
 	 * @used-by \Wolf\Filter\Controller\Garage\AllCars::execute()
 	 * @used-by \Wolf\Filter\Controller\Index\Change::execute()
 	 */
-	const CACHE = 'category_filter_tree';
+	const CACHE_KEY = 'category_filter_tree';
+	/**
+	 * 2019-09-07
+	 * @used-by execute()
+	 * @used-by \Wolf\Filter\Block\Navigation::getConfigJson()
+	 * @used-by \Wolf\Filter\Controller\Index\Change::execute()
+	 * @used-by \Wolf\Filter\Model\Cache\Type::__construct()
+	 */
+	const CACHE_TAG = 'WOLF_CATEGORY_FILTER';
 }

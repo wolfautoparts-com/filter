@@ -55,7 +55,7 @@ class AllCars extends Action
 
         $tResult['success'] = true;
 
-        if (false !== ($data = $this->_cache->load(Ob::CACHE))) {
+        if (false !== ($data = $this->_cache->load(Ob::CACHE_KEY))) {
 
             try {
 
@@ -80,7 +80,7 @@ class AllCars extends Action
         } else {
 
             $tResult['success'] = false;
-            $tResult['error'] = Ob::CACHE . ' cache object does not exist. Open a website page to generate it';
+            $tResult['error'] = Ob::CACHE_KEY . ' cache object does not exist. Open a website page to generate it';
 
         }
 
