@@ -26,14 +26,10 @@ class Navigation implements ObserverInterface {
 	 * @param N $node
 	 * @return array(int => array(string => mixed))
 	 */
-	private function node(N $node) {
-		$r = [];
-		foreach ($node->getChildren() as $n) { /** @var N $n */
-			$id = (int)df_trim_text_left($n->getId(), 'category-node-');
-			$r[$id] = $this->r($id, $n, $this->node($n));
-		}
-		return $r;
-	}
+	private function node(N $node) {return df_map_r($node->getChildren(), function(N $n) {
+		$id = (int)df_trim_text_left($n->getId(), 'category-node-');
+		return [$id, $this->r($id, $n, $this->node($n))];
+	});}
 
 	/**
 	 * 2019-09-07
