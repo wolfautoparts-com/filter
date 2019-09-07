@@ -26,7 +26,7 @@ class Topmenu extends \Magento\Theme\Block\Html\Topmenu {
 		$myData['menu']->setChildrenWrapClass($childrenWrapClass);
 		if (!$fromCache) {
 			$myData['html'] = $this->_getHtml($myData['menu'], $childrenWrapClass, $limit);
-			df_cache_load(serialize($myData), $cacheId, [Ob::CACHE_TAG]);
+			df_cache_save(serialize($myData), $cacheId, [Ob::CACHE_TAG]);
 		}
 		$transportObject = new \Magento\Framework\DataObject(['html' => $myData['html']]);
 		$this->_eventManager->dispatch('page_block_html_topmenu_gethtml_after', [
