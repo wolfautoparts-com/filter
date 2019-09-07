@@ -31,7 +31,7 @@ class Navigation implements ObserverInterface {
 		$isLeaf = !$items->count(); /** @var bool $isLeaf */
 		$r = [];
 		foreach ($items as $n) { /** @var N $n */
-			$id = (int)str_replace('category-node-', '', $n->getId());
+			$id = (int)df_trim_text_left($n->getId(), 'category-node-');
 			$r[$id] = $this->r($id, $n, $isLeaf ? null : $this->node($n));
 		}
 		return $r;
