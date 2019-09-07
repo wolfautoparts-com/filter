@@ -11,7 +11,6 @@ use Magento\Framework\App\Http\Context as HttpContext;
 use Magento\Framework\Registry;
 use Magento\Framework\View\Element\Template\Context;
 use Magento\Widget\Block\BlockInterface;
-use Psr\Log\LoggerInterface;
 use Wolf\Filter\Observer\Navigation as Ob;
 class Navigation extends \Magento\Catalog\Block\Navigation implements BlockInterface {
 	/**
@@ -115,24 +114,23 @@ class Navigation extends \Magento\Catalog\Block\Navigation implements BlockInter
 	 * @return array
 	 */
 	function getConfigJson() {return dfc($this, function() {
-		$objectManager = \Magento\Framework\App\ObjectManager::getInstance();
-		$catalogSession = $objectManager->get('\Magento\Newsletter\Model\Session');
+		$catalogSession = df_o('\Magento\Newsletter\Model\Session');
 		$urlPath = "";
 		$urlName ="";
 		if(@$_GET['cat']!=""){
 			$catid = @$_GET['cat'];
-			$object_manager = $objectManager->create('Magento\Catalog\Model\Category')->load($catid);
-			$arr = $object_manager->getData();
+			$dfCategory = df_new_om('Magento\Catalog\Model\Category')->load($catid);
+			$arr = $dfCategory->getData();
 			if($arr['url_path']!=""){
-				$urlPath = $object_manager->getUrl();
+				$urlPath = $dfCategory->getUrl();
 				$urlName = str_replace("-"," ",str_replace("/"," ",$arr['url_path']));
 			}
 		}elseif($catalogSession->getMyvalue()!=""){
 			$catid = $catalogSession->getMyvalue();
-			$object_manager = $objectManager->create('Magento\Catalog\Model\Category')->load($catid);
-			$arr = $object_manager->getData();
+			$dfCategory = df_new_om('Magento\Catalog\Model\Category')->load($catid);
+			$arr = $dfCategory->getData();
 			if($arr['url_path']!=""){
-				$urlPath = $object_manager->getUrl();
+				$urlPath = $dfCategory->getUrl();
 				$urlName = str_replace("-"," ",str_replace("/"," ",$arr['url_path']));
 			}
 		}
