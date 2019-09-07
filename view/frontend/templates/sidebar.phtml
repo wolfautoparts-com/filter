@@ -43,38 +43,33 @@ list($selectedCarContStyle, $selectedCarContStyle1) =
 							if ($l == ($levels - 1)) {
 								$lastSelect = true;
 							}
-							?>
-							<div class="select-outer<?php if ($lastSelect) echo ' select-outer-last'; ?>">
-								<?php if ($b->getLabelsEmbedded() == 'outside' && $label = $b->getSelectLabel($l)) { ?>
-									<label><?= $label ?></label>
-								<?php } ?>
-								<?php $j = $l + 1; ?>
-								<?=
-									df_tag('select'
-										,[
-											'class' => 'category-filter-select'
-											,'dataId' => $j
-											,'id' => "{$b->getNameInLayout()}$j"
-										]
-										,array_merge(
-											[
-												df_tag('option', ['value' => ''],
-													'embedded' === $b->getLabelsEmbedded()
-													&& ($label = $b->getSelectLabel($l))
-													? $label : 'Please Select'
-												)
-											]
-											,$l || !($dfCats = dfa($categoriesByLevel, $l)) ? [] : df_map(
- 												$dfCats, function($c) {return df_tag('option'
-													,['dataUrl' => $c['url'], 'value' => $c['id']]
-													,$c['name']
-												);}
+							$label = $b->getSelectLabel($l); /** @var string $label */
+							$j = $l + 1; /** @var int $j */
+							echo df_tag('div', df_cc_s('select-outer', !$lastSelect ? '' : 'select-outer-last'), [
+								'outside' !== $b->getLabelsEmbedded() || !$label ? null : df_tag('label', [], $label)
+								,df_tag('select'
+									,[
+										'class' => 'category-filter-select'
+										,'dataId' => $j
+										,'id' => "{$b->getNameInLayout()}$j"
+									]
+									,array_merge(
+										[
+											df_tag('option', ['value' => ''],
+												'embedded' === $b->getLabelsEmbedded() && $label
+												? $label : 'Please Select'
 											)
+										]
+										,$l || !($dfCats = dfa($categoriesByLevel, $l)) ? [] : df_map(
+											$dfCats, function($c) {return df_tag('option'
+												,['dataUrl' => $c['url'], 'value' => $c['id']]
+												,$c['name']
+											);}
 										)
 									)
-								?>
-							</div>
-						<?php } ?>
+								)
+							]);
+						} ?>
 					</div>
 				</form>
 			</div>
