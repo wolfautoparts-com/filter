@@ -17,12 +17,12 @@ if ($actionName == "catalog_category_view" || $actionName == "catalogsearch_resu
 ?>
 
 <div class="block" style="margin-bottom: 0; min-height: 40px;">
-	<div class="garage-selected-car-cont" <?php echo $selectedCarContStyle; ?>>
+	<div class="garage-selected-car-cont" <?= $selectedCarContStyle; ?>>
 		Selected Car: &nbsp;&nbsp;
 		<?php if($config['customer_garage_uri'] && !$config['customer_garage_is_empty']):?>
-			<a class="garage-selected-car-link" href="<?php echo $config['customer_garage_uri']; ?>" style="text-transform: capitalize;"><?php echo $config['customer_garage_uri_name']; ?></a>
+			<a class="garage-selected-car-link" href="<?= $config['customer_garage_uri']; ?>" style="text-transform: capitalize;"><?= $config['customer_garage_uri_name']; ?></a>
 		<?php else:?>
-			<a class="garage-selected-car-link" href="#"><?php echo __('No Car Selected'); ?></a>
+			<a class="garage-selected-car-link" href="#"><?= __('No Car Selected'); ?></a>
 		<?php endif; ?>
 		
 		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
@@ -31,13 +31,13 @@ if ($actionName == "catalog_category_view" || $actionName == "catalogsearch_resu
 
 	</div>
 
-	<div class="block nav-categoryfilters garage-cont" <?php echo $selectedCarContStyle1; ?>>
+	<div class="block nav-categoryfilters garage-cont" <?= $selectedCarContStyle1; ?>>
 
 		<div class="block-title title-row">
 			<div><strong><span><?= __($b->getTitle()) ?></span></strong></div>
 			<div>
 				<div class="loading-message">
-					<?php echo __($b->getLoadingMessage()); ?>
+					<?= __($b->getLoadingMessage()); ?>
 				</div>
 				<!--                <a class="add-new-car-btn" href="#add-new-car">Add New Car</a>-->
 			</div>
@@ -50,7 +50,7 @@ if ($actionName == "catalog_category_view" || $actionName == "catalogsearch_resu
 			<div class="garage-block-filters">
 
 				<form action="" name="category-form" id="add-new-car" method="post" class="row category-form">
-					<div id="cd-<?php echo $b->getNameInLayout() ?>" class="block-content row">
+					<div id="cd-<?= $b->getNameInLayout() ?>" class="block-content row">
 						<?php
 
 						$lastSelect = false;
@@ -66,15 +66,15 @@ if ($actionName == "catalog_category_view" || $actionName == "catalogsearch_resu
 							?>
 							<div class="    select-outer<?php if ($lastSelect) echo ' select-outer-last'; ?>">
 								<?php if ($b->getLabelsEmbedded() == 'outside' && $label = $b->getSelectLabel($l)): ?>
-									<label><?php echo $label ?></label>
+									<label><?= $label ?></label>
 								<?php endif ?>
 								<?php $j = $l + 1; ?>
 
-								<select dataId="<?php echo $j; ?>"
-										id="<?php echo $b->getNameInLayout() ?><?php echo $j; ?>"
+								<select dataId="<?= $j; ?>"
+										id="<?= $b->getNameInLayout() ?><?= $j; ?>"
 										class="category-filter-select">
 									<?php if ($b->getLabelsEmbedded() == 'embedded' && $label = $b->getSelectLabel($l)): ?>
-										<option value=""><?php echo $label ?></option>
+										<option value=""><?= $label ?></option>
 									<?php else: ?>
 										<option value="">Please Select</option>
 									<?php endif ?>
@@ -87,9 +87,9 @@ if ($actionName == "catalog_category_view" || $actionName == "catalogsearch_resu
 											foreach ($categoriesByLevel[$l] as $cat) {
 												?>
 
-												<option value="<?php echo $cat['id']; ?>"
-														dataUrl="<?php echo $cat['url']; ?>">
-													<?php echo $cat['name']; ?>
+												<option value="<?= $cat['id']; ?>"
+														dataUrl="<?= $cat['url']; ?>">
+													<?= $cat['name']; ?>
 												</option>
 
 												<?php
@@ -142,12 +142,12 @@ if ($actionName == "catalog_category_view" || $actionName == "catalogsearch_resu
 	requirejs(['jquery', 'categoryFilter'], function (jQuery) {
 
 		var categoryFilters = {
-			'labelembedded': '<?php echo $b->getLabelsEmbedded(); ?>',
-			'levels': '<?php echo $b->getLevels(); ?>',
-			'nameInLayout': '<?php echo $b->getNameInLayout() ?>',
-			'url': '<?php echo $b->getBaseUrl(); ?>categoryfinder/index/change/'
+			'labelembedded': '<?= $b->getLabelsEmbedded(); ?>',
+			'levels': '<?= $b->getLevels(); ?>',
+			'nameInLayout': '<?= $b->getNameInLayout() ?>',
+			'url': '<?= $b->getBaseUrl(); ?>categoryfinder/index/change/'
 		};
-		var mainDivId = '#cd-<?php echo $b->getNameInLayout() ?>';
+		var mainDivId = '#cd-<?= $b->getNameInLayout() ?>';
 		jQuery(mainDivId).categoryfilter(categoryFilters);
 
 
