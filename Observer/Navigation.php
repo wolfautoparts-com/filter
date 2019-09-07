@@ -33,16 +33,15 @@ class Navigation implements ObserverInterface {
 		$counter = 1; /** @var int $counter */
 		$childrenCount = $children->count(); /** @var int $childrenCount */
 		$r = [];
-		foreach ($children as $child) {
-			if ($childLevel === 0 && $child->getData('is_parent_active') === false) {
-				continue;
+		foreach ($children as $child) { /** @var N $child */
+			if ($childLevel || $child['is_parent_active']) {
+				$child->setLevel($childLevel);
+				$child->setIsFirst(1 === $counter);
+				$child->setIsLast($counter === $childrenCount);
+				$id = (int)str_replace('category-node-', '', $child->getId());
+				$r[$id] = $this->r($id, $child, !$childrenCount ? null : $this->node($child));
+				$counter++;
 			}
-			$child->setLevel($childLevel);
-			$child->setIsFirst(1 === $counter);
-			$child->setIsLast($counter === $childrenCount);
-			$id = (int)str_replace('category-node-', '', $child->getId());
-			$r[$id] = $this->r($id, $child, !$childrenCount ? null : $this->node($child));
-			$counter++;
 		}
 		return $r;
 	}
