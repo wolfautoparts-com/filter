@@ -22,7 +22,7 @@ class Navigation implements ObserverInterface {
 	/**
 	 * 2019-09-07
 	 * @used-by execute()
-	 * @used-by tree()
+	 * @used-by node()
 	 * @param N $node
 	 * @param int $level [optional]
 	 * @return array
