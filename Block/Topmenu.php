@@ -1,10 +1,8 @@
 <?php
 namespace Wolf\Filter\Block;
-use \Wolf\Filter\Observer\Navigation as Ob;
+use Wolf\Filter\Observer\Navigation as Ob;
 class Topmenu extends \Magento\Theme\Block\Html\Topmenu {
 	/**
-	 * Get top menu html
-	 *
 	 * @param string $outermostClass
 	 * @param string $childrenWrapClass
 	 * @param int $limit
