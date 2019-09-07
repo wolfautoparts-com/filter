@@ -8,4 +8,3 @@ use Wolf\Filter\Observer\Navigation as Ob;
  * @return mixed[]
  */
 function wolf_tree_load() {return false === ($r = df_cache_load(Ob::CACHE_KEY)) ? [] : unserialize($r);}
-
