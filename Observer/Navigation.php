@@ -24,15 +24,13 @@ class Navigation implements ObserverInterface {
 	 * @used-by execute()
 	 * @used-by node()
 	 * @param N $node
-	 * @return array
+	 * @return array(int => array(string => mixed))
 	 */
 	private function node(N $node) {
-		$items = $node->getChildren(); /** @var NC $children */
-		$isLeaf = !$items->count(); /** @var bool $isLeaf */
 		$r = [];
-		foreach ($items as $n) { /** @var N $n */
+		foreach ($node->getChildren() as $n) { /** @var N $n */
 			$id = (int)df_trim_text_left($n->getId(), 'category-node-');
-			$r[$id] = $this->r($id, $n, $isLeaf ? null : $this->node($n));
+			$r[$id] = $this->r($id, $n, $this->node($n));
 		}
 		return $r;
 	}
@@ -42,10 +40,10 @@ class Navigation implements ObserverInterface {
 	 * @used-by node()
 	 * @param int $id
 	 * @param N $n
-	 * @param mixed|null $children [optional]
+	 * @param N[] $children
 	 * @return array(string => mixed)
 	 */
-	private function r($id, N $n, $children = null) {return df_clean([
+	private function r($id, N $n, array $children) {return df_clean([
 		'children' => $children, 'id' => $id, 'name' => $n->getName(), 'url' => $n->getUrl()
 	]);}
 
