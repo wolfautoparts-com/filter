@@ -1,7 +1,7 @@
 <?php
 use Wolf\Filter\Block\Navigation as B;
 $b = $block; /** @var B $block */ /** @var B $b */
-$config = $this->getConfigJson();
+$config = $b->getConfigJson();
 $categoriesByLevel = $config['categoriesByLevel'];
 $selectedCarContStyle = '';
 $selectedCarContStyle1 = '';
@@ -34,10 +34,10 @@ if ($actionName == "catalog_category_view" || $actionName == "catalogsearch_resu
 	<div class="block nav-categoryfilters garage-cont" <?php echo $selectedCarContStyle1; ?>>
 
 		<div class="block-title title-row">
-			<div><strong><span><?= __($this->getTitle()) ?></span></strong></div>
+			<div><strong><span><?= __($b->getTitle()) ?></span></strong></div>
 			<div>
 				<div class="loading-message">
-					<?php echo __($this->getLoadingMessage()); ?>
+					<?php echo __($b->getLoadingMessage()); ?>
 				</div>
 				<!--                <a class="add-new-car-btn" href="#add-new-car">Add New Car</a>-->
 			</div>
@@ -50,11 +50,11 @@ if ($actionName == "catalog_category_view" || $actionName == "catalogsearch_resu
 			<div class="garage-block-filters">
 
 				<form action="" name="category-form" id="add-new-car" method="post" class="row category-form">
-					<div id="cd-<?php echo $this->getNameInLayout() ?>" class="block-content row">
+					<div id="cd-<?php echo $b->getNameInLayout() ?>" class="block-content row">
 						<?php
 
 						$lastSelect = false;
-						$levels = $this->getLevels();
+						$levels = $b->getLevels();
 
 						for ($l = 0; $l < $levels; $l++) {
 
@@ -65,15 +65,15 @@ if ($actionName == "catalog_category_view" || $actionName == "catalogsearch_resu
 
 							?>
 							<div class="    select-outer<?php if ($lastSelect) echo ' select-outer-last'; ?>">
-								<?php if ($this->getLabelsEmbedded() == 'outside' && $label = $this->getSelectLabel($l)): ?>
+								<?php if ($b->getLabelsEmbedded() == 'outside' && $label = $b->getSelectLabel($l)): ?>
 									<label><?php echo $label ?></label>
 								<?php endif ?>
 								<?php $j = $l + 1; ?>
 
 								<select dataId="<?php echo $j; ?>"
-										id="<?php echo $this->getNameInLayout() ?><?php echo $j; ?>"
+										id="<?php echo $b->getNameInLayout() ?><?php echo $j; ?>"
 										class="category-filter-select">
-									<?php if ($this->getLabelsEmbedded() == 'embedded' && $label = $this->getSelectLabel($l)): ?>
+									<?php if ($b->getLabelsEmbedded() == 'embedded' && $label = $b->getSelectLabel($l)): ?>
 										<option value=""><?php echo $label ?></option>
 									<?php else: ?>
 										<option value="">Please Select</option>
@@ -142,12 +142,12 @@ if ($actionName == "catalog_category_view" || $actionName == "catalogsearch_resu
 	requirejs(['jquery', 'categoryFilter'], function (jQuery) {
 
 		var categoryFilters = {
-			'labelembedded': '<?php echo $this->getLabelsEmbedded(); ?>',
-			'levels': '<?php echo $this->getLevels(); ?>',
-			'nameInLayout': '<?php echo $this->getNameInLayout() ?>',
-			'url': '<?php echo $this->getBaseUrl(); ?>categoryfinder/index/change/'
+			'labelembedded': '<?php echo $b->getLabelsEmbedded(); ?>',
+			'levels': '<?php echo $b->getLevels(); ?>',
+			'nameInLayout': '<?php echo $b->getNameInLayout() ?>',
+			'url': '<?php echo $b->getBaseUrl(); ?>categoryfinder/index/change/'
 		};
-		var mainDivId = '#cd-<?php echo $this->getNameInLayout() ?>';
+		var mainDivId = '#cd-<?php echo $b->getNameInLayout() ?>';
 		jQuery(mainDivId).categoryfilter(categoryFilters);
 
 
