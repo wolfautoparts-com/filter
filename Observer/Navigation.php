@@ -41,12 +41,12 @@ class Navigation implements ObserverInterface {
 	 * 2019-09-07
 	 * @used-by node()
 	 * @param int $id
-	 * @param N $node
+	 * @param N $n
 	 * @param mixed|null $children [optional]
 	 * @return array(string => mixed)
 	 */
-	private function r($id, N $node, $children = null) {return df_clean([
-		'children' => $children, 'id' => $id, 'name' => $node->getName(), 'url' => $node->getUrl()
+	private function r($id, N $n, $children = null) {return df_clean([
+		'children' => $children, 'id' => $id, 'name' => $n->getName(), 'url' => $n->getUrl()
 	]);}
 
 	/**
