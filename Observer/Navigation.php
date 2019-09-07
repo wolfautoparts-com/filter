@@ -30,20 +30,18 @@ class Navigation implements ObserverInterface {
 		$children = $node->getChildren(); /** @var NC $children */
 		$parentLevel = $node->getLevel(); /** @var int|null $parentLevel */
 		$childLevel = $parentLevel === null ? 0 : $parentLevel + 1; /** @var int $childLevel */
-		$counter = 1;
-		$itemPosition = 0;
-		$childrenCount = $children->count();
+		$counter = 1; /** @var int $counter */
+		$childrenCount = $children->count(); /** @var int $childrenCount */
 		$r = [];
 		foreach ($children as $child) {
 			if ($childLevel === 0 && $child->getData('is_parent_active') === false) {
 				continue;
 			}
 			$child->setLevel($childLevel);
-			$child->setIsFirst($counter == 1);
-			$child->setIsLast($counter == $childrenCount);
+			$child->setIsFirst(1 === $counter);
+			$child->setIsLast($counter === $childrenCount);
 			$id = (int)str_replace('category-node-', '', $child->getId());
 			$r[$id] = $this->r($id, $child, !$childrenCount ? null : $this->node($child));
-			$itemPosition++;
 			$counter++;
 		}
 		return $r;
