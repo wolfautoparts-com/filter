@@ -21,6 +21,7 @@ class Navigation implements ObserverInterface {
 	/**
 	 * 2019-09-07
 	 * @used-by execute()
+	 * @used-by tree()
 	 * @param $menuTree
 	 * @return array
 	 */
@@ -44,7 +45,7 @@ class Navigation implements ObserverInterface {
 			$id = str_replace('category-node-', '', $id);
 			$id = (int) $id;
 			if($childrenCount) {
-				$subChildren = $this->_getMenuTree($child);
+				$subChildren = $this->tree($child);
 				if($subChildren && !empty($subChildren)) {
 					$result[$id] = array(
 						'id' => $id,
