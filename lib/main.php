@@ -2,6 +2,7 @@
 use Wolf\Filter\Observer\Navigation as Ob;
 /**
  * 2019-09-07
+ * @used-by \Wolf\Filter\Block\Navigation::getConfigJson()
  * @used-by \Wolf\Filter\Controller\Index\Change::execute()
  * @return mixed[]
  */

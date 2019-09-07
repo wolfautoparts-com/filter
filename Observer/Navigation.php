@@ -117,7 +117,6 @@ class Navigation implements ObserverInterface
 	 * 2019-09-06
 	 * @used-by execute()
 	 * @used-by wolf_tree_load()
-	 * @used-by \Wolf\Filter\Block\Navigation::getConfigJson()
 	 * @used-by \Wolf\Filter\Controller\Garage\AllCars::execute()
 	 */
 	const CACHE_KEY = 'category_filter_tree';

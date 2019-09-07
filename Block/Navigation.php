@@ -170,14 +170,7 @@ class Navigation extends \Magento\Catalog\Block\Navigation implements BlockInter
 			'please_wait_text' => __('Please wait...'),
 		);
 		$cacheTags = [Ob::CACHE_TAG];
-		if(false !==($data = $this->_cache->load(Ob::CACHE_KEY))) {
-			$menuTree = unserialize($data);
-			$this->_logger->debug('Navigation block $menuTree gathered from cache');
-		} else {
-			// todo handle category_filter_tree cache not being generated on Observer
-			$this->_logger->debug('menuTree does not exists! this should not happen');
-			$menuTree = [];
-		}
+		$menuTree = wolf_tree_load();
 		$paramsHash = $this->_registry->registry('wolfCategoryParamsHash');
 		$config['params'] = $this->_registry->registry('wolfCategoryParams');
 		$selectedCategories = [];
