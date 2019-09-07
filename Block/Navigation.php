@@ -230,7 +230,7 @@ class Navigation extends \Magento\Catalog\Block\Navigation implements BlockInter
 	 */
 	function hDropdowns() {
 		$r = '';
-		$categoriesByLevel = $this->getConfigJson()['categoriesByLevel'];
+		$topLevelCategories = $this->getConfigJson()['categoriesByLevel'][0];
 		$levels = $this['levels'];
 		$lastLevel = $levels - 1;
 		for ($l = 0; $l < $levels; $l++) {
@@ -253,12 +253,10 @@ class Navigation extends \Magento\Catalog\Block\Navigation implements BlockInter
 									? $label : 'Please Select'
 								)
 							]
-							,$l || !($dfCats = dfa($categoriesByLevel, $l)) ? [] : df_map(
-								$dfCats, function($c) {return df_tag('option'
-									,['dataUrl' => $c['url'], 'value' => $c['id']]
-									,$c['name']
-								);}
-							)
+							,$l ? [] : df_map($topLevelCategories, function($c) {return df_tag('option'
+								,['dataUrl' => $c['url'], 'value' => $c['id']]
+								,$c['name']
+							);})
 						)
 					)
 				]
