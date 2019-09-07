@@ -50,14 +50,14 @@ class Change extends _P {
 	function execute() {
 		$catId = (int)df_request('selectedValue'); /** @var int $catId «3613» */
 		/** @var string $cacheId */
-		if (false !== ($data = $this->_cache->load($cacheId = "category_filter_$catId"))) {
+		if (false !== ($data = df_cache_load($cacheId = "category_filter_$catId"))) {
 			$categoryArray = unserialize($data);
 		} 
 		else {
 			$levels = (int)df_request('levels'); /** @var int $levels «5» */
 			$dataId = (int)df_request('dataId');/** @var int $dataId «1» */
 			$cacheTags = ['WOLF_CATEGORY_FILTER'];
-			if (false !== ($data = $this->_cache->load(Ob::CACHE))) {
+			if (false !== ($data = df_cache_load(Ob::CACHE))) {
 				$menuTree = unserialize($data);
 			} 
 			else {
@@ -91,7 +91,7 @@ class Change extends _P {
 					strtolower($first['name']) > strtolower($second['name'])
 				;});
 			}
-			$this->_cache->save(serialize($categoryArray), $cacheId, $cacheTags);
+			df_cache_save(serialize($categoryArray), $cacheId, $cacheTags);
 		}
 		return Json::i($categoryArray);
 	}
