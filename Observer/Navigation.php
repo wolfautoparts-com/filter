@@ -1,7 +1,6 @@
 <?php
 namespace Wolf\Filter\Observer;
 use Magento\Framework\Data\Tree\Node as N;
-use Magento\Framework\Data\Tree\Node\Collection as NC;
 use Magento\Framework\Event\Observer as Ob;
 use Magento\Framework\Event\ObserverInterface;
 // 2019-09-07
@@ -28,20 +27,10 @@ class Navigation implements ObserverInterface {
 	 */
 	private function node(N $node) {return df_map_r($node->getChildren(), function(N $n) {
 		$id = (int)df_trim_text_left($n->getId(), 'category-node-');
-		return [$id, $this->r($id, $n, $this->node($n))];
+		return [$id, df_clean([
+			'children' => $this->node($n), 'id' => $id, 'name' => $n->getName(), 'url' => $n->getUrl()
+		])];
 	});}
-
-	/**
-	 * 2019-09-07
-	 * @used-by node()
-	 * @param int $id
-	 * @param N $n
-	 * @param N[] $children
-	 * @return array(string => mixed)
-	 */
-	private function r($id, N $n, array $children) {return df_clean([
-		'children' => $children, 'id' => $id, 'name' => $n->getName(), 'url' => $n->getUrl()
-	]);}
 
 	/**
 	 * 2019-09-06
