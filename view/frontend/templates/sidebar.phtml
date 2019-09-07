@@ -25,12 +25,11 @@ if ($actionName == "catalog_category_view" || $actionName == "catalogsearch_resu
 		<button class="btn-link change-car-btn">Change Car</button>
 	</div>
 	<div class="block nav-categoryfilters garage-cont" <?= $selectedCarContStyle1; ?>>
-
 		<div class="block-title title-row">
-			<div><strong><span><?= __($b->getTitle()) ?></span></strong></div>
+			<div><strong><span><?= $b['title'] ?></span></strong></div>
 			<div>
 				<div class="loading-message">
-					<?= __($b->getLoadingMessage()); ?>
+					<?= $b['loading_message'] ?: 'Loading...' ?>
 				</div>
 			</div>
 		</div>

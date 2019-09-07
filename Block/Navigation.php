@@ -59,16 +59,6 @@ class Navigation extends \Magento\Catalog\Block\Navigation implements BlockInter
 			$catalogCategory, $registry, $flatState, $data);
 	}
 
-	function getTitle() {return $this->getData('title');}
-
-	function getLoadingMessage() {
-		$loadingMessage = $this->getData('loading_message');
-		if(empty($loadingMessage)) {
-			$loadingMessage = 'Loading...';
-		}
-		return $loadingMessage;
-	}
-
 	/**
 	 * @return mixed
 	 */
