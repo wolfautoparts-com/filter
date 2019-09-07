@@ -35,7 +35,7 @@ class Navigation implements ObserverInterface {
 		$childrenCount = $children->count();
 		$result = [];
 		foreach ($children as $child) {
-			if ( $childLevel === 0 && $child->getData( 'is_parent_active' ) === false ) {
+			if ($childLevel === 0 && $child->getData('is_parent_active') === false) {
 				continue;
 			}
 			$child->setLevel($childLevel);
