@@ -1,5 +1,6 @@
 <?php
 namespace Wolf\Filter\Observer;
+use Magento\Framework\Data\Tree\Node;
 use Magento\Framework\Event\Observer as Ob;
 use Magento\Framework\Event\ObserverInterface;
 // 2019-09-07
@@ -13,7 +14,7 @@ class Navigation implements ObserverInterface {
 	 */
 	function execute(Ob $o) {
 		if (!($r = wolf_tree_load())) {
-			df_cache_save(serialize($r = $this->tree($o['menu'])), self::CACHE_KEY, [self::CACHE_TAG]);
+			df_cache_save(serialize($r = $this->node($o['menu'])), self::CACHE_KEY, [self::CACHE_TAG]);
 		}
 	}
 
@@ -21,12 +22,12 @@ class Navigation implements ObserverInterface {
 	 * 2019-09-07
 	 * @used-by execute()
 	 * @used-by tree()
-	 * @param $menuTree
+	 * @param Node $node
 	 * @return array
 	 */
-	private function tree($menuTree) {
-		$children = $menuTree->getChildren();
-		$parentLevel = $menuTree->getLevel();
+	private function node(Node $node) {
+		$children = $node->getChildren();
+		$parentLevel = $node->getLevel();
 		$childLevel = $parentLevel === null ? 0 : $parentLevel + 1;
 		$counter = 1;
 		$itemPosition = 0;
@@ -44,7 +45,7 @@ class Navigation implements ObserverInterface {
 			$id = str_replace('category-node-', '', $id);
 			$id = (int) $id;
 			if($childrenCount) {
-				$subChildren = $this->tree($child);
+				$subChildren = $this->node($child);
 				if($subChildren && !empty($subChildren)) {
 					$result[$id] = [
 						'id' => $id,
