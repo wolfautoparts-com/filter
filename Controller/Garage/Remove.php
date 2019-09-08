@@ -88,7 +88,7 @@ class Remove extends Action {
 		}
 
 
-		$data = array( 'success' => true, 'params' => $params, 'customer_garage' => $customer_garage);
+		$data = array('success' => true, 'params' => $params, 'customer_garage' => $customer_garage);
 		if (!empty($errors)) {
 			$data['errors'] = $errors;
 			$data['success'] = false;

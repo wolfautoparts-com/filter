@@ -52,7 +52,7 @@ class Navigation extends _P implements IWidget {
                             'name' => $menuTreeEntry['name'],
                             'url' => dfa($menuTreeEntry, 'url'),
                             'selected' => false
-                       );
+                      );
                         if (
                         	isset($r['params'][$l])
 							&&

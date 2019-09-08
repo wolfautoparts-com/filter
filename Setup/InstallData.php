@@ -42,7 +42,7 @@ class InstallData implements InstallDataInterface
         \Magento\Framework\App\Cache\TypeListInterface $cacheTypeList,
         \Magento\Framework\App\Cache\Frontend\Pool $cacheFrontendPool,
         LoggerInterface $logger
-    )
+   )
     {
         $this->_eavSetupFactory = $eavSetupFactory;
         $this->_attributeRepository = $attributeRepository;
@@ -115,7 +115,7 @@ class InstallData implements InstallDataInterface
                     ['form_code' => 'customer_account_create', 'attribute_id' => $attribute->getId()],
                     ['form_code' => 'customer_account_edit', 'attribute_id' => $attribute->getId()],
                 ]
-            );
+           );
 
         $installer->endSetup();
 
@@ -150,7 +150,7 @@ class InstallData implements InstallDataInterface
             "unique"     => false,
             "note"       => ""
 
-        ));
+       ));
 
 
         $my_attribute = $customerSetup->getEavConfig()->getAttribute(\Magento\Customer\Model\Customer::ENTITY, 'garage_json');

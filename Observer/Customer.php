@@ -126,11 +126,6 @@ class Customer implements ObserverInterface {
 				$customer->updateData($customerData);
 				$customerResource = $this->_customerResourceFactory->create();
 				$customerResource->saveAttribute($customer, 'customer_garage_json');
-//                $customer->setCustomAttribute('customer_garage_json', $customer_garage_json);
-//                $customer->save();
-//                $customer->setData('customer_garage_json', $customer_garage_json)
-//                    ->setAttributeSetId(\Magento\Customer\Api\CustomerMetadataInterface::ATTRIBUTE_SET_ID_CUSTOMER)
-//                    ->getResource()->save($customer);
 			}
 			$this->_customerSession->setCustomerGarageJson($customer_garage_json);
 		}
@@ -164,6 +159,6 @@ class Customer implements ObserverInterface {
 		df_register('wolfCategoryParamsString', $paramsString);
 		df_unregister('wolfCategoryParamsHash');
 		df_register('wolfCategoryParamsHash', $paramsHash);
-		setcookie( 'car_selected', 'not_selected', time() +2592000, '/', $_SERVER['HTTP_HOST'] );
+		setcookie('car_selected', 'not_selected', time() +2592000, '/', $_SERVER['HTTP_HOST']);
 	}
 }

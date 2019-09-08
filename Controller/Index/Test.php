@@ -20,7 +20,7 @@ class Test extends Action
         Context $context,
         LoggerInterface $logger,
         ResultFactory $resultFactory
-    )
+   )
     {
         $this->_logger = $logger;
         $this->_resultFactory = $resultFactory;
