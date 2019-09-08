@@ -78,18 +78,12 @@ class ControllerActionPredispatch implements ObserverInterface {
 			}
 			$sess->setCustomerGarageJson($customer_garage_json);
 		}
-		// sort
 		sort($customer_garage['cars']);
-		// if there's elements on garage
-		$customerGarageIsEmpty = true;
-		if (!empty($customer_garage['cars'])) {
-			$customerGarageIsEmpty = false;
-		}
 		df_register('wolfCategoryCustomerGarage', $customer_garage);
 		df_register('wolfCategoryParams', $config['params']);
 		df_register('wolfCategoryParamsHash', $paramsHash);
 		df_register('wolfCategoryParamsString', $paramsString);
-		df_register('wolfCustomerGarageIsEmpty', $customerGarageIsEmpty);
+		df_register('wolfCustomerGarageIsEmpty', empty($customer_garage['cars']));
 		df_register('wolfCustomerGarageUri', !$complete_car_entry ? null : $garageUri);
 		df_register('wolfCustomerGarageUriName', !$complete_car_entry ? null : $this->sanitize($garageUri));
 		// 2019-09-08 «Remove a cookie»: https://stackoverflow.com/a/686166
