@@ -22,10 +22,9 @@ class Navigation extends _P implements IWidget {
 		];
 		$cacheTags = [Ob::CACHE_TAG];
 		$menuTree = wolf_tree_load();
-		$paramsHash = df_registry('wolfCategoryParamsHash');
 		$selectedCategories = [];
 		$selectedCategoriesCacheId = 'selected_categories';
-		$configCacheId = 'config_' . $paramsHash;
+		$configCacheId = 'config_' . WCustomer::hash();
 		// Build categories by level
 		$da = unserialize(df_cache_load($configCacheId));
 		if (false !==($data = df_cache_load($configCacheId)) && count($da[0])>0) {

@@ -26,14 +26,13 @@ class ControllerActionPredispatch implements ObserverInterface {
 				$garageUri .= '/' . $p['value'];
 			}
 		}
+		WCustomer::hash(sha1(rtrim($paramsString)));
 		$garageUri .= '.html';
 		$isComplete = 
 			dfa($_COOKIE, 'car_selected')
 			&& 5 <= count($config['params'])
 			&& in_array($config['params'][0]['value'], ['audi', 'bmw', 'volkswagen'])
 		; /** @var bool $isComplete */
-		$paramsString = rtrim($paramsString);
-		$paramsHash = sha1($paramsString);
 		$c = df_customer(); /** @var C|false $c */
 		$customer_garage = array('cars' => []);
 		if ($c) {
@@ -78,7 +77,6 @@ class ControllerActionPredispatch implements ObserverInterface {
 		sort($customer_garage['cars']);
 		WCustomer::garage($customer_garage);
 		df_register('wolfCategoryParams', $config['params']);
-		df_register('wolfCategoryParamsHash', $paramsHash);
 		df_register('wolfCustomerGarageIsEmpty', empty($customer_garage['cars']));
 		df_register('wolfCustomerGarageUri', !$isComplete ? null : $garageUri);
 		df_register('wolfCustomerGarageUriName', !$isComplete ? null : $this->sanitize($garageUri));
