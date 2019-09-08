@@ -62,32 +62,7 @@ class Navigation extends \Magento\Catalog\Block\Navigation implements BlockInter
 	 * @return array
 	 */
 	function getConfigJson() {return dfc($this, function() {
-		$urlPath = '';
-		$urlName ='';
-		if (df_request('cat')) {
-			$dfCategory = df_new_om(C::class)->load(df_request('cat')); /** @var C $dfCategory */
-			$arr = $dfCategory->getData();
-			if ($arr['url_path']!='') {
-				$urlPath = $dfCategory->getUrl();
-				$urlName = str_replace("-",' ',str_replace("/",' ',$arr['url_path']));
-			}
-		}
-		else {
-			/**
-			 * 2019-09-08
-			 * @see app/design/frontend/One80solution/wolfautoparts/Magento_Search/templates/form.mini.phtml
-			 */
-			$sess = df_o(NewsletterSession::class); /** @var NewsletterSession $sess */
-			if ($sess->getMyvalue()) {
-				$dfCategory = df_new_om(C::class)->load($sess->getMyvalue()); /** @var C $dfCategory */
-				$arr = $dfCategory->getData();
-				if ($arr['url_path']!='') {
-					$urlPath = $dfCategory->getUrl();
-					$urlName = str_replace("-",' ',str_replace("/",' ',$arr['url_path']));
-				}
-			}
-		}
-		$urlName = str_replace(".html",'',$urlName);
+		list($urlPath, $urlName) = $this->urlPathAndName();
 		if ($this->getLabelsEmbedded() == 'outside') {
 			$label = '';
 		} 
@@ -248,6 +223,40 @@ class Navigation extends \Magento\Catalog\Block\Navigation implements BlockInter
 	 * @see \Magento\Catalog\Block\Navigation::_construct()
 	 */
 	protected function _construct() {parent::_construct(); $this->setTemplate('sidebar.phtml');}
+	
+	/**             
+	 * 2019-09-08
+	 * @used-by getConfigJson()
+	 * @return array(string, string)
+	 */
+	private function urlPathAndName() {
+		$name = $path = ''; /** @var string $name */  /** @var string $path */
+		if (df_request('cat')) {
+			$dfCategory = df_new_om(C::class)->load(df_request('cat')); /** @var C $dfCategory */
+			$arr = $dfCategory->getData();
+			if ($arr['url_path']!='') {
+				$path = $dfCategory->getUrl();
+				$name = str_replace("-",' ',str_replace("/",' ',$arr['url_path']));
+			}
+		}
+		else {
+			/**
+			 * 2019-09-08
+			 * @see app/design/frontend/One80solution/wolfautoparts/Magento_Search/templates/form.mini.phtml
+			 */
+			$sess = df_o(NewsletterSession::class); /** @var NewsletterSession $sess */
+			if ($sess->getMyvalue()) {
+				$dfCategory = df_new_om(C::class)->load($sess->getMyvalue()); /** @var C $dfCategory */
+				$arr = $dfCategory->getData();
+				if ($arr['url_path']!='') {
+					$path = $dfCategory->getUrl();
+					$name = str_replace("-",' ',str_replace("/",' ',$arr['url_path']));
+				}
+			}
+		}
+		$name = str_replace(".html",'',$name);
+		return [$path, $name];
+	}	
 	
 	/**
 	 * @param $name
