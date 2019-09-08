@@ -1,19 +1,12 @@
 <?php
-
 namespace Wolf\Filter\Observer;
-
-use Magento\Framework\Event\ObserverInterface;
-use \Magento\Framework\Event\Observer;
-use Magento\Framework\App\CacheInterface;
-use Magento\Framework\Registry;
 use Magento\Customer\Setup\CustomerSetupFactory;
-use \Psr\Log\LoggerInterface;
-
-
-class Customer implements ObserverInterface
-{
-
-
+use Magento\Framework\App\CacheInterface;
+use Magento\Framework\Event\Observer;
+use Magento\Framework\Event\ObserverInterface;
+use Magento\Framework\Registry;
+use Psr\Log\LoggerInterface;
+class Customer implements ObserverInterface {
 	function __construct(
 		LoggerInterface $logger,
 		CacheInterface $cache,
@@ -30,25 +23,6 @@ class Customer implements ObserverInterface
 		$this->_customerModel = $customerModel;
 		$this->_customerSession = $customerSession;
 
-	}
-
-	/**
-	 * @param $name
-	 *
-	 * @return mixed
-	 */
-	protected function sanitizeUrl($url)
-	{
-
-		// $url = strtolower($url);
-		$pos = strpos($url, '.html');
-		if ($pos > 0) {
-			$url = substr($url, 0, $pos);
-		}
-
-//        $name = str_replace(array('.', '-'), ' ', $name);
-
-		return $url;
 	}
 
 	protected function sanitizeUrlName($name) {
@@ -85,7 +59,7 @@ class Customer implements ObserverInterface
 			$param = array(
 				'id' => null,
 				'name' => $this->sanitizeUrlName($param),
-				'value' => $this->sanitizeUrl($param)
+				'value' => df_trim_text_right($param, '.html')
 			);
 			$paramsString .= $param['name'] . ' ';
 			if($key < 5) {
