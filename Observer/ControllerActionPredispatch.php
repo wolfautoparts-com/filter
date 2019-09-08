@@ -85,29 +85,13 @@ class ControllerActionPredispatch implements ObserverInterface {
 		if (!empty($customer_garage['cars'])) {
 			$customerGarageIsEmpty = false;
 		}
-		// register results for further usage on controllers and views
-		df_unregister('wolfCustomerGarageIsEmpty');
-		df_register('wolfCustomerGarageIsEmpty', $customerGarageIsEmpty);
-		if ($complete_car_entry) {
-			df_unregister('wolfCustomerGarageUri');
-			df_register('wolfCustomerGarageUri', $garageUri);
-			df_unregister('wolfCustomerGarageUriName');
-			df_register('wolfCustomerGarageUriName', $this->sanitize($garageUri));
-		}
-		else {
-			df_unregister('wolfCustomerGarageUri');
-			df_register('wolfCustomerGarageUri', null);
-			df_unregister('wolfCustomerGarageUriName');
-			df_register('wolfCustomerGarageUriName', null);
-		}
-		df_unregister('wolfCategoryCustomerGarage');
 		df_register('wolfCategoryCustomerGarage', $customer_garage);
-		df_unregister('wolfCategoryParams');
 		df_register('wolfCategoryParams', $config['params']);
-		df_unregister('wolfCategoryParamsString');
-		df_register('wolfCategoryParamsString', $paramsString);
-		df_unregister('wolfCategoryParamsHash');
 		df_register('wolfCategoryParamsHash', $paramsHash);
+		df_register('wolfCategoryParamsString', $paramsString);
+		df_register('wolfCustomerGarageIsEmpty', $customerGarageIsEmpty);
+		df_register('wolfCustomerGarageUri', !$complete_car_entry ? null : $garageUri);
+		df_register('wolfCustomerGarageUriName', !$complete_car_entry ? null : $this->sanitize($garageUri));
 		// 2019-09-08 «Remove a cookie»: https://stackoverflow.com/a/686166
 		setcookie('car_selected', '', time() - 3600, '/', $_SERVER['HTTP_HOST']);
 	}
