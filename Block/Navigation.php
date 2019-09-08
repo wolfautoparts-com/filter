@@ -126,7 +126,7 @@ class Navigation extends \Magento\Catalog\Block\Navigation implements BlockInter
 			$arr = $dfCategory->getData();
 			if ($arr['url_path']!='') {
 				$urlPath = $dfCategory->getUrl();
-				$urlName = str_replace("-"," ",str_replace("/"," ",$arr['url_path']));
+				$urlName = str_replace("-",' ',str_replace("/",' ',$arr['url_path']));
 			}
 		}
 		/** 2019-09-08 @see app/design/frontend/One80solution/wolfautoparts/Magento_Search/templates/form.mini.phtml */
@@ -138,7 +138,7 @@ class Navigation extends \Magento\Catalog\Block\Navigation implements BlockInter
 				$arr = $dfCategory->getData();
 				if ($arr['url_path']!='') {
 					$urlPath = $dfCategory->getUrl();
-					$urlName = str_replace("-"," ",str_replace("/"," ",$arr['url_path']));
+					$urlName = str_replace("-",' ',str_replace("/",' ',$arr['url_path']));
 				}
 			}
 		}
