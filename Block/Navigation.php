@@ -247,6 +247,8 @@ class Navigation extends \Magento\Catalog\Block\Navigation implements BlockInter
 	}	
 	
 	/**
+	 * 2019-09-08
+	 * @used-by getConfigJson()
 	 * @param $name
 	 * @return mixed
 	 */
