@@ -77,14 +77,14 @@
 				// console.log('levels', levels);
 				// console.log('selectedValue', selectedValue);
 
-				if (dataId == levels) { // Last Select
+				if (dataId == levels) {// Last Select
 
 					if (selectedValue != "") {
 
 						$('.add-new-car-btn').css('display', 'none');
 						$('.loading-message').html('Loading...');
 						$('.loading-message').css('display', 'inline-block');
-						$.cookie('car_selected', 'selected', { path: '/', domain: window.location.hostname });
+						$.cookie('car_selected', 'selected', {path: '/', domain: window.location.hostname });
 
 						/**
 						 * 2019-07-26 Dmitry Fedyuk https://www.upwork.com/fl/mage2pro
@@ -335,7 +335,7 @@
 
 				}
 
-				if (window.location.pathname == '/') { // homepage
+				if (window.location.pathname == '/') {// homepage
 
 					$('.garage-cont').css('display', 'inline-block');
 					$('.garage-selected-car-cont').css('display', 'none');
@@ -346,7 +346,7 @@
 
 					if (self.selected) {
 						$('.garage-selected-car-cont').css('display', 'inline-block');
-						if (!keepGarageOpen) { $('.garage-cont').css('display', 'none'); }
+						if (!keepGarageOpen) {$('.garage-cont').css('display', 'none'); }
 					} else {
 						//$('.garage-selected-car-cont').css('display', 'none');
 						if (listStr.length) {

@@ -7,7 +7,7 @@ R::register(R::MODULE, 'Wolf_Filter', __DIR__);
 // because Magento runs the `registration.php` scripts before any `/lib` functions are initalized,
 // whereas the `/lib` functions are initalized from the `registration.php` scripts.
 $base = dirname(__FILE__); /** @var string $base */
-if (is_dir($libDir = "{$base}/lib")) { /** @var string $libDir */
+if (is_dir($libDir = "{$base}/lib")) {/** @var string $libDir */
 	// 2015-02-06
 	// array_slice removes «.» and «..».
 	// http://php.net/manual/function.scandir.php#107215

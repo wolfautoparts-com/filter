@@ -10,13 +10,13 @@ list($selectedCarContStyle, $selectedCarContStyle1) =
 <div class='block' style='margin-bottom: 0; min-height: 40px;'>
 	<div class='garage-selected-car-cont' <?= $selectedCarContStyle; ?>>
 		Selected Car: &nbsp;&nbsp;
-		<?php if ($config['customer_garage_uri'] && !$config['customer_garage_is_empty']) { ?>
+		<?php if ($config['customer_garage_uri'] && !$config['customer_garage_is_empty']) {?>
 			<a
 				class="garage-selected-car-link"
 				href="<?= $config['customer_garage_uri']; ?>"
 				style="text-transform: capitalize;"
 			><?= $config['customer_garage_uri_name']; ?></a>
-		<?php } else { ?>
+		<?php } else {?>
 			<a class="garage-selected-car-link" href="#"><?= __('No Car Selected'); ?></a>
 		<?php } ?>
 		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;

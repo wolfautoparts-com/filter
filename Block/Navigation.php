@@ -190,7 +190,7 @@ class Navigation extends _P implements IWidget {
 		 * @see app/design/frontend/One80solution/wolfautoparts/Magento_Search/templates/form.mini.phtml
 		 */
 		$sess = df_o(NewsletterSession::class); /** @var NewsletterSession $sess */
-		if (!($id = intval(df_request('cat') ?: $sess->getMyvalue()))) { /** @var int $id */
+		if (!($id = intval(df_request('cat') ?: $sess->getMyvalue()))) {/** @var int $id */
 			$name = $path = '';
 		}
 		else {
