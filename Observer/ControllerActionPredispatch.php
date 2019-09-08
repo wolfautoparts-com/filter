@@ -21,9 +21,7 @@ class ControllerActionPredispatch implements ObserverInterface {
 		 * @var string[] $pathA
 		 */
 		$pathA = explode('/', ltrim(df_strip_ext(df_request_o()->getOriginalPathInfo()), '/'));
-		$params = df_map($pathA, function($v) {return [
-			'id' => null, 'name' => $this->sanitize($v), 'value' => $v
-		];});
+		$params = df_map($pathA, function($v) {return ['id' => null, 'name' => $this->name($v), 'value' => $v];});
 		$config = ['params' => $params];
 		$categoryPath = '/' . df_cc_path(array_slice($pathA, 0, 5)) . '.html'; /** @var string $categoryPath */
 		$isComplete = 
@@ -76,7 +74,7 @@ class ControllerActionPredispatch implements ObserverInterface {
 		WCustomer::garage($customer_garage);
 		WCustomer::params($config['params']);
 		WCustomer::categoryPath(!$isComplete ? null : $categoryPath);
-		WCustomer::uriName(!$isComplete ? null : $this->sanitize($categoryPath));
+		WCustomer::uriName(!$isComplete ? null : $this->name($categoryPath));
 		// 2019-09-08 «Remove a cookie»: https://stackoverflow.com/a/686166
 		setcookie('car_selected', '', time() - 3600, '/', $_SERVER['HTTP_HOST']);
 	}
@@ -87,5 +85,5 @@ class ControllerActionPredispatch implements ObserverInterface {
 	 * @param string $s
 	 * @return bool|null|string|string[]
 	 */
-	private function sanitize($s) {return ucwords(preg_replace('/\/|-/', ' ', df_strip_ext($s)));}
+	private function name($s) {return ucwords(preg_replace('/\/|-/', ' ', df_strip_ext($s)));}
 }
