@@ -5,10 +5,8 @@ use Magento\Framework\App\CacheInterface;
 use Magento\Framework\Event\Observer;
 use Magento\Framework\Event\ObserverInterface;
 use Magento\Framework\Registry;
-use Psr\Log\LoggerInterface;
 class Customer implements ObserverInterface {
 	function __construct(
-		LoggerInterface $logger,
 		CacheInterface $cache,
 		Registry $registry,
 		\Magento\Customer\Model\ResourceModel\CustomerFactory $customerResourceFactory,
@@ -16,7 +14,6 @@ class Customer implements ObserverInterface {
 		\Magento\Customer\Model\Session $customerSession
 	)
 	{
-		$this->_logger = $logger;
 		$this->_cache = $cache;
 		$this->_registry = $registry;
 		$this->_customerResourceFactory = $customerResourceFactory;
@@ -33,13 +30,9 @@ class Customer implements ObserverInterface {
 		}
 		$uri = strtok($_SERVER['REQUEST_URI'], '?');
 		$garageUri = '';
-		$this->_logger->debug('$uri');
-		$this->_logger->debug(json_encode($uri));
 		$uri_tmp = ltrim($uri, '/');
 		$config = array();
 		$config['params'] = explode('/', $uri_tmp);
-		$this->_logger->debug('$config[\'params\']');
-		$this->_logger->debug(json_encode($config['params']));
 		$paramsString = '';
 		$complete_car_entry = false;
 		foreach ($config['params'] as $key => &$param) {
@@ -63,9 +56,6 @@ class Customer implements ObserverInterface {
 				$complete_car_entry = true;
 			}
 		}
-		$this->_logger->debug('====22');
-		$this->_logger->info(print_r($_SERVER['REQUEST_URI'], true));
-		$this->_logger->debug('====22');
 		$paramsString = rtrim($paramsString);
 		$paramsHash = sha1($paramsString);
 //        $this->_customerSession->start();
@@ -74,14 +64,11 @@ class Customer implements ObserverInterface {
 		if ($customer_id) {
 			$customer = $this->_customerModel->load($customer_id);
 			$customerData = $customer->getDataModel();
-			$this->_logger->debug($customer->getName()); //Get customer name
 //            $customer_garage_json = $customer->getCustomAttribute('customer_garage_json');
 			$customer_garage_json = $customerData->getCustomAttribute('customer_garage_json');
 			if ($customer_garage_json) {
 				$customer_garage_json = $customer_garage_json->getValue();
 			}
-			$this->_logger->debug('$customer_garage_json from getCustomAttribute');
-			$this->_logger->debug($customer_garage_json);
 			if (!(!$customer_garage_json || $customer_garage_json == '{}')) {
 				$customer_garage = json_decode($customer_garage_json, true);
 			}
