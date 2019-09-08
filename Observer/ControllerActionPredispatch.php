@@ -13,9 +13,7 @@ class ControllerActionPredispatch implements ObserverInterface {
 	 * @param Ob $o
 	 */
 	function execute(Ob $o) {
-		static $NOT_SELECTED = 'not_selected'; /** @var string $NOT_SELECTED */
 		$sess = df_customer_session(); /** @var Session $sess */
-		$isSelected = dfa($_COOKIE, 'car_selected', $NOT_SELECTED); /** @var bool $isSelected */
 		$uri = strtok($_SERVER['REQUEST_URI'], '?');
 		$garageUri = '';
 		$uri_tmp = ltrim($uri, '/');
@@ -40,7 +38,7 @@ class ControllerActionPredispatch implements ObserverInterface {
 		$garageUri .= '.html';
 
 		if ($config['params'][0]['value'] == 'audi' || $config['params'][0]['value']  == 'volkswagen' || $config['params'][0]['value']  == 'bmw') {
-			if (count($config['params']) >= 5 && $isSelected == "selected") {
+			if (dfa($_COOKIE, 'car_selected') && 5 <= count($config['params'])) {
 				$complete_car_entry = true;
 			}
 		}
@@ -118,7 +116,8 @@ class ControllerActionPredispatch implements ObserverInterface {
 		df_register('wolfCategoryParamsString', $paramsString);
 		df_unregister('wolfCategoryParamsHash');
 		df_register('wolfCategoryParamsHash', $paramsHash);
-		setcookie('car_selected', $NOT_SELECTED, time() +2592000, '/', $_SERVER['HTTP_HOST']);
+		// 2019-09-08 «Remove a cookie»: https://stackoverflow.com/a/686166
+		setcookie('car_selected', '', time() - 3600, '/', $_SERVER['HTTP_HOST']);
 	}
 
 	/**
