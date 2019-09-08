@@ -129,8 +129,11 @@ class Navigation extends \Magento\Catalog\Block\Navigation implements BlockInter
 				$urlName = str_replace("-",' ',str_replace("/",' ',$arr['url_path']));
 			}
 		}
-		/** 2019-09-08 @see app/design/frontend/One80solution/wolfautoparts/Magento_Search/templates/form.mini.phtml */
 		else {
+			/**
+			 * 2019-09-08
+			 * @see app/design/frontend/One80solution/wolfautoparts/Magento_Search/templates/form.mini.phtml
+			 */
 			$sess = df_o(NewsletterSession::class); /** @var NewsletterSession $sess */
 			if ($sess->getMyvalue()!='') {
 				$catid = $sess->getMyvalue();
