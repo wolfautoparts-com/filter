@@ -35,30 +35,30 @@ class ControllerActionPredispatch implements ObserverInterface {
 		$params = df_map($pathA, function($v) {return ['id' => null, 'name' => $this->name($v), 'value' => $v];});
 		WCustomer::params($params);
 		$categoryPath = '/' . df_cc_path(array_slice($pathA, 0, 5)) . '.html'; /** @var string $categoryPath */
-		$customer_garage = ['cars' => []];
+		$garage = ['cars' => []];
 		/** @var C|false $c */
 		if ($c = df_customer()) {
 			$customerData = $c->getDataModel();
-			$customer_garage_json = $customerData->getCustomAttribute('customer_garage_json');
-			if ($customer_garage_json) {
-				$customer_garage_json = $customer_garage_json->getValue();
+			$garage_json = $customerData->getCustomAttribute('customer_garage_json');
+			if ($garage_json) {
+				$garage_json = $garage_json->getValue();
 			}
-			if (!(!$customer_garage_json || $customer_garage_json == '{}')) {
-				$customer_garage = json_decode($customer_garage_json, true);
+			if (!(!$garage_json || $garage_json == '{}')) {
+				$garage = json_decode($garage_json, true);
 			}
 		}
 		// combine with elements existing in session
-		$customer_garage_json_session = wolf_sess_get();
-		$customer_garage_json_session_used = false;
-		$customer_garage_session =
-			!$customer_garage_json_session || $customer_garage_json_session == '{}'
+		$garage_json_session = wolf_sess_get();
+		$garage_json_session_used = false;
+		$garage_session =
+			!$garage_json_session || $garage_json_session == '{}'
 			? ['cars' => []]
-			: df_json_decode($customer_garage_json_session)
+			: df_json_decode($garage_json_session)
 		;
-		foreach ($customer_garage_session['cars'] as $car) {
-			if (!in_array($car, $customer_garage['cars'])) {
-				array_push($customer_garage['cars'], $car);
-				$customer_garage_json_session_used = true;
+		foreach ($garage_session['cars'] as $car) {
+			if (!in_array($car, $garage['cars'])) {
+				array_push($garage['cars'], $car);
+				$garage_json_session_used = true;
 			}
 		}
 		$complete_car_entry_added = false;
@@ -67,22 +67,22 @@ class ControllerActionPredispatch implements ObserverInterface {
 			&& 5 <= count($params)
 			&& in_array($params[0]['value'], ['audi', 'bmw', 'volkswagen'])
 		; /** @var bool $isComplete */
-		if ($isComplete && !in_array($categoryPath, $customer_garage['cars'])) {
-			array_push($customer_garage['cars'], $categoryPath);
+		if ($isComplete && !in_array($categoryPath, $garage['cars'])) {
+			array_push($garage['cars'], $categoryPath);
 			$complete_car_entry_added = true;
 		}
-		if ($customer_garage_json_session_used || $complete_car_entry_added) {
-			$customer_garage_json = json_encode($customer_garage);
+		if ($garage_json_session_used || $complete_car_entry_added) {
+			$garage_json = json_encode($garage);
 			if ($c) {
 				$customerData = $c->getDataModel();
-				$customerData->setCustomAttribute('customer_garage_json', $customer_garage_json);
+				$customerData->setCustomAttribute('customer_garage_json', $garage_json);
 				$c->updateData($customerData);
 				df_customer_resource()->saveAttribute($c, 'customer_garage_json');
 			}
-			wolf_sess_set($customer_garage_json);
+			wolf_sess_set($garage_json);
 		}
-		sort($customer_garage['cars']);
-		WCustomer::garage($customer_garage);
+		sort($garage['cars']);
+		WCustomer::garage($garage);
 		WCustomer::categoryPath(!$isComplete ? null : $categoryPath);
 		WCustomer::uriName(!$isComplete ? null : $this->name($categoryPath));
 		// 2019-09-08 «Remove a cookie»: https://stackoverflow.com/a/686166
