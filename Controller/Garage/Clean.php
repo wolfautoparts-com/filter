@@ -44,7 +44,7 @@ class Clean extends Action {
 		$customer_garage = array('cars' => array());
 		$customer_garage_json = json_encode($customer_garage);
 
-		if($customer_id) {
+		if ($customer_id) {
 
 			$customer = $this->_customerModel->load($customer_id);
 			$customerData = $customer->getDataModel();

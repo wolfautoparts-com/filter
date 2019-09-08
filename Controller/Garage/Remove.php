@@ -47,7 +47,7 @@ class Remove extends Action {
 		$errors = array();
 		$customer_garage = array('cars' => array());
 
-		if(isset($params['uri']) && !empty($params['uri'])) {
+		if (isset($params['uri']) && !empty($params['uri'])) {
 
 			// @todo cleanup uri what happens to in_array if it comes with unknown or huge data?
 
@@ -55,17 +55,17 @@ class Remove extends Action {
 			array_push($errors, 'uri must be defined');
 		}
 
-		if(empty($errors)) {
+		if (empty($errors)) {
 
 			$customer_garage = $this->_registry->registry('wolfCategoryCustomerGarage');
 
-			if(in_array($params['uri'], $customer_garage['cars'])) {
+			if (in_array($params['uri'], $customer_garage['cars'])) {
 
 				// remove the entry from $customer_garage and save
 				$customer_garage['cars'] = array_diff($customer_garage['cars'], [$params['uri']]);
 				$customer_garage_json = json_encode($customer_garage);
 				$customer_id = $this->_customerSession->getCustomer()->getId();
-				if($customer_id) {
+				if ($customer_id) {
 
 					$customer = $this->_customerModel->load($customer_id);
 					$customerData = $customer->getDataModel();
@@ -89,7 +89,7 @@ class Remove extends Action {
 
 
 		$data = array( 'success' => true, 'params' => $params, 'customer_garage' => $customer_garage);
-		if(!empty($errors)) {
+		if (!empty($errors)) {
 			$data['errors'] = $errors;
 			$data['success'] = false;
 		}

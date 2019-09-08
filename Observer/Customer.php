@@ -62,7 +62,7 @@ class Customer implements ObserverInterface {
 				'value' => df_trim_text_right($param, '.html')
 			);
 			$paramsString .= $param['name'] . ' ';
-			if($key < 5) {
+			if ($key < 5) {
 				$garageUri .= '/' . $param['value'];
 			}
 
@@ -71,7 +71,7 @@ class Customer implements ObserverInterface {
 
 		$garageUri .= '.html';
 
-		if($config['params'][0]['value'] == 'audi' || $config['params'][0]['value']  == 'volkswagen' || $config['params'][0]['value']  == 'bmw') {
+		if ($config['params'][0]['value'] == 'audi' || $config['params'][0]['value']  == 'volkswagen' || $config['params'][0]['value']  == 'bmw') {
 			if (count($config['params']) >= 5 && $isCarSelected == "selected") {
 				$complete_car_entry = true;
 			}
@@ -84,7 +84,7 @@ class Customer implements ObserverInterface {
 //        $this->_customerSession->start();
 		$customer_id = $this->_customerSession->getCustomer()->getId();
 		$customer_garage = array('cars' => array());
-		if($customer_id) {
+		if ($customer_id) {
 			$customer = $this->_customerModel->load($customer_id);
 			$customerData = $customer->getDataModel();
 			$this->_logger->debug($customer->getName()); //Get customer name
@@ -118,7 +118,7 @@ class Customer implements ObserverInterface {
 			array_push($customer_garage['cars'], $garageUri);
 			$complete_car_entry_added = true;
 		}
-		if($customer_garage_json_session_used || $complete_car_entry_added) {
+		if ($customer_garage_json_session_used || $complete_car_entry_added) {
 			$customer_garage_json = json_encode($customer_garage);
 			if ($customer_id) {
 				$customerData = $customer->getDataModel();
@@ -138,20 +138,19 @@ class Customer implements ObserverInterface {
 		sort($customer_garage['cars']);
 		// if there's elements on garage
 		$customerGarageIsEmpty = true;
-		if(!empty($customer_garage['cars'])) {
+		if (!empty($customer_garage['cars'])) {
 			$customerGarageIsEmpty = false;
 		}
 		// register results for further usage on controllers and views
 		df_unregister('wolfCustomerGarageIsEmpty');
 		df_register('wolfCustomerGarageIsEmpty', $customerGarageIsEmpty);
-		if($complete_car_entry) {
+		if ($complete_car_entry) {
 			df_unregister('wolfCustomerGarageUri');
 			df_register('wolfCustomerGarageUri', $garageUri);
 			df_unregister('wolfCustomerGarageUriName');
 			df_register('wolfCustomerGarageUriName', $this->sanitizeUrlName($garageUri));
-
-		} else {
-
+		}
+		else {
 			df_unregister('wolfCustomerGarageUri');
 			df_register('wolfCustomerGarageUri', null);
 			df_unregister('wolfCustomerGarageUriName');

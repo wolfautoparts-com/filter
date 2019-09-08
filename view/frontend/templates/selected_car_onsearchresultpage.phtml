@@ -1,5 +1,5 @@
 <?php $config = $this->getConfigJson(); ?>
-<?php if($config['customer_garage_uri'] && !$config['customer_garage_is_empty']):?>
+<?php if ($config['customer_garage_uri'] && !$config['customer_garage_is_empty']):?>
 	<div class="selected_car_block">
 		<strong><?php echo sprintf(__('That fit your %s'), ucwords($config['customer_garage_uri_name'])); ?></strong>
 	</div>

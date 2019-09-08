@@ -153,7 +153,7 @@
 										} else {
 											
 												var isSelected = "";
-												if(counter == 1){
+												if (counter == 1){
 													
 													isSelected = "selected";
 												}
@@ -270,9 +270,9 @@
 					// if value without .html is contained in location.pathname, oneCarIsSelected
 					var tmpValue = value.replace('.html', '');
 
-					// if(value == location.pathname) {
+					// if (value == location.pathname) {
 
-					if(location.pathname.indexOf(tmpValue) !== -1) {
+					if (location.pathname.indexOf(tmpValue) !== -1) {
 						self.selected = true;
 						self.selectedKey = key;
 						self.selectedValue = value;
@@ -282,7 +282,7 @@
 				});
 
 
-				if(self.selected) {
+				if (self.selected) {
 					$('.garage-selected-car-cont').css('display', 'inline-block');
 					$('.garage-selected-car-link').attr("href", self.selectedValue);
 					$('.garage-selected-car-link').html(self.selectedText);
@@ -295,7 +295,7 @@
 
 
 
-				if(listStr.length) {
+				if (listStr.length) {
 
 					listStr = listStr + '<tr><td colspan="2" style="text-align: right"><a class="remove-all-button" href="#remove-all">Remove All</a></td></tr>'
 					listStr = '<table class="garage-table">' +  listStr + '</table>';
@@ -335,7 +335,7 @@
 
 				}
 
-				if(window.location.pathname == '/') { // homepage
+				if (window.location.pathname == '/') { // homepage
 
 					$('.garage-cont').css('display', 'inline-block');
 					$('.garage-selected-car-cont').css('display', 'none');
@@ -344,12 +344,12 @@
 
 
 
-					if(self.selected) {
+					if (self.selected) {
 						$('.garage-selected-car-cont').css('display', 'inline-block');
-						if(!keepGarageOpen) { $('.garage-cont').css('display', 'none'); }
+						if (!keepGarageOpen) { $('.garage-cont').css('display', 'none'); }
 					} else {
 						//$('.garage-selected-car-cont').css('display', 'none');
-						if(listStr.length) {
+						if (listStr.length) {
 							//$('.garage-cont').css('display', 'inline-block');
 						}
 					}
@@ -371,7 +371,7 @@
 				// console.log('_onClickChangeCar');
 
 				var garageContDisplay = $('.garage-cont').css('display');
-				if(garageContDisplay == 'none') {
+				if (garageContDisplay == 'none') {
 					$('.garage-cont').css('display', 'inline-block');
 				} else {
 					$('.garage-cont').css('display', 'none');
@@ -404,7 +404,7 @@
 									// console.log('location.pathname', location.pathname);
 									// console.log('garageSelect', garageSelect);
 
-									if(data['cars']  && data['cars'].length > 0) {
+									if (data['cars']  && data['cars'].length > 0) {
 
 										$('.categoryfilter').categoryfilter('fillCars', data['cars']);
 										// $('.garage-selected-car-cont').css('display', 'inline-block');
@@ -456,7 +456,7 @@
 
 
 
-									if(!$.isEmptyObject(data.customer_garage.cars)) {
+									if (!$.isEmptyObject(data.customer_garage.cars)) {
 
 										$('.categoryfilter').categoryfilter('fillCars', data.customer_garage.cars, true);
 
@@ -467,7 +467,7 @@
 
 									}
 
-									if(location.pathname == uri) {
+									if (location.pathname == uri) {
 
 										$('.loading-message').html('Loading...');
 										$('.loading-message').css('display', 'inline-block');
@@ -500,7 +500,7 @@
 						// console.log('/categoryfinder/garage/index success');
 						// console.log('data', data);
 
-						if(data['cars']  && data['cars'].length > 0) {
+						if (data['cars']  && data['cars'].length > 0) {
 
 							$('.categoryfilter').categoryfilter('fillCars', data['cars']);
 
