@@ -5,11 +5,12 @@ use Wolf\Filter\Session as SessionW;
 /**
  * 2019-09-08
  * @used-by \Wolf\Filter\Observer\ControllerActionPredispatch::execute()
- * @return string|null
+ * @return array(string => mixed[])
  */
 function wolf_sess_get() {
 	$sess = df_customer_session(); /** @var Session|SessionW $sess */
-	return $sess->getCustomerGarageJson();
+	$r = $sess->getCustomerGarageJson(); /** @var string|null $r */
+	return !$r || '{}' === $r ? ['cars' => []] : df_json_decode($r);
 }
 
 /**
