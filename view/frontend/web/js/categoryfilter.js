@@ -2,11 +2,11 @@
 		"jquery",
 		"jquery/ui",
 		"Magento_Ui/js/modal/confirm"
-	], function (jQuery, ui, confirmation) {
+	], function ($, ui, confirmation) {
 
 		"use strict"; //  With strict mode, you can not, for example, use undeclared variables
 
-		jQuery.widget('wolf.categoryfilter', {
+		$.widget('wolf.categoryfilter', {
 
 			version: '1.0',
 
@@ -36,11 +36,11 @@
 
 				this.element.addClass('categoryfilter');
 
-				this.selects = jQuery('#cd-' + this.options.nameInLayout).find('.category-filter-select');
+				this.selects = $('#cd-' + this.options.nameInLayout).find('.category-filter-select');
 				this.selects.on('change', this, this._onChange);
 
 
-				this.changeCarButton = jQuery('.change-car-btn');
+				this.changeCarButton = $('.change-car-btn');
 				this.changeCarButton.on('click', this, this._onClickChangeCar)
 
 
@@ -52,9 +52,9 @@
 				var select = this;
 				var selectedValue = select.value;
 
-				var redirectUrl = jQuery('option:selected', this).attr('dataUrl');
+				var redirectUrl = $('option:selected', this).attr('dataUrl');
 				var self = event.data;
-				var dataId = jQuery(this).attr('dataId');
+				var dataId = $(this).attr('dataId');
 				var levels = self.options.levels;
 				var labelsAreInside = self.options.labelsAreInside;
 				var nameInLayout = self.options.nameInLayout;
@@ -81,10 +81,10 @@
 
 					if (selectedValue != "") {
 
-						jQuery('.add-new-car-btn').css('display', 'none');
-						jQuery('.loading-message').html('Loading...');
-						jQuery('.loading-message').css('display', 'inline-block');
-						jQuery.cookie('car_selected', 'selected', { path: '/', domain: window.location.hostname });
+						$('.add-new-car-btn').css('display', 'none');
+						$('.loading-message').html('Loading...');
+						$('.loading-message').css('display', 'inline-block');
+						$.cookie('car_selected', 'selected', { path: '/', domain: window.location.hostname });
 
 						/**
 						 * 2019-07-26 Dmitry Fedyuk https://www.upwork.com/fl/mage2pro
@@ -99,7 +99,7 @@
 						var hiddenField = document.createElement('input');
 						hiddenField.setAttribute('type', 'hidden');
 						hiddenField.setAttribute('name', 'form_key');
-						hiddenField.setAttribute('value', jQuery.cookie('form_key'));
+						hiddenField.setAttribute('value', $.cookie('form_key'));
 						form.appendChild(hiddenField);						
 						form.submit();
 
@@ -109,11 +109,11 @@
 
 					if (selectedValue != "") {
 						var labelText = !labelsAreInside ? 'Please Select' :
-							jQuery("#" + nameInLayout + nextDropdown + " option:first").text()
+							$("#" + nameInLayout + nextDropdown + " option:first").text()
 						;
-						jQuery('#' + nameInLayout + nextDropdown).empty();
-						jQuery('#' + nameInLayout + nextDropdown).append('<option value="">Loading...</option>');
-						jQuery('#' + nameInLayout + nextDropdown).attr('disabled', true);
+						$('#' + nameInLayout + nextDropdown).empty();
+						$('#' + nameInLayout + nextDropdown).append('<option value="">Loading...</option>');
+						$('#' + nameInLayout + nextDropdown).attr('disabled', true);
 
 						var requestData = {
 							selectedValue: selectedValue,
@@ -125,7 +125,7 @@
 							requestData['level_' + s + '_value'] = this.selects[s].value;
 						}
 
-						jQuery.ajax({
+						$.ajax({
 							url: url,
 							type: 'get',
 							data: requestData,
@@ -161,9 +161,9 @@
 											optionStr = optionStr + '<option value="' + data[i]['id'] + '" dataUrl="' + data[i]['url'] + '"'+ isSelected+ '>' + data[i]['name'] + '</option>';
 										}
 									}
-									jQuery('#' + nameInLayout + nextDropdown).empty();
-									jQuery('#' + nameInLayout + nextDropdown).append(optionStr);
-									jQuery('#' + nameInLayout + nextDropdown).attr('disabled', false);
+									$('#' + nameInLayout + nextDropdown).empty();
+									$('#' + nameInLayout + nextDropdown).append(optionStr);
+									$('#' + nameInLayout + nextDropdown).attr('disabled', false);
 									if (dataId != levels) {
 
 										var e = document.getElementById(nameInLayout + nextDropdown);
@@ -190,8 +190,8 @@
 
 								} else {
 
-									jQuery('#' + nameInLayout + nextDropdown).empty();
-									jQuery('#' + nameInLayout + nextDropdown).append("<option value=''>Please Select</option>");
+									$('#' + nameInLayout + nextDropdown).empty();
+									$('#' + nameInLayout + nextDropdown).append("<option value=''>Please Select</option>");
 
 								}
 
@@ -208,8 +208,8 @@
 				for (var j = 1; j < count; j++) {
 					if (j >= dataId) {
 						document.getElementById(nameInLayout + (j + 1)).selectedIndex = 0;
-						jQuery('#' + nameInLayout + (j + 1)).empty();
-						jQuery('#' + nameInLayout + (j + 1)).append("<option value=''>Please Select</option>");
+						$('#' + nameInLayout + (j + 1)).empty();
+						$('#' + nameInLayout + (j + 1)).append("<option value=''>Please Select</option>");
 					}
 				}
 			},
@@ -241,7 +241,7 @@
 
 
 
-				jQuery.each(cars, function(key, value) {
+				$.each(cars, function(key, value) {
 
 
 					var text = value.replace(/\/|-/g,' ');
@@ -255,7 +255,7 @@
 					});
 
 					// garageSelect
-					//     .append(jQuery("<option></option>")
+					//     .append($("<option></option>")
 					//         .attr("value",value)
 					//         .attr("selected", selected)
 					//         .text(text));
@@ -283,11 +283,11 @@
 
 
 				if(self.selected) {
-					jQuery('.garage-selected-car-cont').css('display', 'inline-block');
-					jQuery('.garage-selected-car-link').attr("href", self.selectedValue);
-					jQuery('.garage-selected-car-link').html(self.selectedText);
+					$('.garage-selected-car-cont').css('display', 'inline-block');
+					$('.garage-selected-car-link').attr("href", self.selectedValue);
+					$('.garage-selected-car-link').html(self.selectedText);
 				} else {
-					//jQuery('.garage-selected-car-cont').css('display', 'none');
+					//$('.garage-selected-car-cont').css('display', 'none');
 				}
 
 				// console.log('listStr', listStr);
@@ -300,29 +300,29 @@
 					listStr = listStr + '<tr><td colspan="2" style="text-align: right"><a class="remove-all-button" href="#remove-all">Remove All</a></td></tr>'
 					listStr = '<table class="garage-table">' +  listStr + '</table>';
 
-					jQuery('#change-car').html('');
-					jQuery('#change-car').append(listStr);
-					jQuery('#change-car').show();
+					$('#change-car').html('');
+					$('#change-car').append(listStr);
+					$('#change-car').show();
 
 
 					// link newly added buttons to its actions
-					this.removeAllButton = jQuery('.remove-all-button');
+					this.removeAllButton = $('.remove-all-button');
 					this.removeAllButton.on('click', this, this._onClickRemoveAll)
-					this.removeCarButtons = jQuery('.change-car-form').find('.remove-car-button');
+					this.removeCarButtons = $('.change-car-form').find('.remove-car-button');
 					this.removeCarButtons.on('click', this, this._onClickRemoveCar);
-					// this.garageTableRows = jQuery('.garage-table-row');
+					// this.garageTableRows = $('.garage-table-row');
 					// this.garageTableRows.on('mouseenter', this, this._onGarageTableRowMouseenter);
 					// this.garageTableRows.on('mouseleave', this, this._onGarageTableRowMouseleave);
 					//
-					jQuery('.garage-table-row').mouseover(function () {
-						jQuery(this).addClass('garage-table-row-over');
-						jQuery(this).find('.remove-car-button').show();
-						jQuery(this).find('span').css('color', 'silver');
+					$('.garage-table-row').mouseover(function () {
+						$(this).addClass('garage-table-row-over');
+						$(this).find('.remove-car-button').show();
+						$(this).find('span').css('color', 'silver');
 					});
-					jQuery('.garage-table-row').mouseout(function () {
-						jQuery(this).removeClass('garage-table-row-over');
-						jQuery(this).find('.remove-car-button').hide();
-						jQuery(this).find('span').css('color', '#E0E0E0');
+					$('.garage-table-row').mouseout(function () {
+						$(this).removeClass('garage-table-row-over');
+						$(this).find('.remove-car-button').hide();
+						$(this).find('span').css('color', '#E0E0E0');
 					});
 
 
@@ -330,27 +330,27 @@
 
 				} else {
 
-					jQuery('#change-car').html('');
-					jQuery('#change-car').hide();
+					$('#change-car').html('');
+					$('#change-car').hide();
 
 				}
 
 				if(window.location.pathname == '/') { // homepage
 
-					jQuery('.garage-cont').css('display', 'inline-block');
-					jQuery('.garage-selected-car-cont').css('display', 'none');
+					$('.garage-cont').css('display', 'inline-block');
+					$('.garage-selected-car-cont').css('display', 'none');
 
 				} else {
 
 
 
 					if(self.selected) {
-						jQuery('.garage-selected-car-cont').css('display', 'inline-block');
-						if(!keepGarageOpen) { jQuery('.garage-cont').css('display', 'none'); }
+						$('.garage-selected-car-cont').css('display', 'inline-block');
+						if(!keepGarageOpen) { $('.garage-cont').css('display', 'none'); }
 					} else {
-						//jQuery('.garage-selected-car-cont').css('display', 'none');
+						//$('.garage-selected-car-cont').css('display', 'none');
 						if(listStr.length) {
-							//jQuery('.garage-cont').css('display', 'inline-block');
+							//$('.garage-cont').css('display', 'inline-block');
 						}
 					}
 
@@ -358,10 +358,10 @@
 
 				}
 
-				// jQuery('.garage-selected-car-cont').css('display', 'inline-block');
+				// $('.garage-selected-car-cont').css('display', 'inline-block');
 
-				jQuery('.loading-message').css('display', 'none');
-				jQuery('.garage-opening-message').css('display', 'none');
+				$('.loading-message').css('display', 'none');
+				$('.garage-opening-message').css('display', 'none');
 
 
 			},
@@ -370,11 +370,11 @@
 
 				// console.log('_onClickChangeCar');
 
-				var garageContDisplay = jQuery('.garage-cont').css('display');
+				var garageContDisplay = $('.garage-cont').css('display');
 				if(garageContDisplay == 'none') {
-					jQuery('.garage-cont').css('display', 'inline-block');
+					$('.garage-cont').css('display', 'inline-block');
 				} else {
-					jQuery('.garage-cont').css('display', 'none');
+					$('.garage-cont').css('display', 'none');
 				}
 
 			},
@@ -383,8 +383,8 @@
 
 				// console.log('_onClickRemoveAll');
 
-				jQuery('.loading-message').html('Loading...');
-				jQuery('.loading-message').css('display', 'inline-block');
+				$('.loading-message').html('Loading...');
+				$('.loading-message').css('display', 'inline-block');
 
 				confirmation({
 					title: 'Remove all cars',
@@ -392,7 +392,7 @@
 					actions: {
 						confirm: function(){
 
-							jQuery.ajax({
+							$.ajax({
 								url: '/categoryfinder/garage/clean',
 								type: 'get',
 								dataType: 'json',
@@ -406,12 +406,12 @@
 
 									if(data['cars']  && data['cars'].length > 0) {
 
-										jQuery('.categoryfilter').categoryfilter('fillCars', data['cars']);
-										// jQuery('.garage-selected-car-cont').css('display', 'inline-block');
+										$('.categoryfilter').categoryfilter('fillCars', data['cars']);
+										// $('.garage-selected-car-cont').css('display', 'inline-block');
 
 									} else {
 
-										jQuery('.categoryfilter').categoryfilter('fillCars', []);
+										$('.categoryfilter').categoryfilter('fillCars', []);
 										window.location = '/';
 
 									}
@@ -421,7 +421,7 @@
 
 						},
 						cancel: function(){
-							jQuery('.loading-message').hide();
+							$('.loading-message').hide();
 						}
 					}
 				});
@@ -434,15 +434,15 @@
 
 				var uri = this.dataset.carUri;
 
-				jQuery('.loading-message').html('Loading...');
-				jQuery('.loading-message').css('display', 'inline-block');
+				$('.loading-message').html('Loading...');
+				$('.loading-message').css('display', 'inline-block');
 
 				confirmation({
 					title: 'Remove car',
 					content: 'Are you sure?',
 					actions: {
 						confirm: function(){
-							jQuery.ajax({
+							$.ajax({
 								url: '/categoryfinder/garage/remove',
 								type: 'get',
 								dataType: 'json',
@@ -456,21 +456,21 @@
 
 
 
-									if(!jQuery.isEmptyObject(data.customer_garage.cars)) {
+									if(!$.isEmptyObject(data.customer_garage.cars)) {
 
-										jQuery('.categoryfilter').categoryfilter('fillCars', data.customer_garage.cars, true);
+										$('.categoryfilter').categoryfilter('fillCars', data.customer_garage.cars, true);
 
 
 									} else {
 
-										jQuery('.categoryfilter').categoryfilter('fillCars', []);
+										$('.categoryfilter').categoryfilter('fillCars', []);
 
 									}
 
 									if(location.pathname == uri) {
 
-										jQuery('.loading-message').html('Loading...');
-										jQuery('.loading-message').css('display', 'inline-block');
+										$('.loading-message').html('Loading...');
+										$('.loading-message').css('display', 'inline-block');
 										window.location = '/';
 
 
@@ -482,7 +482,7 @@
 							});
 						},
 						cancel: function(){
-							jQuery('.loading-message').hide();
+							$('.loading-message').hide();
 						}
 					}
 				});
@@ -490,7 +490,7 @@
 
 			_loadGarage: function () {
 
-				jQuery.ajax({
+				$.ajax({
 					url: '/categoryfinder/garage/index',
 					type: 'get',
 					dataType: 'json',
@@ -502,11 +502,11 @@
 
 						if(data['cars']  && data['cars'].length > 0) {
 
-							jQuery('.categoryfilter').categoryfilter('fillCars', data['cars']);
+							$('.categoryfilter').categoryfilter('fillCars', data['cars']);
 
 						} else {
 
-							jQuery('.categoryfilter').categoryfilter('fillCars', []);
+							$('.categoryfilter').categoryfilter('fillCars', []);
 
 						}
 
@@ -515,5 +515,5 @@
 			}
 
 		});
-		return jQuery.wolf.categoryfilter;
+		return $.wolf.categoryfilter;
 	});
