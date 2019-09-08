@@ -51,7 +51,7 @@ class ControllerActionPredispatch implements ObserverInterface {
 		$garageJ_session = wolf_sess_get();
 		$garageJ_session_used = false;
 		$garage_session =
-			!$garageJ_session || $garageJ_session == '{}'
+			!$garageJ_session || '{}' === $garageJ_session
 			? ['cars' => []]
 			: df_json_decode($garageJ_session)
 		;
