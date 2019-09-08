@@ -21,14 +21,14 @@ class ControllerActionPredispatch implements ObserverInterface {
 		 */
 		$pathA = explode('/', ltrim(df_request_o()->getOriginalPathInfo(), '/')); /** @var string[] $pathA */
 		$config = ['params' => $pathA];
-		$garageUri = '';
+		$productURL = '';
 		foreach ($config['params'] as $key => &$p) {
 			$p = ['id' => null, 'name' => $this->sanitize($p), 'value' => df_trim_text_right($p, '.html')];
 			if (5 > $key) {
-				$garageUri .= '/' . $p['value'];
+				$productURL .= '/' . $p['value'];
 			}
 		}
-		$garageUri .= '.html';
+		$productURL .= '.html';
 		$isComplete = 
 			dfa($_COOKIE, 'car_selected')
 			&& 5 <= count($config['params'])
@@ -61,8 +61,8 @@ class ControllerActionPredispatch implements ObserverInterface {
 			}
 		}
 		$complete_car_entry_added = false;
-		if ($isComplete && !in_array($garageUri, $customer_garage['cars'])) {
-			array_push($customer_garage['cars'], $garageUri);
+		if ($isComplete && !in_array($productURL, $customer_garage['cars'])) {
+			array_push($customer_garage['cars'], $productURL);
 			$complete_car_entry_added = true;
 		}
 		if ($customer_garage_json_session_used || $complete_car_entry_added) {
@@ -78,8 +78,8 @@ class ControllerActionPredispatch implements ObserverInterface {
 		sort($customer_garage['cars']);
 		WCustomer::garage($customer_garage);
 		WCustomer::params($config['params']);
-		WCustomer::uri(!$isComplete ? null : $garageUri);
-		WCustomer::uriName(!$isComplete ? null : $this->sanitize($garageUri));
+		WCustomer::uri(!$isComplete ? null : $productURL);
+		WCustomer::uriName(!$isComplete ? null : $this->sanitize($productURL));
 		// 2019-09-08 «Remove a cookie»: https://stackoverflow.com/a/686166
 		setcookie('car_selected', '', time() - 3600, '/', $_SERVER['HTTP_HOST']);
 	}
