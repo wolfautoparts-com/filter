@@ -4,6 +4,7 @@ use Magento\Catalog\Block\Navigation as _P;
 use Magento\Catalog\Model\Category as C;
 use Magento\Newsletter\Model\Session as NewsletterSession;
 use Magento\Widget\Block\BlockInterface as IWidget;
+use Wolf\Filter\Customer as WCustomer;
 use Wolf\Filter\Observer\Navigation as Ob;
 class Navigation extends _P implements IWidget {
 	/**                                                                              
@@ -86,7 +87,7 @@ class Navigation extends _P implements IWidget {
 		}
 		$r['categoriesByLevel'] = $categoriesByLevel;
 		$r['selectedCategories'] = $selectedCategories;
-        $r['customer_garage'] = df_registry('wolfCategoryCustomerGarage');
+        $r['customer_garage'] = WCustomer::garage();
         $r['customer_garage_is_empty'] = df_registry('wolfCustomerGarageIsEmpty');
 		if (@$urlPath!='') {
           $r['customer_garage_uri'] = $urlPath;

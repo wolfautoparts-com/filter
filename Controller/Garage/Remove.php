@@ -5,6 +5,7 @@ use Magento\Framework\App\Action\Context;
 use Magento\Framework\App\CacheInterface;
 use Magento\Framework\Controller\Result\JsonFactory;
 use Psr\Log\LoggerInterface;
+use Wolf\Filter\Customer as WCustomer;
 class Remove extends Action {
 	/**
 	 * Change constructor.
@@ -57,7 +58,7 @@ class Remove extends Action {
 
 		if (empty($errors)) {
 
-			$customer_garage = $this->_registry->registry('wolfCategoryCustomerGarage');
+			$customer_garage = WCustomer::garage();
 
 			if (in_array($params['uri'], $customer_garage['cars'])) {
 
@@ -74,8 +75,7 @@ class Remove extends Action {
 					$customerResource->saveAttribute($customer, 'customer_garage_json');
 				}
 				wolf_sess_set($customer_garage_json);
-				$this->_registry->unregister('wolfCategoryCustomerGarage');
-				$this->_registry->register('wolfCategoryCustomerGarage', $customer_garage);
+				WCustomer::garage($customer_garage);
 			}
 			else {
 				array_push($errors, 'uri not in garage');

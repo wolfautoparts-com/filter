@@ -5,6 +5,7 @@ use Magento\Framework\App\Action\Context;
 use Magento\Framework\App\CacheInterface;
 use Magento\Framework\Controller\Result\JsonFactory;
 use Psr\Log\LoggerInterface;
+use Wolf\Filter\Customer as WCustomer;
 class Index extends Action {
 	/**
 	 * Change constructor.
@@ -31,8 +32,7 @@ class Index extends Action {
 	}
 
 	function execute() {
-		$garage = $this->_registry->registry('wolfCategoryCustomerGarage');
 		$result = $this->_resultJsonFactory->create();
-		return $result->setData($garage);
+		return $result->setData(WCustomer::garage());
 	}
 }

@@ -3,6 +3,7 @@ namespace Wolf\Filter\Observer;
 use Magento\Customer\Model\Customer as C;
 use Magento\Framework\Event\Observer as Ob;
 use Magento\Framework\Event\ObserverInterface;
+use Wolf\Filter\Customer as WCustomer;
 // 2019-09-08
 class ControllerActionPredispatch implements ObserverInterface {
 	/**
@@ -75,7 +76,7 @@ class ControllerActionPredispatch implements ObserverInterface {
 			wolf_sess_set($customer_garage_json);
 		}
 		sort($customer_garage['cars']);
-		df_register('wolfCategoryCustomerGarage', $customer_garage);
+		WCustomer::garage($customer_garage);
 		df_register('wolfCategoryParams', $config['params']);
 		df_register('wolfCategoryParamsHash', $paramsHash);
 		df_register('wolfCustomerGarageIsEmpty', empty($customer_garage['cars']));
