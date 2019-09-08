@@ -1,5 +1,6 @@
 <?php
 namespace Wolf\Filter\Block;
+use Magento\Catalog\Model\Category as C;
 use Magento\Newsletter\Model\Session as NewsletterSession;
 use Magento\Widget\Block\BlockInterface;
 use Wolf\Filter\Observer\Navigation as Ob;
@@ -64,7 +65,7 @@ class Navigation extends \Magento\Catalog\Block\Navigation implements BlockInter
 		$urlPath = '';
 		$urlName ='';
 		if (df_request('cat')) {
-			$dfCategory = df_new_om('Magento\Catalog\Model\Category')->load(df_request('cat'));
+			$dfCategory = df_new_om(C::class)->load(df_request('cat')); /** @var C $dfCategory */
 			$arr = $dfCategory->getData();
 			if ($arr['url_path']!='') {
 				$urlPath = $dfCategory->getUrl();
@@ -78,7 +79,7 @@ class Navigation extends \Magento\Catalog\Block\Navigation implements BlockInter
 			 */
 			$sess = df_o(NewsletterSession::class); /** @var NewsletterSession $sess */
 			if ($sess->getMyvalue()) {
-				$dfCategory = df_new_om('Magento\Catalog\Model\Category')->load($sess->getMyvalue());
+				$dfCategory = df_new_om(C::class)->load($sess->getMyvalue()); /** @var C $dfCategory */
 				$arr = $dfCategory->getData();
 				if ($arr['url_path']!='') {
 					$urlPath = $dfCategory->getUrl();
