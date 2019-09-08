@@ -6,6 +6,7 @@ use Magento\Framework\App\CacheInterface;
 use Magento\Framework\Controller\Result\JsonFactory;
 use Psr\Log\LoggerInterface;
 use Wolf\Filter\Customer as WCustomer;
+/** @final Unable to use the PHP «final» keyword here because of the M2 code generation. */
 class Index extends Action {
 	/**
 	 * Change constructor.

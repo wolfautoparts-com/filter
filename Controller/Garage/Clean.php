@@ -3,6 +3,7 @@ namespace Wolf\Filter\Controller\Garage;
 use Df\Framework\W\Result\Json;
 use Magento\Framework\App\Action\Action as _P;
 // 2019-09-08
+/** @final Unable to use the PHP «final» keyword here because of the M2 code generation. */
 class Clean extends _P {
     /**
 	 * 2019-09-08

@@ -1,88 +1,25 @@
 <?php
 namespace Wolf\Filter\Controller\Garage;
-use Magento\Framework\App\Action\Action;
-use Magento\Framework\App\Action\Context;
-use Magento\Framework\App\CacheInterface;
-use Magento\Framework\Controller\Result\JsonFactory;
-use Psr\Log\LoggerInterface;
+use Df\Framework\W\Result\Json;
+use Magento\Framework\App\Action\Action as _P;
 use Wolf\Filter\Customer as WCustomer;
-use Wolf\Filter\Setup\InstallData as Schema;
-class Remove extends Action {
-	/**
-	 * Change constructor.
-	 * @param Context $context
-	 * @param Registry $registry
-	 * @param CustomerFactory $customerResourceFactory
-	 * $param Customer $customerModel
-	 * @param Session $customerSession
-	 * @param LoggerInterface $logger
-	 * @param CacheInterface $cache
-	 * @param JsonFactory $resultJsonFactory
-	 */
-	function __construct(
-		Context $context,
-		\Magento\Framework\Registry $registry,
-		\Magento\Customer\Model\ResourceModel\CustomerFactory $customerResourceFactory,
-		\Magento\Customer\Model\Customer $customerModel,
-		\Magento\Customer\Model\Session $customerSession,
-		LoggerInterface $logger,
-		CacheInterface $cache,
-		JsonFactory $resultJsonFactory
-	)
-	{
-		$this->_registry = $registry;
-		$this->_customerResourceFactory = $customerResourceFactory;
-		$this->_customerModel = $customerModel;
-		$this->_customerSession = $customerSession;
-		$this->_logger = $logger;
-		$this->_cache = $cache;
-		$this->_resultJsonFactory = $resultJsonFactory;
-		parent::__construct($context);
-	}
-
-	/**
-	 *
+// 2019-09-08
+/** @final Unable to use the PHP «final» keyword here because of the M2 code generation. */
+class Remove extends _P {
+    /**
+	 * 2019-09-08
+	 * @override
+	 * @see _P::execute()
+	 * @used-by \Magento\Framework\App\Action\Action::dispatch():
+	 * 		$result = $this->execute();
+	 * https://github.com/magento/magento2/blob/2.2.1/lib/internal/Magento/Framework/App/Action/Action.php#L84-L125
+	 * @return Json
 	 */
 	function execute() {
-		$params = $this->getRequest()->getParams();
-		$errors = [];
-		$customer_garage = ['cars' => []];
-		if (isset($params['uri']) && !empty($params['uri'])) {
-			// @todo cleanup uri what happens to in_array if it comes with unknown or huge data?
-		}
-		else {
-			array_push($errors, 'uri must be defined');
-		}
-		if (empty($errors)) {
-			$customer_garage = WCustomer::garage();
-			if (in_array($params['uri'], $customer_garage['cars'])) {
-				// remove the entry from $customer_garage and save
-				$customer_garage['cars'] = array_diff($customer_garage['cars'], [$params['uri']]);
-				$customer_garage_json = json_encode($customer_garage);
-				$customer_id = $this->_customerSession->getCustomer()->getId();
-				if ($customer_id) {
-					$customer = $this->_customerModel->load($customer_id);
-					$customerData = $customer->getDataModel();
-					$customerData->setCustomAttribute(Schema::GARAGE, $customer_garage_json);
-					$customer->updateData($customerData);
-					$customerResource = $this->_customerResourceFactory->create();
-					$customerResource->saveAttribute($customer, Schema::GARAGE);
-				}
-				wolf_sess_set($customer_garage_json);
-				WCustomer::garage($customer_garage);
-			}
-			else {
-				array_push($errors, 'uri not in garage');
-			}
-		}
-		$data = array('success' => true, 'params' => $params, 'customer_garage' => $customer_garage);
-		if (!empty($errors)) {
-			$data['errors'] = $errors;
-			$data['success'] = false;
-		}
-
-		$result = $this->_resultJsonFactory->create();
-
-		return $result->setData($data);
+		$r = array_diff(WCustomer::garage(), [df_request('uri')]); /** @var string[] $r */
+		wolf_customer_set($r);
+		wolf_sess_set($r);
+		WCustomer::garage($r);
+		return Json::i($r);
 	}
 }

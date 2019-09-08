@@ -215,51 +215,16 @@
 			},
 
 			fillCars: function (cars, keepGarageOpen) {
-
-
-
-				// console.log('fillCars');
-				// console.log('cars');
-				// console.log(cars);
-
 				var self = this;
-
-				// var garageSelect = this.garageSelect;
-
-
-
-				// garageSelect.empty();
-				// garageSelect.attr('disabled', true);
-
-				var oneCarIsSelected = false;
 				var listStr = "";
-
 				self.selected = false;
 				self.selectedKey = null;
 				self.selectedValue = null;
 				self.selectedText = null;
-
-
-
 				$.each(cars, function(key, value) {
-
-
 					var text = value.replace(/\/|-/g,' ');
-
-					// remove .html
-					text = text.slice(0, -5);
-
-					// ucwords
-					text = text.replace(/\b[a-z]/g, function(letter) {
-						return letter.toUpperCase();
-					});
-
-					// garageSelect
-					//     .append($("<option></option>")
-					//         .attr("value",value)
-					//         .attr("selected", selected)
-					//         .text(text));
-
+					text = text.slice(0, -5); // remove .html
+					text = text.replace(/\b[a-z]/g, function(letter) {return letter.toUpperCase();}); // ucwords
 					listStr = listStr +
 						'<tr class="garage-table-row">' +
 						'   <td><a href="' + value + '">' + text + '</a></td>' +
@@ -269,19 +234,13 @@
 
 					// if value without .html is contained in location.pathname, oneCarIsSelected
 					var tmpValue = value.replace('.html', '');
-
-					// if (value == location.pathname) {
-
 					if (location.pathname.indexOf(tmpValue) !== -1) {
 						self.selected = true;
 						self.selectedKey = key;
 						self.selectedValue = value;
 						self.selectedText = text;
 					}
-
 				});
-
-
 				if (self.selected) {
 					$('.garage-selected-car-cont').css('display', 'inline-block');
 					$('.garage-selected-car-link').attr("href", self.selectedValue);
@@ -391,34 +350,13 @@
 					content: 'Are you sure?',
 					actions: {
 						confirm: function(){
-
 							$.ajax({
 								url: '/categoryfinder/garage/clean',
 								type: 'get',
 								dataType: 'json',
 								showLoader: false,
-								success: function (data) {
-
-									// console.log('/categoryfinder/garage/clean success');
-									// console.log('data', data);
-									// console.log('location.pathname', location.pathname);
-									// console.log('garageSelect', garageSelect);
-
-									if (data['cars']  && data['cars'].length > 0) {
-
-										$('.categoryfilter').categoryfilter('fillCars', data['cars']);
-										// $('.garage-selected-car-cont').css('display', 'inline-block');
-
-									} else {
-
-										$('.categoryfilter').categoryfilter('fillCars', []);
-										window.location = '/';
-
-									}
-
-								}
+								success: function() {window.location = '/';}
 							});
-
 						},
 						cancel: function(){
 							$('.loading-message').hide();
@@ -448,36 +386,18 @@
 								dataType: 'json',
 								showLoader: false,
 								data: {uri: uri},
-								success: function (data) {
-
-									console.log('/categoryfinder/garage/remove success');
-									console.log('data', data);
-									console.log('location.pathname', location.pathname);
-
-
-
-									if (!$.isEmptyObject(data.customer_garage.cars)) {
-
-										$('.categoryfilter').categoryfilter('fillCars', data.customer_garage.cars, true);
-
-
-									} else {
-
-										$('.categoryfilter').categoryfilter('fillCars', []);
-
+								success: function($r) {
+									if (!$.isEmptyObject($r)) {
+										$('.categoryfilter').categoryfilter('fillCars', $r, true);
 									}
-
+									else {
+										$('.categoryfilter').categoryfilter('fillCars', []);
+									}
 									if (location.pathname == uri) {
-
 										$('.loading-message').html('Loading...');
 										$('.loading-message').css('display', 'inline-block');
 										window.location = '/';
-
-
 									}
-
-
-
 								}
 							});
 						},
@@ -487,33 +407,15 @@
 					}
 				});
 			},
-
 			_loadGarage: function () {
-
 				$.ajax({
 					url: '/categoryfinder/garage/index',
 					type: 'get',
 					dataType: 'json',
 					showLoader: false,
-					success: function (data) {
-
-						// console.log('/categoryfinder/garage/index success');
-						// console.log('data', data);
-
-						if (data['cars']  && data['cars'].length > 0) {
-
-							$('.categoryfilter').categoryfilter('fillCars', data['cars']);
-
-						} else {
-
-							$('.categoryfilter').categoryfilter('fillCars', []);
-
-						}
-
-					}
+					success: function (r) {$('.categoryfilter').categoryfilter('fillCars', r);}
 				});
 			}
-
 		});
 		return $.wolf.categoryfilter;
 	});
