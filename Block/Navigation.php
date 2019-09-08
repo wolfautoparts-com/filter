@@ -229,32 +229,22 @@ class Navigation extends \Magento\Catalog\Block\Navigation implements BlockInter
 	 * @used-by getConfigJson()
 	 * @return array(string, string)
 	 */
-	private function urlPathAndName() {
-		$name = $path = ''; /** @var string $name */  /** @var string $path */
-		if (df_request('cat')) {
-			$c = df_new_om(C::class)->load(df_request('cat')); /** @var C $c */
-			$arr = $c->getData();
-			if ($arr['url_path']!='') {
-				$path = $c->getUrl();
-				$name = str_replace("-",' ',str_replace("/",' ',$arr['url_path']));
-			}
+	private function urlPathAndName() {/** @var string $name */  /** @var string $path */
+		/**
+		 * 2019-09-08
+		 * @see app/design/frontend/One80solution/wolfautoparts/Magento_Search/templates/form.mini.phtml
+		 */
+		$sess = df_o(NewsletterSession::class); /** @var NewsletterSession $sess */
+		if (!($id = intval(df_request('cat') ?: $sess->getMyvalue()))) { /** @var int $id */
+			$name = $path = '';
 		}
 		else {
-			/**
-			 * 2019-09-08
-			 * @see app/design/frontend/One80solution/wolfautoparts/Magento_Search/templates/form.mini.phtml
-			 */
-			$sess = df_o(NewsletterSession::class); /** @var NewsletterSession $sess */
-			if ($sess->getMyvalue()) {
-				$c = df_new_om(C::class)->load($sess->getMyvalue()); /** @var C $c */
-				$arr = $c->getData();
-				if ($arr['url_path']!='') {
-					$path = $c->getUrl();
-					$name = str_replace("-",' ',str_replace("/",' ',$arr['url_path']));
-				}
+			$c = df_new_om(C::class)->load($id); /** @var C $c */
+			if ($p = $c['url_path']) {
+				$path = $c->getUrl();
+				$name = strtr($p, ['-' => ' ', '/' => ' ', '.html' => '']);
 			}
 		}
-		$name = str_replace(".html",'',$name);
 		return [$path, $name];
 	}	
 	
