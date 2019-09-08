@@ -108,9 +108,10 @@
 				} else {
 
 					if (selectedValue != "") {
-
-						var labelText = jQuery("#" + nameInLayout + nextDropdown + " option:first").text();
-
+						var labelText =
+							'embedded' !== labelembedded ? 'Please Select' :
+								jQuery("#" + nameInLayout + nextDropdown + " option:first").text()
+						;
 						jQuery('#' + nameInLayout + nextDropdown).empty();
 						jQuery('#' + nameInLayout + nextDropdown).append('<option value="">Loading...</option>');
 						jQuery('#' + nameInLayout + nextDropdown).attr('disabled', true);
@@ -146,12 +147,7 @@
 									for (var i in data) {
 										if (first) {
 											first = false;
-											if (labelembedded == 'embedded') {
-												optionStr = "<option value=''>" + labelText + "</option>";
-											}
-											else {
-												optionStr = "<option value=''>Please Select</option>";
-											}
+											optionStr = "<option value=''>" + labelText + "</option>";
 										}
 										if (data[i]['id'] == "NA") {
 											optionStr = optionStr + '<option value="' + data[i]['id'] + '" dataUrl="' + data[i]['url'] + '" selected>' + data[i]['name'] + '</option>';
