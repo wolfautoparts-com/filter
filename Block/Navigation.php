@@ -89,11 +89,12 @@ class Navigation extends _P implements IWidget {
         $r['customer_garage'] = WCustomer::garage();
         $r['customer_garage_is_empty'] = !dfa(WCustomer::garage(), 'cars');
 		if (@$urlPath!='') {
-          $r['customer_garage_uri'] = $urlPath;
-          $r['customer_garage_uri_name'] = $urlName;
-		}else{
-		$r['customer_garage_uri'] = df_registry('wolfCustomerGarageUri');
-        $r['customer_garage_uri_name'] = df_registry('wolfCustomerGarageUriName');
+			$r['customer_garage_uri'] = $urlPath;
+			$r['customer_garage_uri_name'] = $urlName;
+		}
+		else {
+			$r['customer_garage_uri'] = df_registry('wolfCustomerGarageUri');
+			$r['customer_garage_uri_name'] = WCustomer::uriName();
 		}
 		return $r;
 	});}

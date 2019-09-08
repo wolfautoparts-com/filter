@@ -78,7 +78,7 @@ class ControllerActionPredispatch implements ObserverInterface {
 		WCustomer::garage($customer_garage);
 		df_register('wolfCategoryParams', $config['params']);
 		df_register('wolfCustomerGarageUri', !$isComplete ? null : $garageUri);
-		df_register('wolfCustomerGarageUriName', !$isComplete ? null : $this->sanitize($garageUri));
+		WCustomer::uriName(!$isComplete ? null : $this->sanitize($garageUri));
 		// 2019-09-08 «Remove a cookie»: https://stackoverflow.com/a/686166
 		setcookie('car_selected', '', time() - 3600, '/', $_SERVER['HTTP_HOST']);
 	}
