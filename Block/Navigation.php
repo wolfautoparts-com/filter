@@ -14,11 +14,11 @@ class Navigation extends _P implements IWidget {
 	 */
 	function getConfigJson() {return dfc($this, function() {
 		list($urlPath, $urlName) = $this->urlPathAndName(); /** @var string $urlPath */ /** @var string $urlName */
-		$config = ['id' => "cd-{$this->getNameInLayout()}", 'levels' => $this['levels']];
+		$r = ['id' => "cd-{$this->getNameInLayout()}", 'levels' => $this['levels']];
 		$cacheTags = [Ob::CACHE_TAG];
 		$menuTree = wolf_tree_load();
 		$paramsHash = df_registry('wolfCategoryParamsHash');
-		$config['params'] = df_registry('wolfCategoryParams');
+		$r['params'] = df_registry('wolfCategoryParams');
 		$selectedCategories = [];
 		$selectedCategoriesCacheId = 'selected_categories';
 		$configCacheId = 'config_' . $paramsHash;
@@ -38,7 +38,7 @@ class Navigation extends _P implements IWidget {
 			// 2019-09-05 Dmitry Fedyuk https://www.upwork.com/fl/mage2pro
 			// «Decrease TTFB(time to first byte) for uncached category pages to 5 seconds»:
 			// https://www.upwork.com/ab/f/contracts/22684975
-			for($l = 0; $l < 1 /*$config['levels']*/; $l++) {
+			for ($l = 0; $l < 1 /*$config['levels']*/; $l++) {
 				$categoriesByLevel[$l] = [];
 				$nextTree = null;
 				if ($menuTree) {
@@ -51,15 +51,15 @@ class Navigation extends _P implements IWidget {
                             'selected' => false
                        );
                         if (
-                        	isset($config['params'][$l])
+                        	isset($r['params'][$l])
 							&&
-									$config['params'][$l]['name']
+									$r['params'][$l]['name']
 								===
 									str_replace(
 										['.', '-'], ' ', df_trim_text_right(strtolower($menuTreeEntry['name']), '.html')
 									)
 						) {
-                            $config['params'][$l]['id'] = $menuTreeEntry['id'];
+                            $r['params'][$l]['id'] = $menuTreeEntry['id'];
                             $category['selected'] = true;
                             array_push($selectedCategories, $category);
                             if (isset($menuTreeEntry['children']) && !empty($menuTreeEntry['children'])) {
@@ -81,18 +81,18 @@ class Navigation extends _P implements IWidget {
 			df_cache_save(serialize($categoriesByLevel), $configCacheId, $cacheTags);
 			df_cache_save(serialize($selectedCategories), $selectedCategoriesCacheId, $cacheTags);
 		}
-		$config['categoriesByLevel'] = $categoriesByLevel;
-		$config['selectedCategories'] = $selectedCategories;
-        $config['customer_garage'] = df_registry('wolfCategoryCustomerGarage');
-        $config['customer_garage_is_empty'] = df_registry('wolfCustomerGarageIsEmpty');
+		$r['categoriesByLevel'] = $categoriesByLevel;
+		$r['selectedCategories'] = $selectedCategories;
+        $r['customer_garage'] = df_registry('wolfCategoryCustomerGarage');
+        $r['customer_garage_is_empty'] = df_registry('wolfCustomerGarageIsEmpty');
 		if (@$urlPath!='') {
-          $config['customer_garage_uri'] = $urlPath;
-          $config['customer_garage_uri_name'] = $urlName;
+          $r['customer_garage_uri'] = $urlPath;
+          $r['customer_garage_uri_name'] = $urlName;
 		}else{
-		$config['customer_garage_uri'] = df_registry('wolfCustomerGarageUri');
-        $config['customer_garage_uri_name'] = df_registry('wolfCustomerGarageUriName');
+		$r['customer_garage_uri'] = df_registry('wolfCustomerGarageUri');
+        $r['customer_garage_uri_name'] = df_registry('wolfCustomerGarageUriName');
 		}
-		return $config;
+		return $r;
 	});}
 
 	/**
