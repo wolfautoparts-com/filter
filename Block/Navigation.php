@@ -6,9 +6,12 @@ use Magento\Widget\Block\BlockInterface;
 use Wolf\Filter\Observer\Navigation as Ob;
 class Navigation extends \Magento\Catalog\Block\Navigation implements BlockInterface {
 	/**
-	 * @return mixed
+	 * 2019-09-08
+	 * @used-by hDropdowns()
+	 * @used-by vendor/wolfautoparts.com/filter/view/frontend/templates/sidebar.phtml
+	 * @return bool
 	 */
-	function getLabelsEmbedded() {return $this->getData('labels_embedded');}
+	function labelsAreInside() {return 'embedded' === $this['labels_embedded'];}
 
 	/**
 	 * @return array
@@ -69,7 +72,6 @@ class Navigation extends \Magento\Catalog\Block\Navigation implements BlockInter
 			,'fetch_children_url' => df_url('categoryfilter/ajax/fetchChildren')
 			,'id' => 'cd-' . $this->getNameInLayout()
 			,'labels' => $this->getSelectLabels()
-			,'labels_embedded' => dftr($this->getLabelsEmbedded(), ['outside' => ''])
 			,'levels' => $this['levels']
 			,'please_wait_text' => __('Please wait...')
 		];
@@ -185,7 +187,7 @@ class Navigation extends \Magento\Catalog\Block\Navigation implements BlockInter
 			$r .= df_tag('div'
 				,df_cc_s('select-outer', $l !== $lastLevel ? '' : 'select-outer-last')
 				,[
-					'outside' !== $this->getLabelsEmbedded() || !$label ? null : df_tag('label', [], $label)
+					$this->labelsAreInside() || !$label ? null : df_tag('label', [], $label)
 					,df_tag('select'
 						,[
 							'class' => 'category-filter-select'
@@ -195,8 +197,7 @@ class Navigation extends \Magento\Catalog\Block\Navigation implements BlockInter
 						,array_merge(
 							[
 								df_tag('option', ['value' => ''],
-									'embedded' === $this->getLabelsEmbedded() && $label
-									? $label : 'Please Select'
+									$this->labelsAreInside() && $label ? $label : 'Please Select'
 								)
 							]
 							,$l ? [] : df_map($topLevelCategories, function($c) {return df_tag('option'
