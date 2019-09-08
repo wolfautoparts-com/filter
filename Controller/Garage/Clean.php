@@ -43,21 +43,15 @@ class Clean extends Action {
 		$customer_id = $this->_customerSession->getCustomer()->getId();
 		$customer_garage = array('cars' => []);
 		$customer_garage_json = json_encode($customer_garage);
-
+		wolf_sess_set($customer_garage_json);
 		if ($customer_id) {
-
 			$customer = $this->_customerModel->load($customer_id);
 			$customerData = $customer->getDataModel();
 			$customerData->setCustomAttribute('customer_garage_json', $customer_garage_json);
 			$customer->updateData($customerData);
 			$customerResource = $this->_customerResourceFactory->create();
 			$customerResource->saveAttribute($customer, 'customer_garage_json');
-			$this->_customerSession->setCustomerGarageJson($customer_garage_json);
-
-		} else {
-			$this->_customerSession->setCustomerGarageJson($customer_garage_json);
 		}
-
 		$result = $this->_resultJsonFactory->create();
 
 		return $result->setData(array(

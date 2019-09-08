@@ -1,5 +1,6 @@
 <?php
 namespace Wolf\Filter\Observer;
+use Magento\Customer\Model\Customer as C;
 use Magento\Customer\Model\Session;
 use Magento\Framework\Event\Observer as Ob;
 use Magento\Framework\Event\ObserverInterface;
@@ -36,11 +37,10 @@ class ControllerActionPredispatch implements ObserverInterface {
 		}
 		$paramsString = rtrim($paramsString);
 		$paramsHash = sha1($paramsString);
-		$customer_id = $sess->getCustomer()->getId();
+		$c = df_customer(); /** @var C|false $c */
 		$customer_garage = array('cars' => []);
-		if ($customer_id) {
-			$customer = df_customer($customer_id);
-			$customerData = $customer->getDataModel();
+		if ($c) {
+			$customerData = $c->getDataModel();
 			$customer_garage_json = $customerData->getCustomAttribute('customer_garage_json');
 			if ($customer_garage_json) {
 				$customer_garage_json = $customer_garage_json->getValue();
@@ -50,7 +50,7 @@ class ControllerActionPredispatch implements ObserverInterface {
 			}
 		}
 		// combine with elements existing in session
-		$customer_garage_json_session = $sess->getCustomerGarageJson();
+		$customer_garage_json_session = wolf_sess_get();
 		$customer_garage_json_session_used = false;
 		if (!$customer_garage_json_session || $customer_garage_json_session == '{}') {
 			$customer_garage_session = array('cars' => []);
@@ -70,13 +70,13 @@ class ControllerActionPredispatch implements ObserverInterface {
 		}
 		if ($customer_garage_json_session_used || $complete_car_entry_added) {
 			$customer_garage_json = json_encode($customer_garage);
-			if ($customer_id) {
-				$customerData = $customer->getDataModel();
+			if ($c) {
+				$customerData = $c->getDataModel();
 				$customerData->setCustomAttribute('customer_garage_json', $customer_garage_json);
-				$customer->updateData($customerData);
-				df_customer_resource()->saveAttribute($customer, 'customer_garage_json');
+				$c->updateData($customerData);
+				df_customer_resource()->saveAttribute($c, 'customer_garage_json');
 			}
-			$sess->setCustomerGarageJson($customer_garage_json);
+			wolf_sess_set($customer_garage_json);
 		}
 		sort($customer_garage['cars']);
 		df_register('wolfCategoryCustomerGarage', $customer_garage);

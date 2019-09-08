@@ -66,7 +66,6 @@ class Remove extends Action {
 				$customer_garage_json = json_encode($customer_garage);
 				$customer_id = $this->_customerSession->getCustomer()->getId();
 				if ($customer_id) {
-
 					$customer = $this->_customerModel->load($customer_id);
 					$customerData = $customer->getDataModel();
 					$customerData->setCustomAttribute('customer_garage_json', $customer_garage_json);
@@ -74,20 +73,14 @@ class Remove extends Action {
 					$customerResource = $this->_customerResourceFactory->create();
 					$customerResource->saveAttribute($customer, 'customer_garage_json');
 				}
-
-				$this->_customerSession->setCustomerGarageJson($customer_garage_json);
-
+				wolf_sess_set($customer_garage_json);
 				$this->_registry->unregister('wolfCategoryCustomerGarage');
 				$this->_registry->register('wolfCategoryCustomerGarage', $customer_garage);
-
-			} else {
-
+			}
+			else {
 				array_push($errors, 'uri not in garage');
 			}
-
 		}
-
-
 		$data = array('success' => true, 'params' => $params, 'customer_garage' => $customer_garage);
 		if (!empty($errors)) {
 			$data['errors'] = $errors;
