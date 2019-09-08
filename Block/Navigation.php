@@ -63,22 +63,16 @@ class Navigation extends \Magento\Catalog\Block\Navigation implements BlockInter
 	 */
 	function getConfigJson() {return dfc($this, function() {
 		list($urlPath, $urlName) = $this->urlPathAndName(); /** @var string $urlPath */ /** @var string $urlName */
-		if ($this->getLabelsEmbedded() == 'outside') {
-			$label = '';
-		} 
-		else {
-			$label = $this->getLabelsEmbedded();
-		}
-		$config = array(
-			'levels' => $this['levels'],
-			'id' => 'cd-' . $this->getNameInLayout(),
-			'current_category_id' => df_registry('current_category') ?: 0,
-			'fetch_children_url' => $this->getUrl('categoryfilter/ajax/fetchChildren'),
-			'labels' => $this->getSelectLabels(),
-			'default_label' => __('Select category'),
-			'labels_embedded' => $label,
-			'please_wait_text' => __('Please wait...'),
-		);
+		$config = [
+			'current_category_id' => df_registry('current_category') ?: 0
+			,'default_label' => __('Select category')
+			,'fetch_children_url' => $this->getUrl('categoryfilter/ajax/fetchChildren')
+			,'id' => 'cd-' . $this->getNameInLayout()
+			,'labels' => $this->getSelectLabels()
+			,'labels_embedded' => 'outside' === $this->getLabelsEmbedded() ? '' : $this->getLabelsEmbedded()
+			,'levels' => $this['levels']
+			,'please_wait_text' => __('Please wait...')
+		];
 		$cacheTags = [Ob::CACHE_TAG];
 		$menuTree = wolf_tree_load();
 		$paramsHash = df_registry('wolfCategoryParamsHash');
