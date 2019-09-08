@@ -111,18 +111,21 @@ class Navigation extends \Magento\Catalog\Block\Navigation implements BlockInter
 		return $cacheId;
 	}
 
-	/**
+	/**                                                                              
+	 * 2019-09-08
+	 * @used-by vendor/wolfautoparts.com/filter/view/frontend/templates/sidebar.phtml 
+	 * @used-by hDropdowns()
 	 * @return array
 	 */
 	function getConfigJson() {return dfc($this, function() {
 		$sess = df_o(NewsletterSession::class); /** @var NewsletterSession $sess */
 		$urlPath = '';
 		$urlName ='';
-		if (@$_GET['cat']!=''){
+		if (@$_GET['cat']!='') {
 			$catid = @$_GET['cat'];
 			$dfCategory = df_new_om('Magento\Catalog\Model\Category')->load($catid);
 			$arr = $dfCategory->getData();
-			if ($arr['url_path']!=''){
+			if ($arr['url_path']!='') {
 				$urlPath = $dfCategory->getUrl();
 				$urlName = str_replace("-"," ",str_replace("/"," ",$arr['url_path']));
 			}
@@ -132,7 +135,7 @@ class Navigation extends \Magento\Catalog\Block\Navigation implements BlockInter
 			$catid = $sess->getMyvalue();
 			$dfCategory = df_new_om('Magento\Catalog\Model\Category')->load($catid);
 			$arr = $dfCategory->getData();
-			if ($arr['url_path']!=''){
+			if ($arr['url_path']!='') {
 				$urlPath = $dfCategory->getUrl();
 				$urlName = str_replace("-"," ",str_replace("/"," ",$arr['url_path']));
 			}
@@ -216,7 +219,7 @@ class Navigation extends \Magento\Catalog\Block\Navigation implements BlockInter
 		$config['selectedCategories'] = $selectedCategories;
         $config['customer_garage'] = $this->_registry->registry('wolfCategoryCustomerGarage');
         $config['customer_garage_is_empty'] = $this->_registry->registry('wolfCustomerGarageIsEmpty');
-		if (@$urlPath!=''){
+		if (@$urlPath!='') {
           $config['customer_garage_uri'] = $urlPath;
           $config['customer_garage_uri_name'] = $urlName;
 		}else{
