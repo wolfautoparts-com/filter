@@ -1,22 +1,12 @@
 <?php
 namespace Wolf\Filter\Observer;
 use Magento\Customer\Model\Session;
-use Magento\Customer\Setup\CustomerSetupFactory;
-use Magento\Framework\App\CacheInterface;
 use Magento\Framework\Event\Observer;
 use Magento\Framework\Event\ObserverInterface;
-use Magento\Framework\Registry;
 class Customer implements ObserverInterface {
 	function __construct(
-		CacheInterface $cache,
-		Registry $registry,
-		\Magento\Customer\Model\ResourceModel\CustomerFactory $customerResourceFactory,
 		\Magento\Customer\Model\Customer $customerModel
-	)
-	{
-		$this->_cache = $cache;
-		$this->_registry = $registry;
-		$this->_customerResourceFactory = $customerResourceFactory;
+	) {
 		$this->_customerModel = $customerModel;
 	}
 
@@ -94,8 +84,7 @@ class Customer implements ObserverInterface {
 				$customerData = $customer->getDataModel();
 				$customerData->setCustomAttribute('customer_garage_json', $customer_garage_json);
 				$customer->updateData($customerData);
-				$customerResource = $this->_customerResourceFactory->create();
-				$customerResource->saveAttribute($customer, 'customer_garage_json');
+				df_customer_resource()->saveAttribute($customer, 'customer_garage_json');
 			}
 			$sess->setCustomerGarageJson($customer_garage_json);
 		}
