@@ -92,9 +92,10 @@ class InstallData implements InstallDataInterface {
 	/**
 	 * 2019-08-09
 	 * @used-by install()
+	 * @used-by wolf_customer_get(
+	 * @used-by wolf_customer_set()
 	 * @used-by \Wolf\Filter\Controller\Garage\Clean::execute()
 	 * @used-by \Wolf\Filter\Controller\Garage\Remove::execute()
-	 * @used-by \Wolf\Filter\Observer\ControllerActionPredispatch::execute()
 	 * @type string
 	 */
 	const GARAGE = 'customer_garage_json';

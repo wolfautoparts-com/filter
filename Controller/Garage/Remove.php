@@ -44,25 +44,18 @@ class Remove extends Action {
 	 *
 	 */
 	function execute() {
-
 		$params = $this->getRequest()->getParams();
 		$errors = [];
-		$customer_garage = array('cars' => []);
-
+		$customer_garage = ['cars' => []];
 		if (isset($params['uri']) && !empty($params['uri'])) {
-
 			// @todo cleanup uri what happens to in_array if it comes with unknown or huge data?
-
-		} else {
+		}
+		else {
 			array_push($errors, 'uri must be defined');
 		}
-
 		if (empty($errors)) {
-
 			$customer_garage = WCustomer::garage();
-
 			if (in_array($params['uri'], $customer_garage['cars'])) {
-
 				// remove the entry from $customer_garage and save
 				$customer_garage['cars'] = array_diff($customer_garage['cars'], [$params['uri']]);
 				$customer_garage_json = json_encode($customer_garage);

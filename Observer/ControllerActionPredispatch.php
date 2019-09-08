@@ -1,10 +1,8 @@
 <?php
 namespace Wolf\Filter\Observer;
-use Magento\Customer\Model\Customer as C;
 use Magento\Framework\Event\Observer as Ob;
 use Magento\Framework\Event\ObserverInterface;
 use Wolf\Filter\Customer as WCustomer;
-use Wolf\Filter\Setup\InstallData as Schema;
 // 2019-09-08
 class ControllerActionPredispatch implements ObserverInterface {
 	/**
@@ -36,23 +34,11 @@ class ControllerActionPredispatch implements ObserverInterface {
 		$params = df_map($pathA, function($v) {return ['id' => null, 'name' => $this->name($v), 'value' => $v];});
 		WCustomer::params($params);
 		$categoryPath = '/' . df_cc_path(array_slice($pathA, 0, 5)) . '.html'; /** @var string $categoryPath */
-		$garage = ['cars' => []];
-		/** @var C|false $c */
-		if ($c = df_customer()) {
-			$customerData = $c->getDataModel();
-			$garageJ = $customerData->getCustomAttribute(Schema::GARAGE);
-			if ($garageJ) {
-				$garageJ = $garageJ->getValue();
-			}
-			if (!(!$garageJ || $garageJ == '{}')) {
-				$garage = json_decode($garageJ, true);
-			}
-		}
+		$categories = wolf_customer_get();
 		$garageJ_session_used = false;
-		$garageFromSession = wolf_sess_get();
-		foreach ($garageFromSession['cars'] as $car) {
-			if (!in_array($car, $garage['cars'])) {
-				array_push($garage['cars'], $car);
+		foreach (wolf_sess_get() as $category) { /** @var string $category */
+			if (!in_array($category, $categories)) {
+				array_push($categories, $category);
 				$garageJ_session_used = true;
 			}
 		}
@@ -62,22 +48,16 @@ class ControllerActionPredispatch implements ObserverInterface {
 			&& 5 <= count($params)
 			&& in_array($params[0]['value'], ['audi', 'bmw', 'volkswagen'])
 		; /** @var bool $isComplete */
-		if ($isComplete && !in_array($categoryPath, $garage['cars'])) {
-			array_push($garage['cars'], $categoryPath);
+		if ($isComplete && !in_array($categoryPath, $categories)) {
+			array_push($categories, $categoryPath);
 			$complete_car_entry_added = true;
 		}
 		if ($garageJ_session_used || $complete_car_entry_added) {
-			$garageJ = df_json_encode($garage);
-			if ($c) {
-				$customerData = $c->getDataModel();
-				$customerData->setCustomAttribute(Schema::GARAGE, $garageJ);
-				$c->updateData($customerData);
-				df_customer_resource()->saveAttribute($c, Schema::GARAGE);
-			}
-			wolf_sess_set($garageJ);
+			wolf_customer_set($categories);
+			wolf_sess_set($categories);
 		}
-		sort($garage['cars']);
-		WCustomer::garage($garage);
+		sort($categories);
+		WCustomer::garage($categories);
 		WCustomer::categoryPath(!$isComplete ? null : $categoryPath);
 		WCustomer::uriName(!$isComplete ? null : $this->name($categoryPath));
 		// 2019-09-08 «Remove a cookie»: https://stackoverflow.com/a/686166

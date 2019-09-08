@@ -6,9 +6,7 @@ use Wolf\Filter\Observer\Navigation as Ob;
 // 2019-09-06
 class Change extends _P {
     /**
-	 * 2019-09-06 Dmitry Fedyuk https://www.upwork.com/fl/mage2pro
-	 * «Decrease TTFB (time to first byte) for uncached category pages to 5 seconds»:
-	 * https://www.upwork.com/ab/f/contracts/22684975
+	 * 2019-09-06
 	 * @override
 	 * @see _P::execute()
 	 * @used-by \Magento\Framework\App\Action\Action::dispatch():
