@@ -8,30 +8,6 @@ class Navigation extends \Magento\Catalog\Block\Navigation implements BlockInter
 	/**
 	 * @return array
 	 */
-	function getSelectLabels() {
-		$labels = array();
-		foreach(explode(",", $this->getData('select_labels')) as $label) {
-			$labels[] = __($label);
-		}
-		return $labels;
-	}
-
-	/**
-	 * @param $i
-	 * @return mixed
-	 */
-	function getSelectLabel($i) {
-		$labels = $this->getSelectLabels();
-		if (isset($labels[$i])) {
-			return __($labels[$i]);
-		} else {
-			return __('Select category');
-		}
-	}
-
-	/**
-	 * @return array
-	 */
 	function getCacheKeyInfo() {
 		$shortCacheId = [
 			'CATEGORY_FILTER',
@@ -180,8 +156,9 @@ class Navigation extends \Magento\Catalog\Block\Navigation implements BlockInter
 		$topLevelCategories = $this->getConfigJson()['categoriesByLevel'][0];
 		$levels = $this['levels'];
 		$lastLevel = $levels - 1;
+		$labels = df_csv_parse($this['select_labels']); /** @var string[] $labels */
 		for ($l = 0; $l < $levels; $l++) {
-			$label = $this->getSelectLabel($l); /** @var string $label */
+			$label = dfa($labels, $l, 'Select category'); /** @var string $label */
 			$j = $l + 1; /** @var int $j */
 			$r .= df_tag('div'
 				,df_cc_s('select-outer', $l !== $lastLevel ? '' : 'select-outer-last')
