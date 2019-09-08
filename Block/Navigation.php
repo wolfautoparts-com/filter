@@ -69,7 +69,7 @@ class Navigation extends \Magento\Catalog\Block\Navigation implements BlockInter
 			,'fetch_children_url' => df_url('categoryfilter/ajax/fetchChildren')
 			,'id' => 'cd-' . $this->getNameInLayout()
 			,'labels' => $this->getSelectLabels()
-			,'labels_embedded' => 'outside' === $this->getLabelsEmbedded() ? '' : $this->getLabelsEmbedded()
+			,'labels_embedded' => dftr($this->getLabelsEmbedded(), ['outside' => ''])
 			,'levels' => $this['levels']
 			,'please_wait_text' => __('Please wait...')
 		];
