@@ -39,26 +39,26 @@ class ControllerActionPredispatch implements ObserverInterface {
 		/** @var C|false $c */
 		if ($c = df_customer()) {
 			$customerData = $c->getDataModel();
-			$garage_json = $customerData->getCustomAttribute('customer_garage_json');
-			if ($garage_json) {
-				$garage_json = $garage_json->getValue();
+			$garageJ = $customerData->getCustomAttribute('customer_garage_json');
+			if ($garageJ) {
+				$garageJ = $garageJ->getValue();
 			}
-			if (!(!$garage_json || $garage_json == '{}')) {
-				$garage = json_decode($garage_json, true);
+			if (!(!$garageJ || $garageJ == '{}')) {
+				$garage = json_decode($garageJ, true);
 			}
 		}
 		// combine with elements existing in session
-		$garage_json_session = wolf_sess_get();
-		$garage_json_session_used = false;
+		$garageJ_session = wolf_sess_get();
+		$garageJ_session_used = false;
 		$garage_session =
-			!$garage_json_session || $garage_json_session == '{}'
+			!$garageJ_session || $garageJ_session == '{}'
 			? ['cars' => []]
-			: df_json_decode($garage_json_session)
+			: df_json_decode($garageJ_session)
 		;
 		foreach ($garage_session['cars'] as $car) {
 			if (!in_array($car, $garage['cars'])) {
 				array_push($garage['cars'], $car);
-				$garage_json_session_used = true;
+				$garageJ_session_used = true;
 			}
 		}
 		$complete_car_entry_added = false;
@@ -71,15 +71,15 @@ class ControllerActionPredispatch implements ObserverInterface {
 			array_push($garage['cars'], $categoryPath);
 			$complete_car_entry_added = true;
 		}
-		if ($garage_json_session_used || $complete_car_entry_added) {
-			$garage_json = json_encode($garage);
+		if ($garageJ_session_used || $complete_car_entry_added) {
+			$garageJ = json_encode($garage);
 			if ($c) {
 				$customerData = $c->getDataModel();
-				$customerData->setCustomAttribute('customer_garage_json', $garage_json);
+				$customerData->setCustomAttribute('customer_garage_json', $garageJ);
 				$c->updateData($customerData);
 				df_customer_resource()->saveAttribute($c, 'customer_garage_json');
 			}
-			wolf_sess_set($garage_json);
+			wolf_sess_set($garageJ);
 		}
 		sort($garage['cars']);
 		WCustomer::garage($garage);
