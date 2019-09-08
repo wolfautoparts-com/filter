@@ -14,19 +14,20 @@ class ControllerActionPredispatch implements ObserverInterface {
 	 * @param Ob $o
 	 */
 	function execute(Ob $o) {
-		$uri = strtok($_SERVER['REQUEST_URI'], '?');
+		/**
+		 * 2019-09-08
+		 * 1) @uses \Magento\Framework\App\Request\Http::getOriginalPathInfo() removes the `?...` part.
+		 * 2) ['audi', '2019', 'a4', 'quattro-sedan', '2-0l-l4-turbo.html']
+		 */
+		$pathA = explode('/', ltrim(df_request_o()->getOriginalPathInfo(), '/')); /** @var string[] $pathA */
+		$config = ['params' => $pathA];
 		$garageUri = '';
-		$uri_tmp = ltrim($uri, '/');
-		$config = ['params' => explode('/', $uri_tmp)];
-		$paramsString = '';
 		foreach ($config['params'] as $key => &$p) {
 			$p = ['id' => null, 'name' => $this->sanitize($p), 'value' => df_trim_text_right($p, '.html')];
-			$paramsString .= $p['name'] . ' ';
 			if (5 > $key) {
 				$garageUri .= '/' . $p['value'];
 			}
 		}
-		WCustomer::hash(sha1(rtrim($paramsString)));
 		$garageUri .= '.html';
 		$isComplete = 
 			dfa($_COOKIE, 'car_selected')

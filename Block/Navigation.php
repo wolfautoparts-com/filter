@@ -24,7 +24,8 @@ class Navigation extends _P implements IWidget {
 		$menuTree = wolf_tree_load();
 		$selectedCategories = [];
 		$selectedCategoriesCacheId = 'selected_categories';
-		$configCacheId = 'config_' . WCustomer::hash();
+		/** 2019-09-08 @uses \Magento\Framework\App\Request\Http::getOriginalPathInfo() removes the `?...` part. */
+		$configCacheId = 'config_' . md5(df_request_o()->getOriginalPathInfo());
 		// Build categories by level
 		$da = unserialize(df_cache_load($configCacheId));
 		if (false !==($data = df_cache_load($configCacheId)) && count($da[0])>0) {
