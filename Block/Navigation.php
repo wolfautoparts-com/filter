@@ -14,11 +14,7 @@ class Navigation extends _P implements IWidget {
 	 */
 	function getConfigJson() {return dfc($this, function() {
 		list($urlPath, $urlName) = $this->urlPathAndName(); /** @var string $urlPath */ /** @var string $urlName */
-		$config = [
-			'current_category_id' => df_registry('current_category') ?: 0
-			,'id' => 'cd-' . $this->getNameInLayout()
-			,'levels' => $this['levels']
-		];
+		$config = ['id' => "cd-{$this->getNameInLayout()}", 'levels' => $this['levels']];
 		$cacheTags = [Ob::CACHE_TAG];
 		$menuTree = wolf_tree_load();
 		$paramsHash = df_registry('wolfCategoryParamsHash');
