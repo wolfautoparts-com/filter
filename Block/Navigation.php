@@ -66,7 +66,7 @@ class Navigation extends \Magento\Catalog\Block\Navigation implements BlockInter
 		$config = [
 			'current_category_id' => df_registry('current_category') ?: 0
 			,'default_label' => __('Select category')
-			,'fetch_children_url' => $this->getUrl('categoryfilter/ajax/fetchChildren')
+			,'fetch_children_url' => df_url('categoryfilter/ajax/fetchChildren')
 			,'id' => 'cd-' . $this->getNameInLayout()
 			,'labels' => $this->getSelectLabels()
 			,'labels_embedded' => 'outside' === $this->getLabelsEmbedded() ? '' : $this->getLabelsEmbedded()
