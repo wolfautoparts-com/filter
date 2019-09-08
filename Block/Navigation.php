@@ -93,7 +93,7 @@ class Navigation extends _P implements IWidget {
 			$r['customer_garage_uri_name'] = $urlName;
 		}
 		else {
-			$r['customer_garage_uri'] = df_registry('wolfCustomerGarageUri');
+			$r['customer_garage_uri'] = WCustomer::uri();
 			$r['customer_garage_uri_name'] = WCustomer::uriName();
 		}
 		return $r;

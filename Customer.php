@@ -29,5 +29,14 @@ final class Customer {
 	 * @param string|null $v
 	 * @return string|null
 	 */
+	static function uri($v = null) {return df_prop(null, $v);}
+
+	/**
+	 * 2019-09-08
+	 * @used-by \Wolf\Filter\Block\Navigation::getConfigJson()
+	 * @used-by \Wolf\Filter\Observer\ControllerActionPredispatch::execute()
+	 * @param string|null $v
+	 * @return string|null
+	 */
 	static function uriName($v = null) {return df_prop(null, $v);}
 }
