@@ -115,7 +115,7 @@ class Navigation extends \Magento\Catalog\Block\Navigation implements BlockInter
 	 * @return array
 	 */
 	function getConfigJson() {return dfc($this, function() {
-		$catalogSession = df_o(NewsletterSession::class); /** @var NewsletterSession $catalogSession */
+		$sess = df_o(NewsletterSession::class); /** @var NewsletterSession $sess */
 		$urlPath = "";
 		$urlName ="";
 		if (@$_GET['cat']!=""){
@@ -127,8 +127,8 @@ class Navigation extends \Magento\Catalog\Block\Navigation implements BlockInter
 				$urlName = str_replace("-"," ",str_replace("/"," ",$arr['url_path']));
 			}
 		}
-		else if ($catalogSession->getMyvalue()!=""){
-			$catid = $catalogSession->getMyvalue();
+		else if ($sess->getMyvalue()!="") {
+			$catid = $sess->getMyvalue();
 			$dfCategory = df_new_om('Magento\Catalog\Model\Category')->load($catid);
 			$arr = $dfCategory->getData();
 			if ($arr['url_path']!=""){
