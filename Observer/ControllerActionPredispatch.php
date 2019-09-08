@@ -21,22 +21,14 @@ class ControllerActionPredispatch implements ObserverInterface {
 		$config['params'] = explode('/', $uri_tmp);
 		$paramsString = '';
 		$complete_car_entry = false;
-		foreach ($config['params'] as $key => &$param) {
-			$param = array(
-				'id' => null,
-				'name' => $this->sanitize($param),
-				'value' => df_trim_text_right($param, '.html')
-			);
-			$paramsString .= $param['name'] . ' ';
-			if ($key < 5) {
-				$garageUri .= '/' . $param['value'];
+		foreach ($config['params'] as $key => &$p) {
+			$p = ['id' => null, 'name' => $this->sanitize($p), 'value' => df_trim_text_right($p, '.html')];
+			$paramsString .= $p['name'] . ' ';
+			if (5 > $key) {
+				$garageUri .= '/' . $p['value'];
 			}
-
-			// @todo fix motor lt missing dot
 		}
-
 		$garageUri .= '.html';
-
 		if ($config['params'][0]['value'] == 'audi' || $config['params'][0]['value']  == 'volkswagen' || $config['params'][0]['value']  == 'bmw') {
 			if (dfa($_COOKIE, 'car_selected') && 5 <= count($config['params'])) {
 				$complete_car_entry = true;
