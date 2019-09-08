@@ -16,6 +16,7 @@ function wolf_sess_get() {
  * 2019-09-08
  * @used-by \Wolf\Filter\Controller\Garage\Clean::execute()
  * @used-by \Wolf\Filter\Controller\Garage\Remove::execute()
+ * @used-by \Wolf\Filter\Observer\ControllerActionPredispatch::execute()
  * @param string $v
  */
 function wolf_sess_set($v) {

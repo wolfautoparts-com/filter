@@ -73,7 +73,7 @@ class ControllerActionPredispatch implements ObserverInterface {
 			$complete_car_entry_added = true;
 		}
 		if ($garageJ_session_used || $complete_car_entry_added) {
-			$garageJ = json_encode($garage);
+			$garageJ = df_json_encode($garage);
 			if ($c) {
 				$customerData = $c->getDataModel();
 				$customerData->setCustomAttribute(Schema::GARAGE, $garageJ);
