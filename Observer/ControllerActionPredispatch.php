@@ -21,19 +21,15 @@ class ControllerActionPredispatch implements ObserverInterface {
 		 * @var string[] $pathA
 		 */
 		$pathA = explode('/', ltrim(df_strip_ext(df_request_o()->getOriginalPathInfo()), '/'));
-		$config = ['params' => $pathA];
-		$categoryPath = '';
-		foreach ($config['params'] as $key => &$p) {
-			$p = ['id' => null, 'name' => $this->sanitize($p), 'value' => $p];
-			if (5 > $key) {
-				$categoryPath .= '/' . $p['value'];
-			}
-		}
-		$categoryPath = '/' . df_cc_path(array_slice($pathA, 0, 5)) . '.html';
+		$params = df_map($pathA, function($v) {return [
+			'id' => null, 'name' => $this->sanitize($v), 'value' => $v
+		];});
+		$config = ['params' => $params];
+		$categoryPath = '/' . df_cc_path(array_slice($pathA, 0, 5)) . '.html'; /** @var string $categoryPath */
 		$isComplete = 
 			dfa($_COOKIE, 'car_selected')
-			&& 5 <= count($config['params'])
-			&& in_array($config['params'][0]['value'], ['audi', 'bmw', 'volkswagen'])
+			&& 5 <= count($params)
+			&& in_array($params[0]['value'], ['audi', 'bmw', 'volkswagen'])
 		; /** @var bool $isComplete */
 		$c = df_customer(); /** @var C|false $c */
 		$customer_garage = array('cars' => []);
