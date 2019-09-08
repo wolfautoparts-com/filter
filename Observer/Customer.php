@@ -155,7 +155,5 @@ class Customer implements ObserverInterface {
 	 * @param string $s
 	 * @return bool|null|string|string[]
 	 */
-	private function sanitize($s) {return ucwords(preg_replace(
-		'/\/|-/', ' ', df_trim_text_right($s, '.html')
-	));}
+	private function sanitize($s) {return ucwords(preg_replace('/\/|-/', ' ', df_trim_text_right($s, '.html')));}
 }
