@@ -1,7 +1,6 @@
 <?php
 namespace Wolf\Filter\Observer;
 use Magento\Customer\Model\Customer as C;
-use Magento\Customer\Model\Session;
 use Magento\Framework\Event\Observer as Ob;
 use Magento\Framework\Event\ObserverInterface;
 // 2019-09-08
@@ -14,14 +13,11 @@ class ControllerActionPredispatch implements ObserverInterface {
 	 * @param Ob $o
 	 */
 	function execute(Ob $o) {
-		$sess = df_customer_session(); /** @var Session $sess */
 		$uri = strtok($_SERVER['REQUEST_URI'], '?');
 		$garageUri = '';
 		$uri_tmp = ltrim($uri, '/');
-		$config = [];
-		$config['params'] = explode('/', $uri_tmp);
+		$config = ['params' => explode('/', $uri_tmp)];
 		$paramsString = '';
-		$complete_car_entry = false;
 		foreach ($config['params'] as $key => &$p) {
 			$p = ['id' => null, 'name' => $this->sanitize($p), 'value' => df_trim_text_right($p, '.html')];
 			$paramsString .= $p['name'] . ' ';
@@ -30,11 +26,11 @@ class ControllerActionPredispatch implements ObserverInterface {
 			}
 		}
 		$garageUri .= '.html';
-		if ($config['params'][0]['value'] == 'audi' || $config['params'][0]['value']  == 'volkswagen' || $config['params'][0]['value']  == 'bmw') {
-			if (dfa($_COOKIE, 'car_selected') && 5 <= count($config['params'])) {
-				$complete_car_entry = true;
-			}
-		}
+		$isComplete = 
+			dfa($_COOKIE, 'car_selected')
+			&& 5 <= count($config['params'])
+			&& in_array($config['params'][0]['value'], ['audi', 'bmw', 'volkswagen'])
+		; /** @var bool $isComplete */
 		$paramsString = rtrim($paramsString);
 		$paramsHash = sha1($paramsString);
 		$c = df_customer(); /** @var C|false $c */
@@ -64,7 +60,7 @@ class ControllerActionPredispatch implements ObserverInterface {
 			}
 		}
 		$complete_car_entry_added = false;
-		if ($complete_car_entry && !in_array($garageUri, $customer_garage['cars'])) {
+		if ($isComplete && !in_array($garageUri, $customer_garage['cars'])) {
 			array_push($customer_garage['cars'], $garageUri);
 			$complete_car_entry_added = true;
 		}
@@ -84,8 +80,8 @@ class ControllerActionPredispatch implements ObserverInterface {
 		df_register('wolfCategoryParamsHash', $paramsHash);
 		df_register('wolfCategoryParamsString', $paramsString);
 		df_register('wolfCustomerGarageIsEmpty', empty($customer_garage['cars']));
-		df_register('wolfCustomerGarageUri', !$complete_car_entry ? null : $garageUri);
-		df_register('wolfCustomerGarageUriName', !$complete_car_entry ? null : $this->sanitize($garageUri));
+		df_register('wolfCustomerGarageUri', !$isComplete ? null : $garageUri);
+		df_register('wolfCustomerGarageUriName', !$isComplete ? null : $this->sanitize($garageUri));
 		// 2019-09-08 «Remove a cookie»: https://stackoverflow.com/a/686166
 		setcookie('car_selected', '', time() - 3600, '/', $_SERVER['HTTP_HOST']);
 	}
