@@ -4,12 +4,6 @@ use Magento\Customer\Model\Session;
 use Magento\Framework\Event\Observer;
 use Magento\Framework\Event\ObserverInterface;
 class Customer implements ObserverInterface {
-	function __construct(
-		\Magento\Customer\Model\Customer $customerModel
-	) {
-		$this->_customerModel = $customerModel;
-	}
-
 	function execute(Observer $observer) {
 		$sess = df_customer_session(); /** @var Session $sess */
 		$isCarSelected = "not_selected";
@@ -49,7 +43,7 @@ class Customer implements ObserverInterface {
 		$customer_id = $sess->getCustomer()->getId();
 		$customer_garage = array('cars' => array());
 		if ($customer_id) {
-			$customer = $this->_customerModel->load($customer_id);
+			$customer = df_customer($customer_id);
 			$customerData = $customer->getDataModel();
 			$customer_garage_json = $customerData->getCustomAttribute('customer_garage_json');
 			if ($customer_garage_json) {
