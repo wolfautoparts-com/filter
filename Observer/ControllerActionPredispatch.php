@@ -3,7 +3,7 @@ namespace Wolf\Filter\Observer;
 use Magento\Customer\Model\Session;
 use Magento\Framework\Event\Observer;
 use Magento\Framework\Event\ObserverInterface;
-class Customer implements ObserverInterface {
+class ControllerActionPredispatch implements ObserverInterface {
 	function execute(Observer $observer) {
 		$sess = df_customer_session(); /** @var Session $sess */
 		$isCarSelected = "not_selected";

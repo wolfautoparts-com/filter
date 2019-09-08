@@ -1,10 +1,15 @@
-<?xml version="1.0"?>
-<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Event/etc/events.xsd">
-    <event name="page_block_html_topmenu_gethtml_before">
-        <observer name="navigationObserver" instance="Wolf\Filter\Observer\Navigation" />
-    </event>
-    <event name="controller_action_predispatch">
-        <observer name="customerObserver" instance="Wolf\Filter\Observer\Customer" />
-    </event>
-
+<?xml version='1.0'?>
+<config
+    xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'
+	xsi:noNamespaceSchemaLocation='urn:magento:framework:Event/etc/events.xsd'
+>
+	<event name='page_block_html_topmenu_gethtml_before'>
+		<observer name='navigationObserver' instance='Wolf\Filter\Observer\Navigation' />
+	</event>
+	<event name='controller_action_predispatch'>
+		<observer
+			instance='Wolf\Filter\Observer\ControllerActionPredispatch'
+			name='Wolf\Filter\Observer\ControllerActionPredispatch'
+		/>
+	</event>
 </config>
