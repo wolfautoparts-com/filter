@@ -1,7 +1,7 @@
 <?php
 namespace Wolf\Filter\Block;
 use Magento\Catalog\Api\CategoryRepositoryInterface;
-use Magento\Catalog\Helper\Category;
+use Magento\Catalog\Helper\Category as CategoryH;
 use Magento\Catalog\Model\CategoryFactory;
 use Magento\Catalog\Model\Indexer\Category\Flat\State;
 use Magento\Catalog\Model\Layer\Resolver;
@@ -25,7 +25,7 @@ class Navigation extends \Magento\Catalog\Block\Navigation implements BlockInter
 	 * @param CollectionFactory $productCollectionFactory
 	 * @param Resolver $layerResolver
 	 * @param HttpContext $httpContext
-	 * @param Category $catalogCategory
+	 * @param CategoryH $catalogCategory
 	 * @param Registry $registry
 	 * @param State $flatState
 	 * @param CacheInterface $cache
@@ -38,7 +38,7 @@ class Navigation extends \Magento\Catalog\Block\Navigation implements BlockInter
 		CollectionFactory $productCollectionFactory,
 		Resolver $layerResolver,
 		HttpContext $httpContext,
-		Category $catalogCategory,
+		CategoryH $catalogCategory,
 		Registry $registry,
 		State $flatState,
 		CacheInterface $cache,
@@ -317,8 +317,12 @@ class Navigation extends \Magento\Catalog\Block\Navigation implements BlockInter
 		}
 		$name = str_replace(array('.', '-'), ' ', $name);
 		return $name;
-	}	
-	
+	}
+
+	/**
+	 * 2019-09-08
+	 * @var CategoryH
+	 */
 	protected $_catalogCategory;
 	protected $_categoryInstance;
 	protected $_categoryRepository;
