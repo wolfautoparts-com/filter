@@ -78,7 +78,6 @@ class ControllerActionPredispatch implements ObserverInterface {
 		df_register('wolfCategoryCustomerGarage', $customer_garage);
 		df_register('wolfCategoryParams', $config['params']);
 		df_register('wolfCategoryParamsHash', $paramsHash);
-		df_register('wolfCategoryParamsString', $paramsString);
 		df_register('wolfCustomerGarageIsEmpty', empty($customer_garage['cars']));
 		df_register('wolfCustomerGarageUri', !$isComplete ? null : $garageUri);
 		df_register('wolfCustomerGarageUriName', !$isComplete ? null : $this->sanitize($garageUri));
