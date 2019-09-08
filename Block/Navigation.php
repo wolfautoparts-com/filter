@@ -120,9 +120,8 @@ class Navigation extends \Magento\Catalog\Block\Navigation implements BlockInter
 	function getConfigJson() {return dfc($this, function() {
 		$urlPath = '';
 		$urlName ='';
-		if (@$_GET['cat']!='') {
-			$catid = @$_GET['cat'];
-			$dfCategory = df_new_om('Magento\Catalog\Model\Category')->load($catid);
+		if (df_request('cat')) {
+			$dfCategory = df_new_om('Magento\Catalog\Model\Category')->load(df_request('cat'));
 			$arr = $dfCategory->getData();
 			if ($arr['url_path']!='') {
 				$urlPath = $dfCategory->getUrl();
@@ -135,9 +134,8 @@ class Navigation extends \Magento\Catalog\Block\Navigation implements BlockInter
 			 * @see app/design/frontend/One80solution/wolfautoparts/Magento_Search/templates/form.mini.phtml
 			 */
 			$sess = df_o(NewsletterSession::class); /** @var NewsletterSession $sess */
-			if ($sess->getMyvalue()!='') {
-				$catid = $sess->getMyvalue();
-				$dfCategory = df_new_om('Magento\Catalog\Model\Category')->load($catid);
+			if ($sess->getMyvalue()) {
+				$dfCategory = df_new_om('Magento\Catalog\Model\Category')->load($sess->getMyvalue());
 				$arr = $dfCategory->getData();
 				if ($arr['url_path']!='') {
 					$urlPath = $dfCategory->getUrl();
