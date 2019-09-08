@@ -16,7 +16,6 @@ class Navigation extends _P implements IWidget {
 		list($urlPath, $urlName) = $this->urlPathAndName(); /** @var string $urlPath */ /** @var string $urlName */
 		$config = [
 			'current_category_id' => df_registry('current_category') ?: 0
-			,'default_label' => __('Select category')
 			,'fetch_children_url' => df_url('categoryfilter/ajax/fetchChildren')
 			,'id' => 'cd-' . $this->getNameInLayout()
 			,'levels' => $this['levels']
