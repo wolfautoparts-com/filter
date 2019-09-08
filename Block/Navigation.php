@@ -1,57 +1,9 @@
 <?php
 namespace Wolf\Filter\Block;
-use Magento\Catalog\Api\CategoryRepositoryInterface;
-use Magento\Catalog\Model\CategoryFactory;
-use Magento\Catalog\Model\Indexer\Category\Flat\State;
-use Magento\Catalog\Model\Layer\Resolver;
-use Magento\Catalog\Model\ResourceModel\Product\CollectionFactory;
-use Magento\Framework\App\CacheInterface;
-use Magento\Framework\App\Http\Context as HttpContext;
-use Magento\Framework\Registry;
-use Magento\Framework\View\Element\Template\Context;
 use Magento\Newsletter\Model\Session as NewsletterSession;
 use Magento\Widget\Block\BlockInterface;
 use Wolf\Filter\Observer\Navigation as Ob;
 class Navigation extends \Magento\Catalog\Block\Navigation implements BlockInterface {
-	/**
-	 * 2019-09-07
-	 * @override
-	 * @see \Magento\Catalog\Block\Navigation::__construct()
-	 * @used-by \Magento\Framework\View\Element\BlockFactory::createBlock()
-	 * @param Context $context
-	 * @param CategoryFactory $categoryFactory
-	 * @param CategoryRepositoryInterface $categoryRepository
-	 * @param CollectionFactory $productCollectionFactory
-	 * @param Resolver $layerResolver
-	 * @param HttpContext $httpContext
-	 * @param Registry $registry
-	 * @param State $flatState
-	 * @param CacheInterface $cache
-	 * @param array $data
-	 */
-	function __construct(
-		Context $context,
-		CategoryFactory $categoryFactory,
-		CategoryRepositoryInterface $categoryRepository,
-		CollectionFactory $productCollectionFactory,
-		Resolver $layerResolver,
-		HttpContext $httpContext,
-		Registry $registry,
-		State $flatState,
-		CacheInterface $cache,
-		array $data = []
-	) {
-		$this->_productCollectionFactory = $productCollectionFactory;
-		$this->_httpContext = $httpContext;
-		$this->_registry = $registry;
-		$this->_flatState = $flatState;
-		$this->_categoryInstance = $categoryFactory->create();
-		$this->_categoryRepository = $categoryRepository;
-		$this->_cache = $cache;
-		parent::__construct($context, $categoryFactory, $productCollectionFactory, $layerResolver, $httpContext,
-			$catalogCategory, $registry, $flatState, $data);
-	}
-
 	/**
 	 * @return mixed
 	 */
@@ -82,19 +34,14 @@ class Navigation extends \Magento\Catalog\Block\Navigation implements BlockInter
 	}
 
 	/**
-	 * @return mixed
-	 */
-	function getBaseUrl() {return $this->_storeManager->getStore()->getBaseUrl();}
-
-	/**
 	 * @return array
 	 */
 	function getCacheKeyInfo() {
 		$shortCacheId = [
 			'CATEGORY_FILTER',
-			$this->_storeManager->getStore()->getId(),
-			$this->_design->getDesignTheme()->getId(),
-			$this->_httpContext->getValue('wolf_categoryfilter'),
+			df_store_id(),
+			df_design()->getDesignTheme()->getId(),
+			df_http_context()->getValue('wolf_categoryfilter'),
 			'template' => $this->getTemplate(),
 			'name' => $this->getNameInLayout()
 		];
@@ -149,7 +96,7 @@ class Navigation extends \Magento\Catalog\Block\Navigation implements BlockInter
 		$config = array(
 			'levels' => $this['levels'],
 			'id' => 'cd-' . $this->getNameInLayout(),
-			'current_category_id' =>($this->_registry->registry('current_category') ? $this->_registry->registry('current_category')->getId() : 0),
+			'current_category_id' => df_registry('current_category') ?: 0,
 			'fetch_children_url' => $this->getUrl('categoryfilter/ajax/fetchChildren'),
 			'labels' => $this->getSelectLabels(),
 			'default_label' => __('Select category'),
@@ -158,16 +105,16 @@ class Navigation extends \Magento\Catalog\Block\Navigation implements BlockInter
 		);
 		$cacheTags = [Ob::CACHE_TAG];
 		$menuTree = wolf_tree_load();
-		$paramsHash = $this->_registry->registry('wolfCategoryParamsHash');
-		$config['params'] = $this->_registry->registry('wolfCategoryParams');
+		$paramsHash = df_registry('wolfCategoryParamsHash');
+		$config['params'] = df_registry('wolfCategoryParams');
 		$selectedCategories = [];
 		$selectedCategoriesCacheId = 'selected_categories';
 		$configCacheId = 'config_' . $paramsHash;
 		// Build categories by level
-		$da = unserialize($this->_cache->load($configCacheId));
-		if (false !==($data = $this->_cache->load($configCacheId)) && count($da[0])>0) {
+		$da = unserialize(df_cache_load($configCacheId));
+		if (false !==($data = df_cache_load($configCacheId)) && count($da[0])>0) {
 			$categoriesByLevel = unserialize($data);
-			if (false !==($data = $this->_cache->load($selectedCategoriesCacheId))) {
+			if (false !==($data = df_cache_load($selectedCategoriesCacheId))) {
 				$selectedCategories = unserialize($data);
 			} 
 			else {
@@ -211,19 +158,19 @@ class Navigation extends \Magento\Catalog\Block\Navigation implements BlockInter
                     });
                 }
 			}
-			$this->_cache->save(serialize($categoriesByLevel), $configCacheId, $cacheTags);
-			$this->_cache->save(serialize($selectedCategories), $selectedCategoriesCacheId, $cacheTags);
+			df_cache_save(serialize($categoriesByLevel), $configCacheId, $cacheTags);
+			df_cache_save(serialize($selectedCategories), $selectedCategoriesCacheId, $cacheTags);
 		}
 		$config['categoriesByLevel'] = $categoriesByLevel;
 		$config['selectedCategories'] = $selectedCategories;
-        $config['customer_garage'] = $this->_registry->registry('wolfCategoryCustomerGarage');
-        $config['customer_garage_is_empty'] = $this->_registry->registry('wolfCustomerGarageIsEmpty');
+        $config['customer_garage'] = df_registry('wolfCategoryCustomerGarage');
+        $config['customer_garage_is_empty'] = df_registry('wolfCustomerGarageIsEmpty');
 		if (@$urlPath!='') {
           $config['customer_garage_uri'] = $urlPath;
           $config['customer_garage_uri_name'] = $urlName;
 		}else{
-		$config['customer_garage_uri'] = $this->_registry->registry('wolfCustomerGarageUri');
-        $config['customer_garage_uri_name'] = $this->_registry->registry('wolfCustomerGarageUriName');
+		$config['customer_garage_uri'] = df_registry('wolfCustomerGarageUri');
+        $config['customer_garage_uri_name'] = df_registry('wolfCustomerGarageUriName');
 		}
 		return $config;
 	});}
@@ -314,11 +261,4 @@ class Navigation extends \Magento\Catalog\Block\Navigation implements BlockInter
 		$name = str_replace(array('.', '-'), ' ', $name);
 		return $name;
 	}
-
-	protected $_categoryInstance;
-	protected $_categoryRepository;
-	protected $_flatState;
-	protected $_httpContext;
-	protected $_productCollectionFactory;
-	protected $_registry;
 }
