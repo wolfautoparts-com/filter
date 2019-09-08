@@ -8,10 +8,10 @@ final class Customer {
 	 * @used-by \Wolf\Filter\Controller\Garage\Index::execute()
 	 * @used-by \Wolf\Filter\Controller\Garage\Remove::execute()
 	 * @used-by \Wolf\Filter\Observer\ControllerActionPredispatch::execute()
-	 * @param mixed[]|null $v
+	 * @param mixed[]|string|null $v
 	 * @return mixed[]|null
 	 */
-	static function garage($v = null) {return df_prop(null, $v, []);}
+	static function garage($v = DF_N) {return df_prop(null, $v, []);}
 
 	/**
 	 * 2019-09-08
@@ -20,16 +20,16 @@ final class Customer {
 	 * @param string|null $v
 	 * @return string|null
 	 */
-	static function hash($v = null) {return df_prop(null, $v);}
+	static function hash($v = DF_N) {return df_prop(null, $v);}
 
 	/**
 	 * 2019-09-08
 	 * @used-by \Wolf\Filter\Block\Navigation::getConfigJson()
 	 * @used-by \Wolf\Filter\Observer\ControllerActionPredispatch::execute()
-	 * @param mixed[]|null $v
+	 * @param mixed[]|string|null $v
 	 * @return mixed[]|null
 	 */
-	static function params($v = null) {return df_prop(null, $v, []);}
+	static function params($v = DF_N) {return df_prop(null, $v, []);}
 
 	/**
 	 * 2019-09-08
@@ -38,7 +38,7 @@ final class Customer {
 	 * @param string|null $v
 	 * @return string|null
 	 */
-	static function uri($v = null) {return df_prop(null, $v);}
+	static function uri($v = DF_N) {return df_prop(null, $v);}
 
 	/**
 	 * 2019-09-08
@@ -47,5 +47,5 @@ final class Customer {
 	 * @param string|null $v
 	 * @return string|null
 	 */
-	static function uriName($v = null) {return df_prop(null, $v);}
+	static function uriName($v = DF_N) {return df_prop(null, $v);}
 }
