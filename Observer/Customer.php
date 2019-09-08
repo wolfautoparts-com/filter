@@ -1,5 +1,6 @@
 <?php
 namespace Wolf\Filter\Observer;
+use Magento\Customer\Model\Session;
 use Magento\Customer\Setup\CustomerSetupFactory;
 use Magento\Framework\App\CacheInterface;
 use Magento\Framework\Event\Observer;
@@ -10,20 +11,17 @@ class Customer implements ObserverInterface {
 		CacheInterface $cache,
 		Registry $registry,
 		\Magento\Customer\Model\ResourceModel\CustomerFactory $customerResourceFactory,
-		\Magento\Customer\Model\Customer $customerModel,
-		\Magento\Customer\Model\Session $customerSession
+		\Magento\Customer\Model\Customer $customerModel
 	)
 	{
 		$this->_cache = $cache;
 		$this->_registry = $registry;
 		$this->_customerResourceFactory = $customerResourceFactory;
 		$this->_customerModel = $customerModel;
-		$this->_customerSession = $customerSession;
-
 	}
 
-	function execute(Observer $observer)
-	{
+	function execute(Observer $observer) {
+		$sess = df_customer_session(); /** @var Session $sess */
 		$isCarSelected = "not_selected";
 		if (isset($_COOKIE['car_selected' ])) {
 			$isCarSelected = $_COOKIE['car_selected' ];
@@ -58,13 +56,11 @@ class Customer implements ObserverInterface {
 		}
 		$paramsString = rtrim($paramsString);
 		$paramsHash = sha1($paramsString);
-//        $this->_customerSession->start();
-		$customer_id = $this->_customerSession->getCustomer()->getId();
+		$customer_id = $sess->getCustomer()->getId();
 		$customer_garage = array('cars' => array());
 		if ($customer_id) {
 			$customer = $this->_customerModel->load($customer_id);
 			$customerData = $customer->getDataModel();
-//            $customer_garage_json = $customer->getCustomAttribute('customer_garage_json');
 			$customer_garage_json = $customerData->getCustomAttribute('customer_garage_json');
 			if ($customer_garage_json) {
 				$customer_garage_json = $customer_garage_json->getValue();
@@ -74,7 +70,7 @@ class Customer implements ObserverInterface {
 			}
 		}
 		// combine with elements existing in session
-		$customer_garage_json_session = $this->_customerSession->getCustomerGarageJson();
+		$customer_garage_json_session = $sess->getCustomerGarageJson();
 		$customer_garage_json_session_used = false;
 		if (!$customer_garage_json_session || $customer_garage_json_session == '{}') {
 			$customer_garage_session = array('cars' => array());
@@ -101,7 +97,7 @@ class Customer implements ObserverInterface {
 				$customerResource = $this->_customerResourceFactory->create();
 				$customerResource->saveAttribute($customer, 'customer_garage_json');
 			}
-			$this->_customerSession->setCustomerGarageJson($customer_garage_json);
+			$sess->setCustomerGarageJson($customer_garage_json);
 		}
 		// sort
 		sort($customer_garage['cars']);
