@@ -142,34 +142,29 @@ class Customer implements ObserverInterface {
 			$customerGarageIsEmpty = false;
 		}
 		// register results for further usage on controllers and views
-		$this->_registry->unregister('wolfCustomerGarageIsEmpty');
-		$this->_registry->register('wolfCustomerGarageIsEmpty', $customerGarageIsEmpty);
+		df_unregister('wolfCustomerGarageIsEmpty');
+		df_register('wolfCustomerGarageIsEmpty', $customerGarageIsEmpty);
 		if($complete_car_entry) {
-
-			$this->_registry->unregister('wolfCustomerGarageUri');
-			$this->_registry->register('wolfCustomerGarageUri', $garageUri);
-			$this->_registry->unregister('wolfCustomerGarageUriName');
-			$this->_registry->register('wolfCustomerGarageUriName', $this->sanitizeUrlName($garageUri));
+			df_unregister('wolfCustomerGarageUri');
+			df_register('wolfCustomerGarageUri', $garageUri);
+			df_unregister('wolfCustomerGarageUriName');
+			df_register('wolfCustomerGarageUriName', $this->sanitizeUrlName($garageUri));
 
 		} else {
 
-			$this->_registry->unregister('wolfCustomerGarageUri');
-			$this->_registry->register('wolfCustomerGarageUri', null);
-			$this->_registry->unregister('wolfCustomerGarageUriName');
-			$this->_registry->register('wolfCustomerGarageUriName', null);
+			df_unregister('wolfCustomerGarageUri');
+			df_register('wolfCustomerGarageUri', null);
+			df_unregister('wolfCustomerGarageUriName');
+			df_register('wolfCustomerGarageUriName', null);
 		}
-		$this->_registry->unregister('wolfCategoryCustomerGarage');
-		$this->_registry->register('wolfCategoryCustomerGarage', $customer_garage);
-		$this->_registry->unregister('wolfCategoryParams');
-		$this->_registry->register('wolfCategoryParams', $config['params']);
-		$this->_registry->unregister('wolfCategoryParamsString');
-		$this->_registry->register('wolfCategoryParamsString', $paramsString);
-		$this->_registry->unregister('wolfCategoryParamsHash');
-		$this->_registry->register('wolfCategoryParamsHash', $paramsHash);
-
-		
+		df_unregister('wolfCategoryCustomerGarage');
+		df_register('wolfCategoryCustomerGarage', $customer_garage);
+		df_unregister('wolfCategoryParams');
+		df_register('wolfCategoryParams', $config['params']);
+		df_unregister('wolfCategoryParamsString');
+		df_register('wolfCategoryParamsString', $paramsString);
+		df_unregister('wolfCategoryParamsHash');
+		df_register('wolfCategoryParamsHash', $paramsHash);
 		setcookie( 'car_selected', 'not_selected', time() +2592000, '/', $_SERVER['HTTP_HOST'] );
-		
-
 	}
 }
