@@ -15,7 +15,7 @@ class ControllerActionPredispatch implements ObserverInterface {
 	function execute(Ob $o) {
 		static $NOT_SELECTED = 'not_selected'; /** @var string $NOT_SELECTED */
 		$sess = df_customer_session(); /** @var Session $sess */
-		$isCarSelected = dfa($_COOKIE, 'car_selected', $NOT_SELECTED);
+		$isSelected = dfa($_COOKIE, 'car_selected', $NOT_SELECTED); /** @var bool $isSelected */
 		$uri = strtok($_SERVER['REQUEST_URI'], '?');
 		$garageUri = '';
 		$uri_tmp = ltrim($uri, '/');
@@ -40,7 +40,7 @@ class ControllerActionPredispatch implements ObserverInterface {
 		$garageUri .= '.html';
 
 		if ($config['params'][0]['value'] == 'audi' || $config['params'][0]['value']  == 'volkswagen' || $config['params'][0]['value']  == 'bmw') {
-			if (count($config['params']) >= 5 && $isCarSelected == "selected") {
+			if (count($config['params']) >= 5 && $isSelected == "selected") {
 				$complete_car_entry = true;
 			}
 		}
