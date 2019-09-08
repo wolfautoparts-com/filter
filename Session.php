@@ -7,6 +7,6 @@ namespace Wolf\Filter;
  * @method string|null getCustomerGarageJson(bool $clear = false)
  * @method Session setCustomerGarageJson($v)
  */
-class Session extends Magento\Customer\Model\Session {}
+class Session extends \Magento\Customer\Model\Session {}
 
 
