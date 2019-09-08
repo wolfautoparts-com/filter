@@ -10,6 +10,7 @@ use Magento\Framework\App\CacheInterface;
 use Magento\Framework\App\Http\Context as HttpContext;
 use Magento\Framework\Registry;
 use Magento\Framework\View\Element\Template\Context;
+use Magento\Newsletter\Model\Session as NewsletterSession;
 use Magento\Widget\Block\BlockInterface;
 use Wolf\Filter\Observer\Navigation as Ob;
 class Navigation extends \Magento\Catalog\Block\Navigation implements BlockInterface {
@@ -77,7 +78,7 @@ class Navigation extends \Magento\Catalog\Block\Navigation implements BlockInter
 	 */
 	function getSelectLabel($i) {
 		$labels = $this->getSelectLabels();
-		if(isset($labels[$i])) {
+		if (isset($labels[$i])) {
 			return __($labels[$i]);
 		} else {
 			return __('Select category');
@@ -114,30 +115,32 @@ class Navigation extends \Magento\Catalog\Block\Navigation implements BlockInter
 	 * @return array
 	 */
 	function getConfigJson() {return dfc($this, function() {
-		$catalogSession = df_o('\Magento\Newsletter\Model\Session');
+		$catalogSession = df_o(NewsletterSession::class); /** @var NewsletterSession $catalogSession */
 		$urlPath = "";
 		$urlName ="";
-		if(@$_GET['cat']!=""){
+		if (@$_GET['cat']!=""){
 			$catid = @$_GET['cat'];
 			$dfCategory = df_new_om('Magento\Catalog\Model\Category')->load($catid);
 			$arr = $dfCategory->getData();
-			if($arr['url_path']!=""){
+			if ($arr['url_path']!=""){
 				$urlPath = $dfCategory->getUrl();
 				$urlName = str_replace("-"," ",str_replace("/"," ",$arr['url_path']));
 			}
-		}elseif($catalogSession->getMyvalue()!=""){
+		}
+		else if ($catalogSession->getMyvalue()!=""){
 			$catid = $catalogSession->getMyvalue();
 			$dfCategory = df_new_om('Magento\Catalog\Model\Category')->load($catid);
 			$arr = $dfCategory->getData();
-			if($arr['url_path']!=""){
+			if ($arr['url_path']!=""){
 				$urlPath = $dfCategory->getUrl();
 				$urlName = str_replace("-"," ",str_replace("/"," ",$arr['url_path']));
 			}
 		}
 		$urlName = str_replace(".html","",$urlName);
-		if($this->getLabelsEmbedded() == 'outside') {
+		if ($this->getLabelsEmbedded() == 'outside') {
 			$label = "";
-		} else {
+		} 
+		else {
 			$label = $this->getLabelsEmbedded();
 		}
 		$config = array(
@@ -159,11 +162,12 @@ class Navigation extends \Magento\Catalog\Block\Navigation implements BlockInter
 		$configCacheId = 'config_' . $paramsHash;
 		// Build categories by level
 		$da = unserialize($this->_cache->load($configCacheId));
-		if(false !==($data = $this->_cache->load($configCacheId)) && count($da[0])>0) {
+		if (false !==($data = $this->_cache->load($configCacheId)) && count($da[0])>0) {
 			$categoriesByLevel = unserialize($data);
-			if(false !==($data = $this->_cache->load($selectedCategoriesCacheId))) {
+			if (false !==($data = $this->_cache->load($selectedCategoriesCacheId))) {
 				$selectedCategories = unserialize($data);
-			} else {
+			} 
+			else {
 				$selectedCategories = [];
 			}
 		}
@@ -175,7 +179,7 @@ class Navigation extends \Magento\Catalog\Block\Navigation implements BlockInter
 			for($l = 0; $l < 1 /*$config['levels']*/; $l++) {
 				$categoriesByLevel[$l] = [];
 				$nextTree = null;
-				if($menuTree) {
+				if ($menuTree) {
                     foreach($menuTree as $menuTreeEntry) {
                         $category = null;
                         $category = array(
@@ -184,11 +188,11 @@ class Navigation extends \Magento\Catalog\Block\Navigation implements BlockInter
                             'url' => dfa($menuTreeEntry, 'url'),
                             'selected' => false
                        );
-                        if(isset($config['params'][$l]) && $this->sanitizeUrl($menuTreeEntry['name']) == $config['params'][$l]['name']) {
+                        if (isset($config['params'][$l]) && $this->sanitizeUrl($menuTreeEntry['name']) == $config['params'][$l]['name']) {
                             $config['params'][$l]['id'] = $menuTreeEntry['id'];
                             $category['selected'] = true;
                             array_push($selectedCategories, $category);
-                            if(isset($menuTreeEntry['children']) && !empty($menuTreeEntry['children'])) {
+                            if (isset($menuTreeEntry['children']) && !empty($menuTreeEntry['children'])) {
                                 $nextTree = $menuTreeEntry['children'];
                             } else {
                                 $nextTree = null;
@@ -198,7 +202,7 @@ class Navigation extends \Magento\Catalog\Block\Navigation implements BlockInter
                     }
                 }
                 $menuTree = $nextTree;
-                if(!empty($categoriesByLevel[$l])) {
+                if (!empty($categoriesByLevel[$l])) {
                     usort($categoriesByLevel[$l], function($first, $second) {
                         return strtolower($first['name']) > strtolower($second['name']);
                     });
@@ -211,7 +215,7 @@ class Navigation extends \Magento\Catalog\Block\Navigation implements BlockInter
 		$config['selectedCategories'] = $selectedCategories;
         $config['customer_garage'] = $this->_registry->registry('wolfCategoryCustomerGarage');
         $config['customer_garage_is_empty'] = $this->_registry->registry('wolfCustomerGarageIsEmpty');
-		if(@$urlPath!=""){
+		if (@$urlPath!=""){
           $config['customer_garage_uri'] = $urlPath;
           $config['customer_garage_uri_name'] = $urlName;
 		}else{
@@ -301,7 +305,7 @@ class Navigation extends \Magento\Catalog\Block\Navigation implements BlockInter
 	private function sanitizeUrl($name) {
 		$name = strtolower($name);
 		$pos = strpos($name, '.html');
-		if($pos > 0) {
+		if ($pos > 0) {
 			$name = substr($name, 0, $pos);
 		}
 		$name = str_replace(array('.', '-'), ' ', $name);
