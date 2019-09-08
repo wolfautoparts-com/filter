@@ -1,10 +1,18 @@
 <?php
 namespace Wolf\Filter\Observer;
 use Magento\Customer\Model\Session;
-use Magento\Framework\Event\Observer;
+use Magento\Framework\Event\Observer as Ob;
 use Magento\Framework\Event\ObserverInterface;
+// 2019-09-08
 class ControllerActionPredispatch implements ObserverInterface {
-	function execute(Observer $observer) {
+	/**
+	 * 2019-09-08
+	 * @override
+	 * @see ObserverInterface::execute()
+	 * @used-by \Magento\Framework\Event\Invoker\InvokerDefault::_callObserverMethod()
+	 * @param Ob $o
+	 */
+	function execute(Ob $o) {
 		$sess = df_customer_session(); /** @var Session $sess */
 		$isCarSelected = "not_selected";
 		if (isset($_COOKIE['car_selected' ])) {
