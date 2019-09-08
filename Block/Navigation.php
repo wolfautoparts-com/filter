@@ -62,7 +62,7 @@ class Navigation extends \Magento\Catalog\Block\Navigation implements BlockInter
 	 * @return array
 	 */
 	function getConfigJson() {return dfc($this, function() {
-		list($urlPath, $urlName) = $this->urlPathAndName();
+		list($urlPath, $urlName) = $this->urlPathAndName(); /** @var string $urlPath */ /** @var string $urlName */
 		if ($this->getLabelsEmbedded() == 'outside') {
 			$label = '';
 		} 
