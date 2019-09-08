@@ -6,6 +6,7 @@ use Magento\Framework\App\CacheInterface;
 use Magento\Framework\Controller\Result\JsonFactory;
 use Psr\Log\LoggerInterface;
 use Wolf\Filter\Customer as WCustomer;
+use Wolf\Filter\Setup\InstallData as Schema;
 class Remove extends Action {
 	/**
 	 * Change constructor.
@@ -69,10 +70,10 @@ class Remove extends Action {
 				if ($customer_id) {
 					$customer = $this->_customerModel->load($customer_id);
 					$customerData = $customer->getDataModel();
-					$customerData->setCustomAttribute('customer_garage_json', $customer_garage_json);
+					$customerData->setCustomAttribute(Schema::GARAGE, $customer_garage_json);
 					$customer->updateData($customerData);
 					$customerResource = $this->_customerResourceFactory->create();
-					$customerResource->saveAttribute($customer, 'customer_garage_json');
+					$customerResource->saveAttribute($customer, Schema::GARAGE);
 				}
 				wolf_sess_set($customer_garage_json);
 				WCustomer::garage($customer_garage);

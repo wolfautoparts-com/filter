@@ -63,12 +63,11 @@ class InstallData implements InstallDataInterface {
 		$installer = $setup;
 		$installer->startSetup();
 		$eavSetup = $this->_eavSetupFactory->create(['setup' => $setup]);
-		$eavSetup->removeAttribute(\Magento\Customer\Model\Customer::ENTITY, 'garage_json');
-		$eavSetup->removeAttribute(\Magento\Customer\Model\Customer::ENTITY, 'customer_garage_json');
+		$eavSetup->removeAttribute(\Magento\Customer\Model\Customer::ENTITY, self::GARAGE);
 		$this->cleanCache();
 		// add customer_attribute to customer
 		$eavSetup->addAttribute(
-			\Magento\Customer\Model\Customer::ENTITY, 'customer_garage_json', [
+			\Magento\Customer\Model\Customer::ENTITY, self::GARAGE, [
 			'type' => 'text',
 			'label' => 'Garage JSON',
 			'input' => 'text',
@@ -77,7 +76,7 @@ class InstallData implements InstallDataInterface {
 			'global' => \Magento\Eav\Model\Entity\Attribute\ScopedAttributeInterface::SCOPE_STORE,
 			'sort_order' => '200']);
 		// allow customer_attribute attribute to be saved in the specific areas
-		$attribute = $this->_attributeRepository->get('customer', 'customer_garage_json');
+		$attribute = $this->_attributeRepository->get('customer', self::GARAGE);
 		$setup->getConnection()
 			->insertOnDuplicate(
 				$setup->getTable('customer_form_attribute'),
@@ -89,4 +88,14 @@ class InstallData implements InstallDataInterface {
 		   );
 		$installer->endSetup();
 	}
+
+	/**
+	 * 2019-08-09
+	 * @used-by install()
+	 * @used-by \Wolf\Filter\Controller\Garage\Clean::execute()
+	 * @used-by \Wolf\Filter\Controller\Garage\Remove::execute()
+	 * @used-by \Wolf\Filter\Observer\ControllerActionPredispatch::execute()
+	 * @type string
+	 */
+	const GARAGE = 'customer_garage_json';
 }

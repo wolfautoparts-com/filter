@@ -4,6 +4,7 @@ use Magento\Customer\Model\Customer as C;
 use Magento\Framework\Event\Observer as Ob;
 use Magento\Framework\Event\ObserverInterface;
 use Wolf\Filter\Customer as WCustomer;
+use Wolf\Filter\Setup\InstallData as Schema;
 // 2019-09-08
 class ControllerActionPredispatch implements ObserverInterface {
 	/**
@@ -39,7 +40,7 @@ class ControllerActionPredispatch implements ObserverInterface {
 		/** @var C|false $c */
 		if ($c = df_customer()) {
 			$customerData = $c->getDataModel();
-			$garageJ = $customerData->getCustomAttribute('customer_garage_json');
+			$garageJ = $customerData->getCustomAttribute(Schema::GARAGE);
 			if ($garageJ) {
 				$garageJ = $garageJ->getValue();
 			}
@@ -75,9 +76,9 @@ class ControllerActionPredispatch implements ObserverInterface {
 			$garageJ = json_encode($garage);
 			if ($c) {
 				$customerData = $c->getDataModel();
-				$customerData->setCustomAttribute('customer_garage_json', $garageJ);
+				$customerData->setCustomAttribute(Schema::GARAGE, $garageJ);
 				$c->updateData($customerData);
-				df_customer_resource()->saveAttribute($c, 'customer_garage_json');
+				df_customer_resource()->saveAttribute($c, Schema::GARAGE);
 			}
 			wolf_sess_set($garageJ);
 		}
