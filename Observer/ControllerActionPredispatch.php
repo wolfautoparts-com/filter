@@ -33,16 +33,11 @@ class ControllerActionPredispatch implements ObserverInterface {
 		 * @var array(array(string => string)) $params
 		 */
 		$params = df_map($pathA, function($v) {return ['id' => null, 'name' => $this->name($v), 'value' => $v];});
-		$config = ['params' => $params];
+		WCustomer::params($params);
 		$categoryPath = '/' . df_cc_path(array_slice($pathA, 0, 5)) . '.html'; /** @var string $categoryPath */
-		$isComplete = 
-			dfa($_COOKIE, 'car_selected')
-			&& 5 <= count($params)
-			&& in_array($params[0]['value'], ['audi', 'bmw', 'volkswagen'])
-		; /** @var bool $isComplete */
-		$c = df_customer(); /** @var C|false $c */
-		$customer_garage = array('cars' => []);
-		if ($c) {
+		$customer_garage = ['cars' => []];
+		/** @var C|false $c */
+		if ($c = df_customer()) {
 			$customerData = $c->getDataModel();
 			$customer_garage_json = $customerData->getCustomAttribute('customer_garage_json');
 			if ($customer_garage_json) {
@@ -67,6 +62,11 @@ class ControllerActionPredispatch implements ObserverInterface {
 			}
 		}
 		$complete_car_entry_added = false;
+		$isComplete =
+			dfa($_COOKIE, 'car_selected')
+			&& 5 <= count($params)
+			&& in_array($params[0]['value'], ['audi', 'bmw', 'volkswagen'])
+		; /** @var bool $isComplete */
 		if ($isComplete && !in_array($categoryPath, $customer_garage['cars'])) {
 			array_push($customer_garage['cars'], $categoryPath);
 			$complete_car_entry_added = true;
@@ -83,7 +83,6 @@ class ControllerActionPredispatch implements ObserverInterface {
 		}
 		sort($customer_garage['cars']);
 		WCustomer::garage($customer_garage);
-		WCustomer::params($config['params']);
 		WCustomer::categoryPath(!$isComplete ? null : $categoryPath);
 		WCustomer::uriName(!$isComplete ? null : $this->name($categoryPath));
 		// 2019-09-08 «Remove a cookie»: https://stackoverflow.com/a/686166
