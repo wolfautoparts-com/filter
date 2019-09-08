@@ -118,7 +118,6 @@ class Navigation extends \Magento\Catalog\Block\Navigation implements BlockInter
 	 * @return array
 	 */
 	function getConfigJson() {return dfc($this, function() {
-		$sess = df_o(NewsletterSession::class); /** @var NewsletterSession $sess */
 		$urlPath = '';
 		$urlName ='';
 		if (@$_GET['cat']!='') {
@@ -131,13 +130,16 @@ class Navigation extends \Magento\Catalog\Block\Navigation implements BlockInter
 			}
 		}
 		/** 2019-09-08 @see app/design/frontend/One80solution/wolfautoparts/Magento_Search/templates/form.mini.phtml */
-		else if ($sess->getMyvalue()!='') {
-			$catid = $sess->getMyvalue();
-			$dfCategory = df_new_om('Magento\Catalog\Model\Category')->load($catid);
-			$arr = $dfCategory->getData();
-			if ($arr['url_path']!='') {
-				$urlPath = $dfCategory->getUrl();
-				$urlName = str_replace("-"," ",str_replace("/"," ",$arr['url_path']));
+		else {
+			$sess = df_o(NewsletterSession::class); /** @var NewsletterSession $sess */
+			if ($sess->getMyvalue()!='') {
+				$catid = $sess->getMyvalue();
+				$dfCategory = df_new_om('Magento\Catalog\Model\Category')->load($catid);
+				$arr = $dfCategory->getData();
+				if ($arr['url_path']!='') {
+					$urlPath = $dfCategory->getUrl();
+					$urlName = str_replace("-"," ",str_replace("/"," ",$arr['url_path']));
+				}
 			}
 		}
 		$urlName = str_replace(".html",'',$urlName);
