@@ -21,6 +21,17 @@ class ControllerActionPredispatch implements ObserverInterface {
 		 * @var string[] $pathA
 		 */
 		$pathA = explode('/', ltrim(df_strip_ext(df_request_o()->getOriginalPathInfo()), '/'));
+		/**
+		 * 2019-09-08
+		 *	[
+		 *		{"id": null, "name": "Audi", "value": "audi"},
+		 *		{"id": null, "name": "2019", "value": "2019"},
+		 *		{"id": null, "name": "A4", "value": "a4"},
+		 *		{"id": null, "name": "Quattro Sedan", "value": "quattro-sedan"},
+		 *		{"id": null, "name": "2 0l L4 Turbo", "value": "2-0l-l4-turbo"}
+		 *	]
+		 * @var array(array(string => string)) $params
+		 */
 		$params = df_map($pathA, function($v) {return ['id' => null, 'name' => $this->name($v), 'value' => $v];});
 		$config = ['params' => $params];
 		$categoryPath = '/' . df_cc_path(array_slice($pathA, 0, 5)) . '.html'; /** @var string $categoryPath */
