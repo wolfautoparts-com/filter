@@ -239,11 +239,9 @@ class Navigation extends \Magento\Catalog\Block\Navigation implements BlockInter
 			$name = $path = '';
 		}
 		else {
-			$c = df_new_om(C::class)->load($id); /** @var C $c */
-			if ($p = $c['url_path']) {
-				$path = $c->getUrl();
-				$name = strtr($p, ['-' => ' ', '/' => ' ', '.html' => '']);
-			}
+			$c = df_category($id); /** @var C $c */
+			$path = $c->getUrl();
+			$name = strtr($c['url_path'], ['-' => ' ', '/' => ' ', '.html' => '']);
 		}
 		return [$path, $name];
 	}	
