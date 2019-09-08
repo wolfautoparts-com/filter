@@ -42,21 +42,16 @@ class Clean extends Action {
 
 	function execute() {
 		$customer_id = $this->_customerSession->getCustomer()->getId();
-		$customer_garage = array('cars' => []);
-		$customer_garage_json = json_encode($customer_garage);
-		wolf_sess_set($customer_garage_json);
+		wolf_sess_set($garageJ = json_encode(['cars' => []])); /** @var string $garageJ */
 		if ($customer_id) {
 			$customer = $this->_customerModel->load($customer_id);
 			$customerData = $customer->getDataModel();
-			$customerData->setCustomAttribute(Schema::GARAGE, $customer_garage_json);
+			$customerData->setCustomAttribute(Schema::GARAGE, $garageJ);
 			$customer->updateData($customerData);
 			$customerResource = $this->_customerResourceFactory->create();
 			$customerResource->saveAttribute($customer, Schema::GARAGE);
 		}
 		$result = $this->_resultJsonFactory->create();
-
-		return $result->setData(array(
-			'success' => true
-		));
+		return $result->setData(['success' => true]);
 	}
 }
