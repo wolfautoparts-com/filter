@@ -13,8 +13,9 @@ class ControllerActionPredispatch implements ObserverInterface {
 	 * @param Ob $o
 	 */
 	function execute(Ob $o) {
+		static $NOT_SELECTED = 'not_selected'; /** @var string $NOT_SELECTED */
 		$sess = df_customer_session(); /** @var Session $sess */
-		$isCarSelected = dfa($_COOKIE, 'car_selected', 'not_selected');
+		$isCarSelected = dfa($_COOKIE, 'car_selected', $NOT_SELECTED);
 		$uri = strtok($_SERVER['REQUEST_URI'], '?');
 		$garageUri = '';
 		$uri_tmp = ltrim($uri, '/');
@@ -117,7 +118,7 @@ class ControllerActionPredispatch implements ObserverInterface {
 		df_register('wolfCategoryParamsString', $paramsString);
 		df_unregister('wolfCategoryParamsHash');
 		df_register('wolfCategoryParamsHash', $paramsHash);
-		setcookie('car_selected', 'not_selected', time() +2592000, '/', $_SERVER['HTTP_HOST']);
+		setcookie('car_selected', $NOT_SELECTED, time() +2592000, '/', $_SERVER['HTTP_HOST']);
 	}
 
 	/**
