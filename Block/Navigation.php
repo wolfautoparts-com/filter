@@ -232,10 +232,10 @@ class Navigation extends \Magento\Catalog\Block\Navigation implements BlockInter
 	private function urlPathAndName() {
 		$name = $path = ''; /** @var string $name */  /** @var string $path */
 		if (df_request('cat')) {
-			$dfCategory = df_new_om(C::class)->load(df_request('cat')); /** @var C $dfCategory */
-			$arr = $dfCategory->getData();
+			$c = df_new_om(C::class)->load(df_request('cat')); /** @var C $c */
+			$arr = $c->getData();
 			if ($arr['url_path']!='') {
-				$path = $dfCategory->getUrl();
+				$path = $c->getUrl();
 				$name = str_replace("-",' ',str_replace("/",' ',$arr['url_path']));
 			}
 		}
@@ -246,10 +246,10 @@ class Navigation extends \Magento\Catalog\Block\Navigation implements BlockInter
 			 */
 			$sess = df_o(NewsletterSession::class); /** @var NewsletterSession $sess */
 			if ($sess->getMyvalue()) {
-				$dfCategory = df_new_om(C::class)->load($sess->getMyvalue()); /** @var C $dfCategory */
-				$arr = $dfCategory->getData();
+				$c = df_new_om(C::class)->load($sess->getMyvalue()); /** @var C $c */
+				$arr = $c->getData();
 				if ($arr['url_path']!='') {
-					$path = $dfCategory->getUrl();
+					$path = $c->getUrl();
 					$name = str_replace("-",' ',str_replace("/",' ',$arr['url_path']));
 				}
 			}
