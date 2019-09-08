@@ -56,14 +56,14 @@
 				var self = event.data;
 				var dataId = jQuery(this).attr('dataId');
 				var levels = self.options.levels;
-				var labelembedded = self.options.labelembedded;
+				var useCustomLabels = self.options.useCustomLabels;
 				var nameInLayout = self.options.nameInLayout;
 				var nextDropdown = parseInt(dataId) + 1;
 				self._clearDropDowns(levels, dataId);
-				self._loadNextDropDown(event, selectedValue, labelembedded, nameInLayout, redirectUrl, dataId, levels);
+				self._loadNextDropDown(event, selectedValue, useCustomLabels, nameInLayout, redirectUrl, dataId, levels);
 			},
 
-			_loadNextDropDown: function (event, selectedValue, labelembedded, nameInLayout, redirectUrl, dataId, levels) {
+			_loadNextDropDown: function (event, selectedValue, useCustomLabels, nameInLayout, redirectUrl, dataId, levels) {
 
 				var self = event.data;
 				var url = self.options.url;
@@ -108,9 +108,8 @@
 				} else {
 
 					if (selectedValue != "") {
-						var labelText =
-							'embedded' !== labelembedded ? 'Please Select' :
-								jQuery("#" + nameInLayout + nextDropdown + " option:first").text()
+						var labelText = !useCustomLabels ? 'Please Select' :
+							jQuery("#" + nameInLayout + nextDropdown + " option:first").text()
 						;
 						jQuery('#' + nameInLayout + nextDropdown).empty();
 						jQuery('#' + nameInLayout + nextDropdown).append('<option value="">Loading...</option>');
