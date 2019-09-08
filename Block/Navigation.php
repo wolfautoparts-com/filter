@@ -228,6 +228,30 @@ class Navigation extends \Magento\Catalog\Block\Navigation implements BlockInter
 	 */
 	function hDropdowns() {
 		$r = '';
+		/**
+		 * 2019-09-08
+		 *	[
+		 *		{
+		 *			"id": 1721,
+		 *			"name": "Audi",
+		 * 			"url": null,
+		 *			"selected": false
+		 *		},
+		 *		{
+		 *			"id": 3613,
+		 *			"name": "BMW",
+		 *			"url": null,
+		 *			"selected": false
+		 *		},
+		 *		{
+		 *			"id": 3,
+		 *			"name": "Volkswagen",
+		 *			"url": null,
+		 *			"selected": false
+		 *		}
+		 *	]
+		 * @var array(array(string => string|int|bool|null)) $topLevelCategories
+		 */
 		$topLevelCategories = $this->getConfigJson()['categoriesByLevel'][0];
 		$levels = $this['levels'];
 		$lastLevel = $levels - 1;
