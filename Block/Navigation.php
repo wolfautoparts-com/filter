@@ -1,31 +1,11 @@
 <?php
 namespace Wolf\Filter\Block;
+use Magento\Catalog\Block\Navigation as _P;
 use Magento\Catalog\Model\Category as C;
 use Magento\Newsletter\Model\Session as NewsletterSession;
-use Magento\Widget\Block\BlockInterface;
+use Magento\Widget\Block\BlockInterface as IWidget;
 use Wolf\Filter\Observer\Navigation as Ob;
-class Navigation extends \Magento\Catalog\Block\Navigation implements BlockInterface {
-	/**
-	 * @return array
-	 */
-	function getCacheKeyInfo() {
-		$shortCacheId = [
-			'CATEGORY_FILTER',
-			df_store_id(),
-			df_design()->getDesignTheme()->getId(),
-			df_http_context()->getValue('wolf_categoryfilter'),
-			'template' => $this->getTemplate(),
-			'name' => $this->getNameInLayout()
-		];
-		$cacheId = $shortCacheId;
-		$shortCacheId = array_values($shortCacheId);
-		$shortCacheId = implode('|', $shortCacheId);
-		$shortCacheId = md5($shortCacheId);
-		$cacheId['category_path'] = $this->getCurrentCategoryKey();
-		$cacheId['short_cache_id'] = $shortCacheId;
-		return $cacheId;
-	}
-
+class Navigation extends _P implements IWidget {
 	/**                                                                              
 	 * 2019-09-08
 	 * @used-by vendor/wolfautoparts.com/filter/view/frontend/templates/sidebar.phtml 
