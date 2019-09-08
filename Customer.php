@@ -11,7 +11,7 @@ final class Customer {
 	 * @param mixed[]|null $v
 	 * @return mixed[]|null
 	 */
-	static function garage($v = null) {return df_prop(null, $v, false);}
+	static function garage($v = null) {return df_prop(null, $v, []);}
 
 	/**
 	 * 2019-09-08
