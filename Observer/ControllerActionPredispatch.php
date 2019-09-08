@@ -21,7 +21,7 @@ class ControllerActionPredispatch implements ObserverInterface {
 		$uri = strtok($_SERVER['REQUEST_URI'], '?');
 		$garageUri = '';
 		$uri_tmp = ltrim($uri, '/');
-		$config = array();
+		$config = [];
 		$config['params'] = explode('/', $uri_tmp);
 		$paramsString = '';
 		$complete_car_entry = false;
@@ -49,7 +49,7 @@ class ControllerActionPredispatch implements ObserverInterface {
 		$paramsString = rtrim($paramsString);
 		$paramsHash = sha1($paramsString);
 		$customer_id = $sess->getCustomer()->getId();
-		$customer_garage = array('cars' => array());
+		$customer_garage = array('cars' => []);
 		if ($customer_id) {
 			$customer = df_customer($customer_id);
 			$customerData = $customer->getDataModel();
@@ -65,7 +65,7 @@ class ControllerActionPredispatch implements ObserverInterface {
 		$customer_garage_json_session = $sess->getCustomerGarageJson();
 		$customer_garage_json_session_used = false;
 		if (!$customer_garage_json_session || $customer_garage_json_session == '{}') {
-			$customer_garage_session = array('cars' => array());
+			$customer_garage_session = array('cars' => []);
 		} else {
 			$customer_garage_session = json_decode($customer_garage_json_session, true);
 		}

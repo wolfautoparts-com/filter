@@ -41,7 +41,7 @@ class Clean extends Action {
 
 	function execute() {
 		$customer_id = $this->_customerSession->getCustomer()->getId();
-		$customer_garage = array('cars' => array());
+		$customer_garage = array('cars' => []);
 		$customer_garage_json = json_encode($customer_garage);
 
 		if ($customer_id) {

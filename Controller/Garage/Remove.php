@@ -44,8 +44,8 @@ class Remove extends Action {
 	function execute() {
 
 		$params = $this->getRequest()->getParams();
-		$errors = array();
-		$customer_garage = array('cars' => array());
+		$errors = [];
+		$customer_garage = array('cars' => []);
 
 		if (isset($params['uri']) && !empty($params['uri'])) {
 
