@@ -25,19 +25,6 @@ class Customer implements ObserverInterface {
 
 	}
 
-	protected function sanitizeUrlName($name) {
-
-		$pos = strpos($name, '.html');
-		if ($pos > 0) {
-			$name = substr($name, 0, $pos);
-		}
-
-		$name = preg_replace('/\/|-/', ' ', $name);
-		$name = ucwords($name);
-
-		return $name;
-	}
-
 	function execute(Observer $observer)
 	{
 		$isCarSelected = "not_selected";
@@ -58,7 +45,7 @@ class Customer implements ObserverInterface {
 		foreach ($config['params'] as $key => &$param) {
 			$param = array(
 				'id' => null,
-				'name' => $this->sanitizeUrlName($param),
+				'name' => $this->sanitize($param),
 				'value' => df_trim_text_right($param, '.html')
 			);
 			$paramsString .= $param['name'] . ' ';
@@ -143,7 +130,7 @@ class Customer implements ObserverInterface {
 			df_unregister('wolfCustomerGarageUri');
 			df_register('wolfCustomerGarageUri', $garageUri);
 			df_unregister('wolfCustomerGarageUriName');
-			df_register('wolfCustomerGarageUriName', $this->sanitizeUrlName($garageUri));
+			df_register('wolfCustomerGarageUriName', $this->sanitize($garageUri));
 		}
 		else {
 			df_unregister('wolfCustomerGarageUri');
@@ -161,4 +148,14 @@ class Customer implements ObserverInterface {
 		df_register('wolfCategoryParamsHash', $paramsHash);
 		setcookie('car_selected', 'not_selected', time() +2592000, '/', $_SERVER['HTTP_HOST']);
 	}
+
+	/**
+	 * 2019-09-08
+	 * @used-by execute()
+	 * @param string $s
+	 * @return bool|null|string|string[]
+	 */
+	private function sanitize($s) {return ucwords(preg_replace(
+		'/\/|-/', ' ', df_trim_text_right($s, '.html')
+	));}
 }
