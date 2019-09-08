@@ -6,14 +6,6 @@ use Magento\Widget\Block\BlockInterface;
 use Wolf\Filter\Observer\Navigation as Ob;
 class Navigation extends \Magento\Catalog\Block\Navigation implements BlockInterface {
 	/**
-	 * 2019-09-08
-	 * @used-by hDropdowns()
-	 * @used-by vendor/wolfautoparts.com/filter/view/frontend/templates/sidebar.phtml
-	 * @return bool
-	 */
-	function labelsAreInside() {return 'embedded' === $this['labels_embedded'];}
-
-	/**
 	 * @return array
 	 */
 	function getSelectLabels() {
@@ -211,6 +203,14 @@ class Navigation extends \Magento\Catalog\Block\Navigation implements BlockInter
 		}
 		return $r;
 	}
+
+	/**
+	 * 2019-09-08
+	 * @used-by hDropdowns()
+	 * @used-by vendor/wolfautoparts.com/filter/view/frontend/templates/sidebar.phtml
+	 * @return bool
+	 */
+	function labelsAreInside() {return 'embedded' === $this['labels_embedded'];}
 
 	/**
 	 * 2019-09-07
