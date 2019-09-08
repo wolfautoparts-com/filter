@@ -59,9 +59,7 @@ class Navigation extends _P implements IWidget {
 							&&
 									$r['params'][$l]['name']
 								===
-									str_replace(
-										['.', '-'], ' ', df_trim_text_right(strtolower($menuTreeEntry['name']), '.html')
-									)
+									str_replace(['.', '-'], ' ', df_strip_ext(strtolower($menuTreeEntry['name'])))
 						) {
                             $r['params'][$l]['id'] = $menuTreeEntry['id'];
                             $category['selected'] = true;
@@ -94,7 +92,7 @@ class Navigation extends _P implements IWidget {
 			$r['customer_garage_uri_name'] = $urlName;
 		}
 		else {
-			$r['customer_garage_uri'] = WCustomer::uri();
+			$r['customer_garage_uri'] = WCustomer::categoryPath();
 			$r['customer_garage_uri_name'] = WCustomer::uriName();
 		}
 		return $r;

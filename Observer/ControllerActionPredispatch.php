@@ -18,17 +18,18 @@ class ControllerActionPredispatch implements ObserverInterface {
 		 * 2019-09-08
 		 * 1) @uses \Magento\Framework\App\Request\Http::getOriginalPathInfo() removes the `?...` part.
 		 * 2) ['audi', '2019', 'a4', 'quattro-sedan', '2-0l-l4-turbo.html']
+		 * @var string[] $pathA
 		 */
-		$pathA = explode('/', ltrim(df_request_o()->getOriginalPathInfo(), '/')); /** @var string[] $pathA */
+		$pathA = explode('/', ltrim(df_strip_ext(df_request_o()->getOriginalPathInfo()), '/'));
 		$config = ['params' => $pathA];
-		$productURL = '';
+		$categoryPath = '';
 		foreach ($config['params'] as $key => &$p) {
-			$p = ['id' => null, 'name' => $this->sanitize($p), 'value' => df_trim_text_right($p, '.html')];
+			$p = ['id' => null, 'name' => $this->sanitize($p), 'value' => $p];
 			if (5 > $key) {
-				$productURL .= '/' . $p['value'];
+				$categoryPath .= '/' . $p['value'];
 			}
 		}
-		$productURL .= '.html';
+		$categoryPath = '/' . df_cc_path(array_slice($pathA, 0, 5)) . '.html';
 		$isComplete = 
 			dfa($_COOKIE, 'car_selected')
 			&& 5 <= count($config['params'])
@@ -61,8 +62,8 @@ class ControllerActionPredispatch implements ObserverInterface {
 			}
 		}
 		$complete_car_entry_added = false;
-		if ($isComplete && !in_array($productURL, $customer_garage['cars'])) {
-			array_push($customer_garage['cars'], $productURL);
+		if ($isComplete && !in_array($categoryPath, $customer_garage['cars'])) {
+			array_push($customer_garage['cars'], $categoryPath);
 			$complete_car_entry_added = true;
 		}
 		if ($customer_garage_json_session_used || $complete_car_entry_added) {
@@ -78,8 +79,8 @@ class ControllerActionPredispatch implements ObserverInterface {
 		sort($customer_garage['cars']);
 		WCustomer::garage($customer_garage);
 		WCustomer::params($config['params']);
-		WCustomer::uri(!$isComplete ? null : $productURL);
-		WCustomer::uriName(!$isComplete ? null : $this->sanitize($productURL));
+		WCustomer::categoryPath(!$isComplete ? null : $categoryPath);
+		WCustomer::uriName(!$isComplete ? null : $this->sanitize($categoryPath));
 		// 2019-09-08 «Remove a cookie»: https://stackoverflow.com/a/686166
 		setcookie('car_selected', '', time() - 3600, '/', $_SERVER['HTTP_HOST']);
 	}
@@ -90,5 +91,5 @@ class ControllerActionPredispatch implements ObserverInterface {
 	 * @param string $s
 	 * @return bool|null|string|string[]
 	 */
-	private function sanitize($s) {return ucwords(preg_replace('/\/|-/', ' ', df_trim_text_right($s, '.html')));}
+	private function sanitize($s) {return ucwords(preg_replace('/\/|-/', ' ', df_strip_ext($s)));}
 }
