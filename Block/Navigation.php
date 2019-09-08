@@ -16,10 +16,8 @@ class Navigation extends _P implements IWidget {
 		list($urlPath, $urlName) = $this->urlPathAndName(); /** @var string $urlPath */ /** @var string $urlName */
 		$config = [
 			'current_category_id' => df_registry('current_category') ?: 0
-			,'fetch_children_url' => df_url('categoryfilter/ajax/fetchChildren')
 			,'id' => 'cd-' . $this->getNameInLayout()
 			,'levels' => $this['levels']
-			,'please_wait_text' => __('Please wait...')
 		];
 		$cacheTags = [Ob::CACHE_TAG];
 		$menuTree = wolf_tree_load();
