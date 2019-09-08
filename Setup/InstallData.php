@@ -114,7 +114,7 @@ class InstallData implements InstallDataInterface
                     ['form_code' => 'adminhtml_customer', 'attribute_id' => $attribute->getId()],
                     ['form_code' => 'customer_account_create', 'attribute_id' => $attribute->getId()],
                     ['form_code' => 'customer_account_edit', 'attribute_id' => $attribute->getId()],
-                ]
+               ]
            );
 
         $installer->endSetup();

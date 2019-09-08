@@ -15,8 +15,8 @@ class ControllerActionPredispatch implements ObserverInterface {
 	function execute(Ob $o) {
 		$sess = df_customer_session(); /** @var Session $sess */
 		$isCarSelected = "not_selected";
-		if (isset($_COOKIE['car_selected' ])) {
-			$isCarSelected = $_COOKIE['car_selected' ];
+		if (isset($_COOKIE['car_selected'])) {
+			$isCarSelected = $_COOKIE['car_selected'];
 		}
 		$uri = strtok($_SERVER['REQUEST_URI'], '?');
 		$garageUri = '';
