@@ -45,11 +45,11 @@ list($selectedCarContStyle, $selectedCarContStyle1) =
 <div class='clearfix'></div>
 <script type='text/javascript'>
 	requirejs(['jquery', 'categoryFilter'], function($) {
-		$('#cd-<?= $b->getNameInLayout() ?>').categoryfilter({
-			'labelembedded': '<?= $b->getLabelsEmbedded() ?>'
-			,'levels': '<?= $b['levels'] ?>'
-			,'nameInLayout': '<?= $b->getNameInLayout() ?>'
-			,'url': '<?= df_url('categoryfinder/index/change'); ?>'
-		});
+		$('#cd-<?= $b->getNameInLayout() ?>').categoryfilter(<?= df_json_encode([
+			'labelembedded' => $b->getLabelsEmbedded()
+			,'levels' => $b['levels']
+			,'nameInLayout' => $b->getNameInLayout()
+			,'url' => df_url('categoryfinder/index/change')
+		]) ?>);
 	});
 </script>
