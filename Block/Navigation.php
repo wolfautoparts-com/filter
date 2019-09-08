@@ -18,7 +18,7 @@ class Navigation extends _P implements IWidget {
 		$r = [
 			'id' => "cd-{$this->getNameInLayout()}"
 			,'levels' => $this['levels']
-			,'params' => df_registry('wolfCategoryParams')
+			,'params' => WCustomer::params()
 		];
 		$cacheTags = [Ob::CACHE_TAG];
 		$menuTree = wolf_tree_load();
