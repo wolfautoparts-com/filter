@@ -102,7 +102,15 @@ class Navigation extends \Magento\Catalog\Block\Navigation implements BlockInter
                             'url' => dfa($menuTreeEntry, 'url'),
                             'selected' => false
                        );
-                        if (isset($config['params'][$l]) && $this->sanitizeUrl($menuTreeEntry['name']) == $config['params'][$l]['name']) {
+                        if (
+                        	isset($config['params'][$l])
+							&&
+									$config['params'][$l]['name']
+								===
+									str_replace(
+										['.', '-'], ' ', df_trim_text_right(strtolower($menuTreeEntry['name']), '.html')
+									)
+						) {
                             $config['params'][$l]['id'] = $menuTreeEntry['id'];
                             $category['selected'] = true;
                             array_push($selectedCategories, $category);
@@ -239,21 +247,5 @@ class Navigation extends \Magento\Catalog\Block\Navigation implements BlockInter
 			$name = strtr($c['url_path'], ['-' => ' ', '/' => ' ', '.html' => '']);
 		}
 		return [$path, $name];
-	}	
-	
-	/**
-	 * 2019-09-08
-	 * @used-by getConfigJson()
-	 * @param $name
-	 * @return mixed
-	 */
-	private function sanitizeUrl($name) {
-		$name = strtolower($name);
-		$pos = strpos($name, '.html');
-		if ($pos > 0) {
-			$name = substr($name, 0, $pos);
-		}
-		$name = str_replace(array('.', '-'), ' ', $name);
-		return $name;
 	}
 }
