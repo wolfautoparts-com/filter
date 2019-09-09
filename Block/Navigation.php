@@ -14,7 +14,6 @@ class Navigation extends _P implements IWidget {
 	 * @return array
 	 */
 	function getConfigJson() {return dfc($this, function() {
-		list($urlPath, $urlName) = $this->urlPathAndName(); /** @var string $urlPath */ /** @var string $urlName */
 		$r = [
 			'id' => "cd-{$this->getNameInLayout()}"
 			,'levels' => $this['levels']
@@ -85,14 +84,9 @@ class Navigation extends _P implements IWidget {
 		}
 		$r['categoriesByLevel'] = $categoriesByLevel;
 		$r['selectedCategories'] = $selectedCategories;
-		if (@$urlPath!='') {
-			$r['customer_garage_uri'] = $urlPath;
-			$r['customer_garage_uri_name'] = $urlName;
-		}
-		else {
-			$r['customer_garage_uri'] = WC::categoryPath();
-			$r['customer_garage_uri_name'] = wolf_u2n(WC::categoryPath());
-		}
+		list($urlPath, $urlName) = $this->urlPathAndName(); /** @var string $urlPath */ /** @var string $urlName */
+		$r['customer_garage_uri'] = $urlPath ?: WC::categoryPath();
+		$r['customer_garage_uri_name'] = $urlName ?: wolf_u2n(WC::categoryPath());
 		return $r;
 	});}
 
@@ -194,7 +188,7 @@ class Navigation extends _P implements IWidget {
 		else {
 			$c = df_category($id); /** @var C $c */
 			$path = $c->getUrl();
-			$name = strtr($c['url_path'], ['-' => ' ', '/' => ' ', '.html' => '']);
+			$name = wolf_u2n($c['url_path']);
 		}
 		return [$path, $name];
 	}
