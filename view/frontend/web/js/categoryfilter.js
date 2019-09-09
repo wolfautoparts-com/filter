@@ -17,20 +17,7 @@
 			keepGarageOpen: false,
 			
 			removeCarButtons: [],
-
-			addNewCarButton: null,
-
 			changeCarButton: null,
-
-			loadingMessage: '',
-
-			testMethodA: function() {
-				//alert('tetMethodA');
-			},
-
-			_testMethodB: function() {
-				//alert('tetMethodB');
-			},
 
 			_create: function() {
 
@@ -41,7 +28,7 @@
 
 
 				this.changeCarButton = $('.change-car-btn');
-				this.changeCarButton.on('click', this, this._onClickChangeCar)
+				this.changeCarButton.on('click', this, this._onClickChangeCar);
 
 
 				this._loadGarage();
