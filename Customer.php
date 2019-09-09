@@ -21,13 +21,4 @@ final class Customer {
 	 * @return mixed[]|null
 	 */
 	static function garage($v = DF_N) {return df_prop(null, $v, []);}
-
-	/**
-	 * 2019-09-08
-	 * @used-by \Wolf\Filter\Block\Navigation::getConfigJson()
-	 * @used-by \Wolf\Filter\Observer\ControllerActionPredispatch::execute()
-	 * @param mixed[]|string|null $v
-	 * @return mixed[]|null
-	 */
-	static function params($v = DF_N) {return df_prop(null, $v, []);}
 }

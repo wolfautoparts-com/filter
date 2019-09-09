@@ -32,7 +32,6 @@ final class ControllerActionPredispatch implements ObserverInterface {
 		 * @var array(array(string => string)) $p
 		 */
 		$p = df_map($pathA, function($v) {return ['id' => null, 'name' => wolf_u2n($v), 'value' => $v];});
-		WC::params($p);
 		$current = '/' . df_cc_path(array_slice($pathA, 0, 5)) . '.html'; /** @var string $current */
 		$cC = wolf_customer_get(); /** @var string[] $cC */
 		$cS = wolf_sess_get(); /** @var string[] $cS */
