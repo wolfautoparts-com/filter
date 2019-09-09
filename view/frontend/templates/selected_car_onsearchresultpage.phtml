@@ -1,13 +1,14 @@
 <?php
 use Wolf\Filter\Customer as WC;
-$config = $this->getConfigJson();
-?>
-<?php if ($config['customer_garage_uri'] && WC::garage()) { ?>
-	<div class="selected_car_block">
-		<strong><?php echo sprintf(__('That fit your %s'), ucwords($config['customer_garage_uri_name'])); ?></strong>
-	</div>
-	<style>
-	 h1.page-title {margin-bottom: 0px !important;}
-     div.selected_car_block {margin: 15px 0 15px 0;}	 
-	</style>
-<?php } ?>
+$cfg = $this->getConfigJson(); /** @var array(string => mixed) $cfg */
+if (WC::garage() && $cfg['customer_garage_uri']) {
+	echo df_tag('div', 'selected_car_block', df_tag('strong', [],
+			'That fit your ' . ucwords($cfg['customer_garage_uri_name'])
+	));
+	?>
+		<style>
+			 h1.page-title {margin-bottom: 0px !important;}
+			 div.selected_car_block {margin: 15px 0 15px 0;}
+		</style>
+	<?php
+}
