@@ -1,8 +1,7 @@
 <?php
 namespace Wolf\Filter\Block;
 use Magento\Catalog\Block\Navigation as _P;
-use Magento\Catalog\Model\Category as C;
-use Magento\Newsletter\Model\Session as NewsletterSession;
+use Magento\Newsletter\Model\Session;
 use Magento\Widget\Block\BlockInterface as IWidget;
 use Wolf\Filter\Customer as WC;
 use Wolf\Filter\Observer\TopMenuGetHTMLBefore as Ob;
@@ -84,9 +83,12 @@ class Navigation extends _P implements IWidget {
 		}
 		$r['categoriesByLevel'] = $categoriesByLevel;
 		$r['selectedCategories'] = $selectedCategories;
-		list($urlPath, $urlName) = $this->urlPathAndName(); /** @var string $urlPath */ /** @var string $urlName */
-		$r['customer_garage_uri'] = $urlPath ?: WC::categoryPath();
-		$r['customer_garage_uri_name'] = $urlName ?: wolf_u2n(WC::categoryPath());
+		$sess = df_o(Session::class); /** @var Session $sess */;
+		$urlPath = !($id = intval(df_request('cat') ?: $sess->getMyvalue()))
+			? WC::categoryPath() : '/' . df_category($id)['url_path']
+		;  /** @var string|null $urlPath */
+		$r['customer_garage_uri'] = $urlPath;
+		$r['customer_garage_uri_name'] = wolf_u2n($urlPath);
 		return $r;
 	});}
 
@@ -170,26 +172,4 @@ class Navigation extends _P implements IWidget {
 	 * @see \Magento\Catalog\Block\Navigation::_construct()
 	 */
 	protected function _construct() {parent::_construct(); $this->setTemplate('sidebar.phtml');}
-	
-	/**             
-	 * 2019-09-08
-	 * @used-by getConfigJson()
-	 * @return array(string, string)
-	 */
-	private function urlPathAndName() {/** @var string $name */  /** @var string $path */
-		/**
-		 * 2019-09-08
-		 * @see app/design/frontend/One80solution/wolfautoparts/Magento_Search/templates/form.mini.phtml
-		 */
-		$sess = df_o(NewsletterSession::class); /** @var NewsletterSession $sess */
-		if (!($id = intval(df_request('cat') ?: $sess->getMyvalue()))) {/** @var int $id */
-			$name = $path = '';
-		}
-		else {
-			$c = df_category($id); /** @var C $c */
-			$path = $c->getUrl();
-			$name = wolf_u2n($c['url_path']);
-		}
-		return [$path, $name];
-	}
 }
