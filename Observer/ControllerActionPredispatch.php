@@ -37,9 +37,11 @@ final class ControllerActionPredispatch implements ObserverInterface {
 		$cC = wolf_customer_get(); /** @var string[] $cC */
 		$cS = wolf_sess_get(); /** @var string[] $cS */
 		$c = array_unique(array_merge($cC, $cS)); /** @var string[] $c */
-		$CK = 'car_selected'; /** @var string $CK */
+		$cookie = 'car_selected'; /** @var string $cookie */
 		/** @var bool $isComplete */
-		$isComplete = dfa($_COOKIE, $CK) && 5 <= count($p) && in_array($p[0]['value'], ['audi', 'bmw', 'volkswagen']);
+		$isComplete = dfa($_COOKIE, $cookie) && 5 <= count($p) && in_array($p[0]['value'], [
+			'audi', 'bmw', 'volkswagen'
+		]);
 		/** @var bool $added */
 		if ($added = $isComplete && !in_array($current, $c)) {
 			$c[]= $current;
@@ -53,6 +55,6 @@ final class ControllerActionPredispatch implements ObserverInterface {
 		WC::categoryPath(!$isComplete ? null : $current);
 		WC::uriName(!$isComplete ? null : wolf_u2n($current));
 		// 2019-09-08 «Remove a cookie»: https://stackoverflow.com/a/686166
-		setcookie($CK, '', time() - 3600, '/', $_SERVER['HTTP_HOST']);
+		setcookie($cookie, '', time() - 3600, '/', $_SERVER['HTTP_HOST']);
 	}
 }
