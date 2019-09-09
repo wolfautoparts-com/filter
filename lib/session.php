@@ -26,22 +26,6 @@ function wolf_customer_get() {
 
 /**
  * 2019-09-08
- * @used-by \Wolf\Filter\Controller\Garage\Clean::execute()
- * @used-by \Wolf\Filter\Controller\Garage\Remove::execute()
- * @used-by \Wolf\Filter\Observer\ControllerActionPredispatch::execute()
- * @param string[] $v
- */
-function wolf_customer_set(array $v) {
-	if ($c = df_customer()) { /** @var C|false $c */
-		$d = $c->getDataModel(); /** @var ICD|CD $d */
-		$d->setCustomAttribute(Schema::GARAGE, df_json_encode($v));
-		$c->updateData($d);
-		df_customer_resource()->saveAttribute($c, Schema::GARAGE);
-	}
-}
-
-/**
- * 2019-09-08
  * @used-by \Wolf\Filter\Observer\ControllerActionPredispatch::execute()
  * @return string[]
  */
@@ -58,7 +42,13 @@ function wolf_sess_get() {
  * @used-by \Wolf\Filter\Observer\ControllerActionPredispatch::execute()
  * @param string[] $v
  */
-function wolf_sess_set(array $v) {
+function wolf_set(array $v) {
 	$sess = df_customer_session(); /** @var Session|SessionW $sess */
-	$sess->setWolfCategories(df_json_encode($v));
+	$sess->setWolfCategories($j = df_json_encode($v)); /** @var string $j */
+	if ($c = df_customer()) { /** @var C|false $c */
+		$d = $c->getDataModel(); /** @var ICD|CD $d */
+		$d->setCustomAttribute(Schema::GARAGE, $j);
+		$c->updateData($d);
+		df_customer_resource()->saveAttribute($c, Schema::GARAGE);
+	}
 }

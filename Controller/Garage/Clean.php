@@ -14,5 +14,5 @@ class Clean extends _P {
 	 * https://github.com/magento/magento2/blob/2.2.1/lib/internal/Magento/Framework/App/Action/Action.php#L84-L125
 	 * @return Json
 	 */
-	function execute() {wolf_customer_set([]); wolf_sess_set([]); return Json::i(['success' => true]);}
+	function execute() {wolf_set([]); return Json::i(['success' => true]);}
 }

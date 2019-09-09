@@ -45,8 +45,7 @@ final class ControllerActionPredispatch implements ObserverInterface {
 			$c[]= $current;
 		}
 		if ($added || array_diff($cS, $cC)) {
-			wolf_customer_set($c);
-			wolf_sess_set($c);
+			wolf_set($c);
 		}
 		sort($c);
 		WC::garage($c);

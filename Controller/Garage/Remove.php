@@ -16,9 +16,7 @@ class Remove extends _P {
 	 * @return Json
 	 */
 	function execute() {
-		$r = array_diff(WCustomer::garage(), [df_request('uri')]); /** @var string[] $r */
-		wolf_customer_set($r);
-		wolf_sess_set($r);
+		wolf_set($r = array_diff(WCustomer::garage(), [df_request('uri')])); /** @var string[] $r */
 		WCustomer::garage($r);
 		return Json::i($r);
 	}
