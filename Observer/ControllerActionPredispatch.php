@@ -34,14 +34,9 @@ final class ControllerActionPredispatch implements ObserverInterface {
 		$params = df_map($pathA, function($v) {return ['id' => null, 'name' => $this->name($v), 'value' => $v];});
 		WCustomer::params($params);
 		$categoryPath = '/' . df_cc_path(array_slice($pathA, 0, 5)) . '.html'; /** @var string $categoryPath */
-		$categories = wolf_customer_get();
-		$garageJ_session_used = false;
-		foreach (wolf_sess_get() as $category) { /** @var string $category */
-			if (!in_array($category, $categories)) {
-				array_push($categories, $category);
-				$garageJ_session_used = true;
-			}
-		}
+		$cC = wolf_customer_get(); /** @var string[] $cC */
+		$cS = wolf_sess_get(); /** @var string[] $cS */
+		$categories = array_unique(array_merge($cC, $cS)); /** @var string[] $categories */
 		$complete_car_entry_added = false;
 		$isComplete =
 			dfa($_COOKIE, 'car_selected')
@@ -52,7 +47,7 @@ final class ControllerActionPredispatch implements ObserverInterface {
 			array_push($categories, $categoryPath);
 			$complete_car_entry_added = true;
 		}
-		if ($garageJ_session_used || $complete_car_entry_added) {
+		if (array_diff($cS, $cC) || $complete_car_entry_added) {
 			wolf_customer_set($categories);
 			wolf_sess_set($categories);
 		}
