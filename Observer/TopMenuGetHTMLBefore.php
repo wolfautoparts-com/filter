@@ -4,7 +4,7 @@ use Magento\Framework\Data\Tree\Node as N;
 use Magento\Framework\Event\Observer as Ob;
 use Magento\Framework\Event\ObserverInterface;
 // 2019-09-07
-class Navigation implements ObserverInterface {
+final class TopMenuGetHTMLBefore implements ObserverInterface {
 	/**
 	 * 2019-09-07
 	 * @override

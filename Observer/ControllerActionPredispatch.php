@@ -4,7 +4,7 @@ use Magento\Framework\Event\Observer as Ob;
 use Magento\Framework\Event\ObserverInterface;
 use Wolf\Filter\Customer as WCustomer;
 // 2019-09-08
-class ControllerActionPredispatch implements ObserverInterface {
+final class ControllerActionPredispatch implements ObserverInterface {
 	/**
 	 * 2019-09-08
 	 * @override

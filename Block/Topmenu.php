@@ -1,6 +1,6 @@
 <?php
 namespace Wolf\Filter\Block;
-use Wolf\Filter\Observer\Navigation as Ob;
+use Wolf\Filter\Observer\TopMenuGetHTMLBefore as Ob;
 class Topmenu extends \Magento\Theme\Block\Html\Topmenu {
 	/**
 	 * @param string $outermostClass

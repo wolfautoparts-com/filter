@@ -5,7 +5,7 @@ use Magento\Catalog\Model\Category as C;
 use Magento\Newsletter\Model\Session as NewsletterSession;
 use Magento\Widget\Block\BlockInterface as IWidget;
 use Wolf\Filter\Customer as WCustomer;
-use Wolf\Filter\Observer\Navigation as Ob;
+use Wolf\Filter\Observer\TopMenuGetHTMLBefore as Ob;
 class Navigation extends _P implements IWidget {
 	/**                                                                              
 	 * 2019-09-08

@@ -2,7 +2,7 @@
 namespace Wolf\Filter\Controller\Index;
 use Df\Framework\W\Result\Json;
 use Magento\Framework\App\Action\Action as _P;
-use Wolf\Filter\Observer\Navigation as Ob;
+use Wolf\Filter\Observer\TopMenuGetHTMLBefore as Ob;
 // 2019-09-06
 /** @final Unable to use the PHP «final» keyword here because of the M2 code generation. */
 class Change extends _P {
