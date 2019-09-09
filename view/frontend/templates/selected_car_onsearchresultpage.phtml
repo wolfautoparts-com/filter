@@ -1,5 +1,7 @@
 <?php
 use Wolf\Filter\Customer as WC;
+use Wolf\Filter\Block\Navigation as B;
+/** @var B $block */ /** @var B $b */ $b = $block;
 $cfg = $this->getConfigJson(); /** @var array(string => mixed) $cfg */
 if (WC::garage() && ($u = $cfg['customer_garage_uri'])) { /** @var string $u */
 	echo df_tag('div', 'selected_car_block', df_tag('strong', [], 'That fit your ' . wolf_u2n($u)));

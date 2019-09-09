@@ -1,14 +1,15 @@
-<?xml version="1.0"?>
-<!--
-/**
- * Copyright © Magento, Inc. All rights reserved.
- * See COPYING.txt for license details.
- */
--->
-<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" layout="2columns-left" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
-    <body>        
-        <referenceContainer name="columns.top">           
-            <block class="Wolf\Filter\Block\Navigation" name="selected_car_block" template="Wolf_Filter::selected_car_onsearchresultpage.phtml" after="page.main.title"/>
-        </referenceContainer>
-    </body>
+<?xml version='1.0'?>
+<page
+    xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' layout='2columns-left'
+	xsi:noNamespaceSchemaLocation='urn:magento:framework:View/Layout/etc/page_configuration.xsd'
+>
+	<body>        
+		<referenceContainer name='columns.top'>           
+			<block
+				class='Wolf\Filter\Block\Navigation'
+				template='Wolf_Filter::selected_car_onsearchresultpage.phtml'
+				after='page.main.title'
+			/>
+		</referenceContainer>
+	</body>
 </page>
