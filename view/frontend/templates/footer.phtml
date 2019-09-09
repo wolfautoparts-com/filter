@@ -1,20 +1,8 @@
 <script type='text/javascript'>
 require(['jquery', 'jquery/ui'], function($) {
-	<?php /* prevent anchor to jump */ ?>
-	$('a[href="#add-new-car"]').click(function(e) {
-		var x = window.pageXOffset,
-			y = window.pageYOffset;
-		$(window).one('scroll', function() {
-			window.scrollTo(x, y);
-		})
-	});
-	<?php /* prevent anchor to jump */ ?>
-	$('a[href="#change-car"]').click(function(e) {
-		var x = window.pageXOffset,
-			y = window.pageYOffset;
-		$(window).one('scroll', function() {
-			window.scrollTo(x, y);
-		})
+	$("a[href='#add-new-car'],a[href='#change-car']").click(function() {
+		var x = window.pageXOffset, y = window.pageYOffset;
+		$(window).one('scroll', function() {window.scrollTo(x, y);})
 	});
 });
 </script>
