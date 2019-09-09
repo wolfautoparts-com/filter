@@ -1,7 +1,10 @@
-<?xml version="1.0"?>
-<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Cache/etc/cache.xsd">
-    <type name="category_filter_cache" translate="label,description" instance="Wolf\Filter\Model\Cache\Type">
-        <label>Category Filter Cache</label>
-        <description>Category filter dropdowns data</description>
-    </type>
+<?xml version='1.0'?>
+<config
+    xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'
+	xsi:noNamespaceSchemaLocation='urn:magento:framework:Cache/etc/cache.xsd'
+>
+	<type instance='Wolf\Filter\CacheType' name='category_filter_cache'>
+		<label>Wolf_Filter cache</label>
+		<description>Wolf_Filter cache</description>
+	</type>
 </config>

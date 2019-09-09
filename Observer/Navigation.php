@@ -42,8 +42,8 @@ class Navigation implements ObserverInterface {
 	 * 2019-09-07
 	 * @used-by execute()
 	 * @used-by \Wolf\Filter\Block\Topmenu::getHtml()
+	 * @used-by \Wolf\Filter\CacheType::__construct()
 	 * @used-by \Wolf\Filter\Controller\Index\Change::execute()
-	 * @used-by \Wolf\Filter\Model\Cache\Type::__construct()
 	 */
 	const CACHE_TAG = 'WOLF_CATEGORY_FILTER';
 }

@@ -1,10 +1,10 @@
 <?php
-namespace Wolf\Filter\Model\Cache;
+namespace Wolf\Filter;
 use Magento\Framework\App\Cache\Type\FrontendPool as Pool;
 use Magento\Framework\Cache\Frontend\Decorator\TagScope;
 use Wolf\Filter\Observer\Navigation as Ob;
 // 2019-09-09
-class Type extends TagScope {
+class CacheType extends TagScope {
 	/**
 	 * 2019-09-09
 	 * @override
