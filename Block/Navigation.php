@@ -164,6 +164,26 @@ class Navigation extends _P implements IWidget {
 	function labelsAreInside() {return 'embedded' === $this['labels_embedded'];}
 
 	/**
+	 * 2019-09-09
+	 * @return string
+	 */
+	function selectedName() {return wolf_u2n($this->selectedPath());}
+
+	/**
+	 * 2019-09-09
+	 * @used-by selectedName()
+	 * @return string|null
+	 */
+	function selectedPath() {return dfc($this, function() {
+		$sess = df_o(Session::class); /** @var Session $sess */;
+		return !WC::garage() ? null : (
+			!($id = intval(df_request('cat') ?: $sess->getMyvalue()))
+				? WC::categoryPath()
+				: '/' . df_category($id)['url_path']
+		);
+	});}
+
+	/**
 	 * 2019-09-07
 	 * @override
 	 * @see \Magento\Catalog\Block\Navigation::_construct()
