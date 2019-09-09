@@ -4,7 +4,6 @@ use Magento\Catalog\Block\Navigation as _P;
 use Magento\Newsletter\Model\Session as Sess;
 use Magento\Widget\Block\BlockInterface as IWidget;
 use Wolf\Filter\Customer as WC;
-use Wolf\Filter\Observer\TopMenuGetHTMLBefore as Ob;
 class Navigation extends _P implements IWidget {
 	/**
 	 * 2019-09-08
@@ -17,6 +16,11 @@ class Navigation extends _P implements IWidget {
 		$lastLevel = $levels - 1;
 		$labels = df_csv_parse($this['select_labels']); /** @var string[] $labels */
 		$prefix = $this->getNameInLayout(); /** @var string $prefix */
+		// 2019-09-09 [1721 => "Audi", 3613 => "BMW", 3 => "Volkswagen"]
+		$topLevel = df_cache_get_simple([__METHOD__, df_store_id()], function() {return df_sort(
+			df_column(df_category(df_store()->getRootCategoryId())->getChildrenCategories(), 'getName', 'getId')
+			,function($a, $b) {return strcasecmp($a, $b);}
+		);}); /** @var array(int => string) $topLevel */
 		for ($l = 0; $l < $levels; $l++) {
 			$label = dfa($labels, $l, 'Select category'); /** @var string $label */
 			$j = $l + 1; /** @var int $j */
@@ -30,7 +34,7 @@ class Navigation extends _P implements IWidget {
 							[df_tag('option', ['value' => ''],
 								$this->labelsAreInside() && $label ? $label : 'Please Select'
 							)]
-							,$l ? [] : df_map_k($this->topLevel(), function($id, $name) {return df_tag(
+							,$l ? [] : df_map_k($topLevel, function($id, $name) {return df_tag(
 								'option', ['value' => $id], $name
 							);})
 						)
@@ -75,13 +79,4 @@ class Navigation extends _P implements IWidget {
 	 * @see \Magento\Catalog\Block\Navigation::_construct()
 	 */
 	protected function _construct() {parent::_construct(); $this->setTemplate('sidebar.phtml');}
-
-	/**
-	 * 2019-09-09 ["1721" => "Audi", "3613" => "BMW", "3" => "Volkswagen"]
-	 * @used-by hDropdowns()
-	 * @return array(string => string)
-	 */
-	private function topLevel() {return dfc($this, function() {return df_cache_get_simple(null, function() {return
-		df_sort(array_column(wolf_tree_load(), 'name', 'id'), function($a, $b) {return strcasecmp($a, $b);})
-	;});});}
 }
