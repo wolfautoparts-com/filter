@@ -16,7 +16,7 @@ class Change extends _P {
 	 * @return Json
 	 */
 	function execute() {return Json::i(df_cache_get_simple('category_filter_' . df_request('selectedValue'), function() {
-		if (!($bTree = wolf_tree_load())) {
+		if (!($tree = wolf_tree_load())) {
 			$r = [];
 		}
 		else {
@@ -25,15 +25,15 @@ class Change extends _P {
 			for ($i = 0; $i < $levels; $i++) {
 				$levelValues[$i] = (int)df_request("level_{$i}_value");
 				if (0 < $levelValues[$i]) {
-					if (isset($bTree[$levelValues[$i]])) {
-						if (isset($bTree[$levelValues[$i]]['children'])) {
-							$bTree = $bTree[$levelValues[$i]]['children'];
+					if (isset($tree[$levelValues[$i]])) {
+						if (isset($tree[$levelValues[$i]]['children'])) {
+							$tree = $tree[$levelValues[$i]]['children'];
 						}
 					}
 				}
 			}
 			$r = df_sort(
-				df_map($bTree, function($v) {return dfa_select($v, ['id', 'name', 'url']);})
+				df_map($tree, function($v) {return dfa_select($v, ['id', 'name', 'url']);})
 				,function($a, $b) {return strcasecmp($a['name'], $b['name']);}
 			);
 			// 2019-09-07 We show years in the reverse order.
