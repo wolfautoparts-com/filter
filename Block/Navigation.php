@@ -95,9 +95,8 @@ class Navigation extends _P implements IWidget {
 									$this->labelsAreInside() && $label ? $label : 'Please Select'
 								)
 							]
-							,$l ? [] : df_map($topLevel, function($c) {return df_tag('option'
-								,['dataUrl' => null, 'value' => $c['id']]
-								,$c['name']
+							,$l ? [] : df_map($topLevel, function($c) {return df_tag(
+								'option', ['value' => $c['id']], $c['name']
 							);})
 						)
 					)
