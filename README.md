@@ -28,8 +28,9 @@ bin/magento cache:enable
 ```
 bin/magento maintenance:enable
 rm -rf composer.lock
+composer remove wolfautoparts.com/filter
 composer clear-cache
-composer update wolfautoparts.com/filter
+composer require wolfautoparts.com/filter:*
 /usr/share/stratus/cli cache.all.clear 
 bin/magento setup:upgrade
 rm -rf var/di var/generation generated/code && bin/magento setup:di:compile
