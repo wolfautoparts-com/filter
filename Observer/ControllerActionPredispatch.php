@@ -51,7 +51,6 @@ final class ControllerActionPredispatch implements ObserverInterface {
 		sort($c);
 		WC::garage($c);
 		WC::categoryPath(!$complete ? null : $current);
-		WC::uriName(!$complete ? null : wolf_u2n($current));
 		// 2019-09-08 «Remove a cookie»: https://stackoverflow.com/a/686166
 		setcookie($cookie, '', time() - 3600, '/', $_SERVER['HTTP_HOST']);
 	}

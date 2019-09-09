@@ -93,7 +93,7 @@ class Navigation extends _P implements IWidget {
 		}
 		else {
 			$r['customer_garage_uri'] = WCustomer::categoryPath();
-			$r['customer_garage_uri_name'] = WCustomer::uriName();
+			$r['customer_garage_uri_name'] = wolf_u2n(WCustomer::categoryPath());
 		}
 		return $r;
 	});}
