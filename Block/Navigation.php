@@ -20,20 +20,12 @@ class Navigation extends _P implements IWidget {
 		];
 		$cacheTags = [Ob::CACHE_TAG];
 		$menuTree = wolf_tree_load();
-		$selectedCategories = [];
-		$selectedCategoriesCacheId = 'selected_categories';
 		/** 2019-09-08 @uses \Magento\Framework\App\Request\Http::getOriginalPathInfo() removes the `?...` part. */
 		$configCacheId = 'config_' . md5(df_request_o()->getOriginalPathInfo());
 		// Build categories by level
 		$da = unserialize(df_cache_load($configCacheId));
 		if (false !==($data = df_cache_load($configCacheId)) && count($da[0])>0) {
 			$categoriesByLevel = unserialize($data);
-			if (false !==($data = df_cache_load($selectedCategoriesCacheId))) {
-				$selectedCategories = unserialize($data);
-			} 
-			else {
-				$selectedCategories = [];
-			}
 		}
 		else {
 			$categoriesByLevel = [];
@@ -61,7 +53,6 @@ class Navigation extends _P implements IWidget {
 						) {
                             $r['params'][$l]['id'] = $menuTreeEntry['id'];
                             $category['selected'] = true;
-                            array_push($selectedCategories, $category);
                             if (isset($menuTreeEntry['children']) && !empty($menuTreeEntry['children'])) {
                                 $nextTree = $menuTreeEntry['children'];
                             } else {
@@ -79,10 +70,8 @@ class Navigation extends _P implements IWidget {
                 }
 			}
 			df_cache_save(serialize($categoriesByLevel), $configCacheId, $cacheTags);
-			df_cache_save(serialize($selectedCategories), $selectedCategoriesCacheId, $cacheTags);
 		}
 		$r['categoriesByLevel'] = $categoriesByLevel;
-		$r['selectedCategories'] = $selectedCategories;
 		return $r;
 	});}
 
