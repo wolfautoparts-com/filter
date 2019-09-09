@@ -2,7 +2,7 @@
 namespace Wolf\Filter\Observer;
 use Magento\Framework\Event\Observer as Ob;
 use Magento\Framework\Event\ObserverInterface;
-use Wolf\Filter\Customer as WCustomer;
+use Wolf\Filter\Customer as WC;
 // 2019-09-08
 final class ControllerActionPredispatch implements ObserverInterface {
 	/**
@@ -31,8 +31,8 @@ final class ControllerActionPredispatch implements ObserverInterface {
 		 *	]
 		 * @var array(array(string => string)) $p
 		 */
-		$p = df_map($pathA, function($v) {return ['id' => null, 'name' => $this->name($v), 'value' => $v];});
-		WCustomer::params($p);
+		$p = df_map($pathA, function($v) {return ['id' => null, 'name' => wolf_u2n($v), 'value' => $v];});
+		WC::params($p);
 		$current = '/' . df_cc_path(array_slice($pathA, 0, 5)) . '.html'; /** @var string $current */
 		$cC = wolf_customer_get(); /** @var string[] $cC */
 		$cS = wolf_sess_get(); /** @var string[] $cS */
@@ -49,18 +49,10 @@ final class ControllerActionPredispatch implements ObserverInterface {
 			wolf_sess_set($c);
 		}
 		sort($c);
-		WCustomer::garage($c);
-		WCustomer::categoryPath(!$isComplete ? null : $current);
-		WCustomer::uriName(!$isComplete ? null : $this->name($current));
+		WC::garage($c);
+		WC::categoryPath(!$isComplete ? null : $current);
+		WC::uriName(!$isComplete ? null : wolf_u2n($current));
 		// 2019-09-08 «Remove a cookie»: https://stackoverflow.com/a/686166
 		setcookie($C, '', time() - 3600, '/', $_SERVER['HTTP_HOST']);
 	}
-
-	/**
-	 * 2019-09-08
-	 * @used-by execute()
-	 * @param string $s
-	 * @return bool|null|string|string[]
-	 */
-	private function name($s) {return ucwords(preg_replace('/\/|-/', ' ', df_strip_ext($s)));}
 }
