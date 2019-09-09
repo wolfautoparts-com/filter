@@ -2,7 +2,7 @@
 		"jquery",
 		"jquery/ui",
 		"Magento_Ui/js/modal/confirm"
-	], function ($, ui, confirmation) {
+	], function($, ui, confirmation) {
 
 		"use strict"; //  With strict mode, you can not, for example, use undeclared variables
 
@@ -24,15 +24,15 @@
 
 			loadingMessage: '',
 
-			testMethodA: function () {
+			testMethodA: function() {
 				//alert('tetMethodA');
 			},
 
-			_testMethodB: function () {
+			_testMethodB: function() {
 				//alert('tetMethodB');
 			},
 
-			_create: function () {
+			_create: function() {
 
 				this.element.addClass('categoryfilter');
 
@@ -48,7 +48,7 @@
 
 			},
 
-			_onChange: function (event) {
+			_onChange: function(event) {
 				var select = this;
 				var selectedValue = select.value;
 
@@ -63,7 +63,7 @@
 				self._loadNextDropDown(event, selectedValue, labelsAreInside, nameInLayout, redirectUrl, dataId, levels);
 			},
 
-			_loadNextDropDown: function (event, selectedValue, labelsAreInside, nameInLayout, redirectUrl, dataId, levels) {
+			_loadNextDropDown: function(event, selectedValue, labelsAreInside, nameInLayout, redirectUrl, dataId, levels) {
 
 				var self = event.data;
 				var url = self.options.url;
@@ -131,7 +131,7 @@
 							data: requestData,
 							dataType: 'json',
 							showLoader: false,
-							success: function (data) {
+							success: function(data) {
 
 								if (data.length) {
 
@@ -204,7 +204,7 @@
 			
 			},
 
-			_clearDropDowns: function (count, finderId, dataId) {
+			_clearDropDowns: function(count, finderId, dataId) {
 				for (var j = 1; j < count; j++) {
 					if (j >= dataId) {
 						document.getElementById(nameInLayout + (j + 1)).selectedIndex = 0;
@@ -214,7 +214,7 @@
 				}
 			},
 
-			fillCars: function (cars, keepGarageOpen) {
+			fillCars: function(cars, keepGarageOpen) {
 				var self = this;
 				var listStr = "";
 				self.selected = false;
@@ -273,12 +273,12 @@
 					// this.garageTableRows.on('mouseenter', this, this._onGarageTableRowMouseenter);
 					// this.garageTableRows.on('mouseleave', this, this._onGarageTableRowMouseleave);
 					//
-					$('.garage-table-row').mouseover(function () {
+					$('.garage-table-row').mouseover(function() {
 						$(this).addClass('garage-table-row-over');
 						$(this).find('.remove-car-button').show();
 						$(this).find('span').css('color', 'silver');
 					});
-					$('.garage-table-row').mouseout(function () {
+					$('.garage-table-row').mouseout(function() {
 						$(this).removeClass('garage-table-row-over');
 						$(this).find('.remove-car-button').hide();
 						$(this).find('span').css('color', '#E0E0E0');
@@ -407,13 +407,13 @@
 					}
 				});
 			},
-			_loadGarage: function () {
+			_loadGarage: function() {
 				$.ajax({
 					url: '/categoryfinder/garage/index',
 					type: 'get',
 					dataType: 'json',
 					showLoader: false,
-					success: function (r) {$('.categoryfilter').categoryfilter('fillCars', r);}
+					success: function(r) {$('.categoryfilter').categoryfilter('fillCars', r);}
 				});
 			}
 		});
