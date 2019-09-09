@@ -1,18 +1,3 @@
-<!-- 2019-08-10 Dmitry Fedyuk https://www.upwork.com/fl/mage2pro
-«Decrease TTFB»: https://www.upwork.com/ab/f/contracts/22599890 -->
-<?php
-use Wolf\Filter\Block\Topmenu as B;
-/** @var B $block */ /** @var B $b */ $b = $block;
-	if (true) {
-		$b->getHtml('level-top', 'submenu', $b->getColumnsLimit() ?: 0);
-	}
-?>
-<nav class="navigation" data-action="navigation">
-	<?=
-		$this->getLayout()
-			->createBlock('Magento\Cms\Block\Block')
-			->setBlockId('top_custom_menu')
-			->toHtml()
-		;
-	 ?>
+<nav class='navigation' data-action='navigation'>
+	<?= $this->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId('top_custom_menu')->toHtml() ?>
 </nav>

@@ -15,7 +15,6 @@ class CacheType extends TagScope {
 	/**
 	 * 2019-09-07
 	 * @used-by __construct()
-	 * @used-by \Wolf\Filter\Block\Topmenu::getHtml()
 	 * @used-by \Wolf\Filter\Controller\Index\Change::execute()
 	 */
 	const TAG = 'WOLF_CATEGORY_FILTER';
