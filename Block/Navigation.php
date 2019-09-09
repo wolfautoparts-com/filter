@@ -79,6 +79,7 @@ class Navigation extends _P implements IWidget {
 		$levels = $this['levels'];
 		$lastLevel = $levels - 1;
 		$labels = df_csv_parse($this['select_labels']); /** @var string[] $labels */
+		$prefix = $this->getNameInLayout(); /** @var string $prefix */
 		for ($l = 0; $l < $levels; $l++) {
 			$label = dfa($labels, $l, 'Select category'); /** @var string $label */
 			$j = $l + 1; /** @var int $j */
@@ -87,11 +88,7 @@ class Navigation extends _P implements IWidget {
 				,[
 					$this->labelsAreInside() || !$label ? null : df_tag('label', [], $label)
 					,df_tag('select'
-						,[
-							'class' => 'category-filter-select'
-							,'dataId' => $j
-							,'id' => "{$this->getNameInLayout()}$j"
-						]
+						,['class' => 'category-filter-select', 'dataId' => $j, 'id' => $prefix . $j]
 						,array_merge(
 							[
 								df_tag('option', ['value' => ''],
