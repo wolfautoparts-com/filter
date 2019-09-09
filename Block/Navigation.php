@@ -27,13 +27,11 @@ class Navigation extends _P implements IWidget {
 					,df_tag('select'
 						,['class' => 'category-filter-select', 'dataId' => $j, 'id' => $prefix . $j]
 						,array_merge(
-							[
-								df_tag('option', ['value' => ''],
-									$this->labelsAreInside() && $label ? $label : 'Please Select'
-								)
-							]
-							,$l ? [] : df_map($this->topLevel(), function($c) {return df_tag(
-								'option', ['value' => $c['id']], $c['name']
+							[df_tag('option', ['value' => ''],
+								$this->labelsAreInside() && $label ? $label : 'Please Select'
+							)]
+							,$l ? [] : df_map_k($this->topLevel(), function($id, $name) {return df_tag(
+								'option', ['value' => $id], $name
 							);})
 						)
 					)
@@ -79,26 +77,11 @@ class Navigation extends _P implements IWidget {
 	protected function _construct() {parent::_construct(); $this->setTemplate('sidebar.phtml');}
 
 	/**
-	 * 2019-09-08
-	 *	[
-	 *		{"id": 1721, "name": "Audi"},
-	 *		{"id": 3613, "name": "BMW"},
-	 *		{"id": 3, "name": "Volkswagen"}
-	 *	]
+	 * 2019-09-09 ["1721" => "Audi", "3613" => "BMW", "3" => "Volkswagen"]
 	 * @used-by hDropdowns()
-	 * @return array(array(string => string))
+	 * @return array(string => string)
 	 */
-	private function topLevel() {return dfc($this, function() {return df_cache_get_simple(
-		'config_' . md5(df_request_o()->getOriginalPathInfo()), function() {
-			$r = []; /** @var array(array(string => string)) $r */
-			foreach (wolf_tree_load() as $c) { /** @var array(string => mixed) $c */
-				if (isset($r['params'][0]) && $r['params'][0]['name'] === wolf_u2n($c['name'])) {
-					$r['params'][0]['id'] = $c['id'];
-				}
-				array_push($r, ['id' => $c['id'], 'name' => $c['name']]);
-			}
-			usort($r, function($a, $b) {return strtolower($a['name']) > strtolower($b['name']);});
-			return $r;
-		}, [Ob::CACHE_TAG]
-	);});}
+	private function topLevel() {return dfc($this, function() {return df_cache_get_simple(null, function() {return
+		df_sort(array_column(wolf_tree_load(), 'name', 'id'), function($a, $b) {return strcasecmp($a, $b);})
+	;});});}
 }
