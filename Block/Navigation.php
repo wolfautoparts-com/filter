@@ -23,19 +23,11 @@ class Navigation extends _P implements IWidget {
 		}
 		else {
 			$topLevel = [];
-			foreach(wolf_tree_load() as $c) {
-				$category = null;
-				$category = array(
-					'id' => $c['id'],
-					'name' => $c['name'],
-					'url' => dfa($c, 'url'),
-					'selected' => false
-			  );
+			foreach (wolf_tree_load() as $c) {
 				if (isset($r['params'][0]) && $r['params'][0]['name'] === wolf_u2n($c['name'])) {
 					$r['params'][0]['id'] = $c['id'];
-					$category['selected'] = true;
 				}
-				array_push($topLevel, $category);
+				array_push($topLevel, ['id' => $c['id'], 'name' => $c['name']]);
 			}
 			usort($topLevel, function($a, $b) {return strtolower($a['name']) > strtolower($b['name']);});
 			df_cache_save(serialize($topLevel), $configCacheId, $cacheTags);
