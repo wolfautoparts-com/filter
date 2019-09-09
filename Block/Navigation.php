@@ -4,7 +4,7 @@ use Magento\Catalog\Block\Navigation as _P;
 use Magento\Catalog\Model\Category as C;
 use Magento\Newsletter\Model\Session as NewsletterSession;
 use Magento\Widget\Block\BlockInterface as IWidget;
-use Wolf\Filter\Customer as WCustomer;
+use Wolf\Filter\Customer as WC;
 use Wolf\Filter\Observer\TopMenuGetHTMLBefore as Ob;
 class Navigation extends _P implements IWidget {
 	/**                                                                              
@@ -18,7 +18,7 @@ class Navigation extends _P implements IWidget {
 		$r = [
 			'id' => "cd-{$this->getNameInLayout()}"
 			,'levels' => $this['levels']
-			,'params' => WCustomer::params()
+			,'params' => WC::params()
 		];
 		$cacheTags = [Ob::CACHE_TAG];
 		$menuTree = wolf_tree_load();
@@ -85,14 +85,13 @@ class Navigation extends _P implements IWidget {
 		}
 		$r['categoriesByLevel'] = $categoriesByLevel;
 		$r['selectedCategories'] = $selectedCategories;
-        $r['customer_garage'] = WCustomer::garage();
 		if (@$urlPath!='') {
 			$r['customer_garage_uri'] = $urlPath;
 			$r['customer_garage_uri_name'] = $urlName;
 		}
 		else {
-			$r['customer_garage_uri'] = WCustomer::categoryPath();
-			$r['customer_garage_uri_name'] = wolf_u2n(WCustomer::categoryPath());
+			$r['customer_garage_uri'] = WC::categoryPath();
+			$r['customer_garage_uri_name'] = wolf_u2n(WC::categoryPath());
 		}
 		return $r;
 	});}
