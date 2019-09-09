@@ -38,12 +38,10 @@ final class ControllerActionPredispatch implements ObserverInterface {
 		$cS = wolf_sess_get(); /** @var string[] $cS */
 		$c = array_unique(array_merge($cC, $cS)); /** @var string[] $c */
 		$cookie = 'car_selected'; /** @var string $cookie */
-		/** @var bool $isComplete */
-		$isComplete = dfa($_COOKIE, $cookie) && 5 <= count($p) && in_array($p[0]['value'], [
-			'audi', 'bmw', 'volkswagen'
-		]);
+		/** @var bool $complete */
+		$complete = dfa($_COOKIE, $cookie) && 5 <= count($p) && in_array($p[0]['value'], ['audi', 'bmw', 'volkswagen']);
 		/** @var bool $added */
-		if ($added = $isComplete && !in_array($current, $c)) {
+		if ($added = $complete && !in_array($current, $c)) {
 			$c[]= $current;
 		}
 		if ($added || array_diff($cS, $cC)) {
@@ -52,8 +50,8 @@ final class ControllerActionPredispatch implements ObserverInterface {
 		}
 		sort($c);
 		WC::garage($c);
-		WC::categoryPath(!$isComplete ? null : $current);
-		WC::uriName(!$isComplete ? null : wolf_u2n($current));
+		WC::categoryPath(!$complete ? null : $current);
+		WC::uriName(!$complete ? null : wolf_u2n($current));
 		// 2019-09-08 «Remove a cookie»: https://stackoverflow.com/a/686166
 		setcookie($cookie, '', time() - 3600, '/', $_SERVER['HTTP_HOST']);
 	}
