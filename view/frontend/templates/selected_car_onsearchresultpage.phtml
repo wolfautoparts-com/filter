@@ -1,7 +1,7 @@
 <?php
 use Wolf\Filter\Block\Navigation as B; /** @var B $block */
-if ($u = $block->selectedName()) { /** @var string $u */
-	echo df_tag('div', 'selected_car_block', df_tag('strong', [], "That fit your $u"));
+if ($n = $block->selectedName()) { /** @var string $n */
+	echo df_tag('div', 'selected_car_block', df_tag('strong', [], "That fit your $n"));
 	?>
 		<style>
 			 h1.page-title {margin-bottom: 0px !important;}

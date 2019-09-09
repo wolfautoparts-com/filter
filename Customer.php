@@ -4,7 +4,7 @@ namespace Wolf\Filter;
 final class Customer {
 	/**
 	 * 2019-09-08
-	 * @used-by \Wolf\Filter\Block\Navigation::getConfigJson()
+	 * @used-by \Wolf\Filter\Block\Navigation::selectedPath()
 	 * @used-by \Wolf\Filter\Observer\ControllerActionPredispatch::execute()
 	 * @param string|null $v
 	 * @return string|null
@@ -13,8 +13,6 @@ final class Customer {
 
 	/**
 	 * 2019-09-08
-	 * @used-by vendor/wolfautoparts.com/filter/view/frontend/templates/selected_car_onsearchresultpage.phtml
-	 * @used-by vendor/wolfautoparts.com/filter/view/frontend/templates/sidebar.phtml
 	 * @used-by \Wolf\Filter\Controller\Garage\Index::execute()
 	 * @used-by \Wolf\Filter\Observer\ControllerActionPredispatch::execute()
 	 * @param mixed[]|string|null $v

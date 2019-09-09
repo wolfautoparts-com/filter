@@ -83,9 +83,6 @@ class Navigation extends _P implements IWidget {
 		}
 		$r['categoriesByLevel'] = $categoriesByLevel;
 		$r['selectedCategories'] = $selectedCategories;
-		$sess = df_o(Session::class); /** @var Session $sess */;
-		$r['customer_garage_uri'] = !($id = intval(df_request('cat') ?: $sess->getMyvalue()))
-			? WC::categoryPath() : '/' . df_category($id)['url_path'];
 		return $r;
 	});}
 
@@ -165,12 +162,15 @@ class Navigation extends _P implements IWidget {
 
 	/**
 	 * 2019-09-09
+	 * @used-by vendor/wolfautoparts.com/filter/view/frontend/templates/selected_car_onsearchresultpage.phtml
+	 * @used-by vendor/wolfautoparts.com/filter/view/frontend/templates/sidebar.phtml
 	 * @return string
 	 */
 	function selectedName() {return wolf_u2n($this->selectedPath());}
 
 	/**
 	 * 2019-09-09
+	 * @used-by vendor/wolfautoparts.com/filter/view/frontend/templates/sidebar.phtml
 	 * @used-by selectedName()
 	 * @return string|null
 	 */

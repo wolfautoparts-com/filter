@@ -1,8 +1,6 @@
 <?php
 use Wolf\Filter\Block\Navigation as B;
-use Wolf\Filter\Customer as WC;
 $b = $block; /** @var B $block */ /** @var B $b */
-$config = $b->getConfigJson();
 list($selectedCarContStyle, $selectedCarContStyle1) =
 	!df_action_is('catalog_category_view', 'catalogsearch_result_index', 'cms_noroute_index')
 	? ['', ''] : ['style="display: block;"', 'style="display: none;"']
@@ -11,9 +9,9 @@ list($selectedCarContStyle, $selectedCarContStyle1) =
 <div class='block' style='margin-bottom: 0; min-height: 40px;'>
 	<div class='garage-selected-car-cont' <?= $selectedCarContStyle; ?>>
 		Selected Car: &nbsp;&nbsp;
-		<?php if (WC::garage() && ($u = $config['customer_garage_uri'])) {/** @var string $u */?>
+		<?php if ($u = $b->selectedPath()) {/** @var string $u */?>
 			<a class="garage-selected-car-link" href="<?= $u ?>" style="text-transform: capitalize;"
-			><?= wolf_u2n($u) ?></a>
+			><?= $b->selectedName() ?></a>
 		<?php } else {?>
 			<a class="garage-selected-car-link" href="#"><?= __('No Car Selected'); ?></a>
 		<?php } ?>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
