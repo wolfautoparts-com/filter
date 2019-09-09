@@ -86,7 +86,6 @@ class Navigation extends _P implements IWidget {
 		$r['categoriesByLevel'] = $categoriesByLevel;
 		$r['selectedCategories'] = $selectedCategories;
         $r['customer_garage'] = WCustomer::garage();
-        $r['customer_garage_is_empty'] = !WCustomer::garage();
 		if (@$urlPath!='') {
 			$r['customer_garage_uri'] = $urlPath;
 			$r['customer_garage_uri_name'] = $urlName;
