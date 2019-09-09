@@ -1,7 +1,7 @@
 <?php
 namespace Wolf\Filter\Block;
 use Magento\Catalog\Block\Navigation as _P;
-use Magento\Newsletter\Model\Session;
+use Magento\Newsletter\Model\Session as Sess;
 use Magento\Widget\Block\BlockInterface as IWidget;
 use Wolf\Filter\Customer as WC;
 use Wolf\Filter\Observer\TopMenuGetHTMLBefore as Ob;
@@ -174,14 +174,13 @@ class Navigation extends _P implements IWidget {
 	 * @used-by selectedName()
 	 * @return string|null
 	 */
-	function selectedPath() {return dfc($this, function() {
-		$sess = df_o(Session::class); /** @var Session $sess */;
-		return !WC::garage() ? null : (
-			!($id = intval(df_request('cat') ?: $sess->getMyvalue()))
+	function selectedPath() {return dfc($this, function() {$s = df_o(Sess::class); /** @var Sess $s */ return
+		!WC::garage() ? null : (
+			!($id = intval(df_request('cat') ?: $s->getMyvalue()))
 				? WC::categoryPath()
 				: '/' . df_category($id)['url_path']
-		);
-	});}
+		)
+	;});}
 
 	/**
 	 * 2019-09-07
