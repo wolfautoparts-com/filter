@@ -15,7 +15,6 @@ final class Customer {
 	 * 2019-09-08
 	 * @used-by \Wolf\Filter\Block\Navigation::getConfigJson()
 	 * @used-by \Wolf\Filter\Controller\Garage\Index::execute()
-	 * @used-by \Wolf\Filter\Controller\Garage\Remove::execute()
 	 * @used-by \Wolf\Filter\Observer\ControllerActionPredispatch::execute()
 	 * @param mixed[]|string|null $v
 	 * @return mixed[]|null
