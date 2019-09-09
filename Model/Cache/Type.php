@@ -1,10 +1,15 @@
 <?php
 namespace Wolf\Filter\Model\Cache;
+use Magento\Framework\App\Cache\Type\FrontendPool as Pool;
 use Magento\Framework\Cache\Frontend\Decorator\TagScope;
-use Magento\Framework\App\Cache\Type\FrontendPool;
 use Wolf\Filter\Observer\Navigation as Ob;
+// 2019-09-09
 class Type extends TagScope {
-	function __construct( FrontendPool $cacheFrontendPool) {
-		parent::__construct($cacheFrontendPool->get('category_filter_cache'), Ob::CACHE_TAG);
-	}
+	/**
+	 * 2019-09-09
+	 * @override
+	 * @see \Magento\Framework\Cache\Frontend\Decorator\TagScope::__construct()
+	 * @param Pool $pool
+	 */
+	function __construct(Pool $pool) {parent::__construct($pool->get('category_filter_cache'), Ob::CACHE_TAG);}
 }
