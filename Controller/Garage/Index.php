@@ -1,39 +1,18 @@
 <?php
 namespace Wolf\Filter\Controller\Garage;
-use Magento\Framework\App\Action\Action;
-use Magento\Framework\App\Action\Context;
-use Magento\Framework\App\CacheInterface;
-use Magento\Framework\Controller\Result\JsonFactory;
-use Psr\Log\LoggerInterface;
+use Df\Framework\W\Result\Json;
+use Magento\Framework\App\Action\Action as _P;
 use Wolf\Filter\Customer as WCustomer;
 /** @final Unable to use the PHP «final» keyword here because of the M2 code generation. */
-class Index extends Action {
-	/**
-	 * Change constructor.
-	 * @param Context $context
-	 * @param LoggerInterface $logger
-	 * @param CacheInterface $cache
-	 * @param StoreManagerInterface $storeManager
-	 * @param CategoryFactory $categoryFactory
-	 * @param CategoryRepositoryInterface $categoryRepository
-	 * @param JsonFactory $resultJsonFactory
+class Index extends _P {
+    /**
+	 * 2019-09-08
+	 * @override
+	 * @see _P::execute()
+	 * @used-by \Magento\Framework\App\Action\Action::dispatch():
+	 * 		$result = $this->execute();
+	 * https://github.com/magento/magento2/blob/2.2.1/lib/internal/Magento/Framework/App/Action/Action.php#L84-L125
+	 * @return Json
 	 */
-	function __construct(
-		Context $context,
-		\Magento\Framework\Registry $registry,
-		LoggerInterface $logger,
-		CacheInterface $cache,
-		JsonFactory $resultJsonFactory
-	) {
-		$this->_registry = $registry;
-		$this->_logger = $logger;
-		$this->_cache = $cache;
-		$this->_resultJsonFactory = $resultJsonFactory;
-		parent::__construct($context);
-	}
-
-	function execute() {
-		$result = $this->_resultJsonFactory->create();
-		return $result->setData(WCustomer::garage());
-	}
+	function execute() {return Json::i(WCustomer::garage());}
 }
