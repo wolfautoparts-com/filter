@@ -29,34 +29,31 @@ final class ControllerActionPredispatch implements ObserverInterface {
 		 *		{"id": null, "name": "Quattro Sedan", "value": "quattro-sedan"},
 		 *		{"id": null, "name": "2 0l L4 Turbo", "value": "2-0l-l4-turbo"}
 		 *	]
-		 * @var array(array(string => string)) $params
+		 * @var array(array(string => string)) $p
 		 */
-		$params = df_map($pathA, function($v) {return ['id' => null, 'name' => $this->name($v), 'value' => $v];});
-		WCustomer::params($params);
-		$categoryPath = '/' . df_cc_path(array_slice($pathA, 0, 5)) . '.html'; /** @var string $categoryPath */
+		$p = df_map($pathA, function($v) {return ['id' => null, 'name' => $this->name($v), 'value' => $v];});
+		WCustomer::params($p);
+		$current = '/' . df_cc_path(array_slice($pathA, 0, 5)) . '.html'; /** @var string $current */
 		$cC = wolf_customer_get(); /** @var string[] $cC */
 		$cS = wolf_sess_get(); /** @var string[] $cS */
-		$categories = array_unique(array_merge($cC, $cS)); /** @var string[] $categories */
-		$complete_car_entry_added = false;
-		$isComplete =
-			dfa($_COOKIE, 'car_selected')
-			&& 5 <= count($params)
-			&& in_array($params[0]['value'], ['audi', 'bmw', 'volkswagen'])
-		; /** @var bool $isComplete */
-		if ($isComplete && !in_array($categoryPath, $categories)) {
-			array_push($categories, $categoryPath);
-			$complete_car_entry_added = true;
+		$c = array_unique(array_merge($cC, $cS)); /** @var string[] $c */
+		$C = 'car_selected'; /** @var string $C */
+		/** @var bool $isComplete */
+		$isComplete = dfa($_COOKIE, $C) && 5 <= count($p) && in_array($p[0]['value'], ['audi', 'bmw', 'volkswagen']);
+		/** @var bool $added */
+		if ($added = $isComplete && !in_array($current, $c)) {
+			$c[]= $current;
 		}
-		if (array_diff($cS, $cC) || $complete_car_entry_added) {
-			wolf_customer_set($categories);
-			wolf_sess_set($categories);
+		if ($added || array_diff($cS, $cC)) {
+			wolf_customer_set($c);
+			wolf_sess_set($c);
 		}
-		sort($categories);
-		WCustomer::garage($categories);
-		WCustomer::categoryPath(!$isComplete ? null : $categoryPath);
-		WCustomer::uriName(!$isComplete ? null : $this->name($categoryPath));
+		sort($c);
+		WCustomer::garage($c);
+		WCustomer::categoryPath(!$isComplete ? null : $current);
+		WCustomer::uriName(!$isComplete ? null : $this->name($current));
 		// 2019-09-08 «Remove a cookie»: https://stackoverflow.com/a/686166
-		setcookie('car_selected', '', time() - 3600, '/', $_SERVER['HTTP_HOST']);
+		setcookie($C, '', time() - 3600, '/', $_SERVER['HTTP_HOST']);
 	}
 
 	/**
