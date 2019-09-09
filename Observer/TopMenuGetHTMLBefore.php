@@ -41,7 +41,6 @@ final class TopMenuGetHTMLBefore implements ObserverInterface {
 	/**
 	 * 2019-09-07
 	 * @used-by execute()
-	 * @used-by \Wolf\Filter\Block\Navigation::topLevel()
 	 * @used-by \Wolf\Filter\Block\Topmenu::getHtml()
 	 * @used-by \Wolf\Filter\CacheType::__construct()
 	 * @used-by \Wolf\Filter\Controller\Index\Change::execute()
