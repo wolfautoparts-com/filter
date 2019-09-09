@@ -1,6 +1,6 @@
 <?php
 namespace Wolf\Filter\Block;
-use Wolf\Filter\Observer\TopMenuGetHTMLBefore as Ob;
+use Wolf\Filter\CacheType as CT;
 class Topmenu extends \Magento\Theme\Block\Html\Topmenu {
 	/**
 	 * @param string $outermostClass
@@ -26,7 +26,7 @@ class Topmenu extends \Magento\Theme\Block\Html\Topmenu {
 		$myData['menu']->setChildrenWrapClass($childrenWrapClass);
 		if (!$fromCache) {
 			$myData['html'] = $this->_getHtml($myData['menu'], $childrenWrapClass, $limit);
-			df_cache_save(serialize($myData), $cacheId, [Ob::CACHE_TAG]);
+			df_cache_save(serialize($myData), $cacheId, [CT::TAG]);
 		}
 		$transportObject = new \Magento\Framework\DataObject(['html' => $myData['html']]);
 		$this->_eventManager->dispatch('page_block_html_topmenu_gethtml_after', [

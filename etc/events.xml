@@ -3,11 +3,6 @@
     xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'
 	xsi:noNamespaceSchemaLocation='urn:magento:framework:Event/etc/events.xsd'
 >
-	<event name='page_block_html_topmenu_gethtml_before'>
-		<observer
-			instance='Wolf\Filter\Observer\TopMenuGetHTMLBefore' name='Wolf\Filter\Observer\TopMenuGetHTMLBefore'
-		/>
-	</event>
 	<event name='controller_action_predispatch'>
 		<observer
 			instance='Wolf\Filter\Observer\ControllerActionPredispatch'
