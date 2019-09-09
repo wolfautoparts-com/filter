@@ -5,7 +5,6 @@ use Magento\Customer\Model\Data\Customer as CD;
 use Magento\Customer\Model\Session;
 use Magento\Framework\Api\AttributeInterface as IAV;
 use Magento\Framework\Api\AttributeValue as AV;
-use Wolf\Filter\Observer\TopMenuGetHTMLBefore as Ob;
 use Wolf\Filter\Session as SessionW;
 use Wolf\Filter\Setup\InstallData as Schema;
 /**
@@ -63,12 +62,3 @@ function wolf_sess_set(array $v) {
 	$sess = df_customer_session(); /** @var Session|SessionW $sess */
 	$sess->setWolfCategories(df_json_encode($v));
 }
-
-/**
- * 2019-09-07
- * @used-by \Wolf\Filter\Block\Navigation::getConfigJson()
- * @used-by \Wolf\Filter\Controller\Index\Change::execute()
- * @used-by \Wolf\Filter\Observer\TopMenuGetHTMLBefore::execute()
- * @return mixed[]
- */
-function wolf_tree_load() {return false === ($r = df_cache_load(Ob::CACHE_KEY)) ? [] : unserialize($r);}
