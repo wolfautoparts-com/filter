@@ -84,11 +84,8 @@ class Navigation extends _P implements IWidget {
 		$r['categoriesByLevel'] = $categoriesByLevel;
 		$r['selectedCategories'] = $selectedCategories;
 		$sess = df_o(Session::class); /** @var Session $sess */;
-		$urlPath = !($id = intval(df_request('cat') ?: $sess->getMyvalue()))
-			? WC::categoryPath() : '/' . df_category($id)['url_path']
-		;  /** @var string|null $urlPath */
-		$r['customer_garage_uri'] = $urlPath;
-		$r['customer_garage_uri_name'] = wolf_u2n($urlPath);
+		$r['customer_garage_uri'] = !($id = intval(df_request('cat') ?: $sess->getMyvalue()))
+			? WC::categoryPath() : '/' . df_category($id)['url_path'];
 		return $r;
 	});}
 
