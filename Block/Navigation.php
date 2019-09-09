@@ -6,34 +6,6 @@ use Magento\Widget\Block\BlockInterface as IWidget;
 use Wolf\Filter\Customer as WC;
 use Wolf\Filter\Observer\TopMenuGetHTMLBefore as Ob;
 class Navigation extends _P implements IWidget {
-	/**                                                                              
-	 * 2019-09-08
-	 * @used-by hDropdowns()
-	 * @return array
-	 */
-	function getConfigJson() {return dfc($this, function() {
-		$r = ['id' => "cd-{$this->getNameInLayout()}", 'levels' => $this['levels'], 'params' => WC::params()];
-		/** 2019-09-08 @uses \Magento\Framework\App\Request\Http::getOriginalPathInfo() removes the `?...` part. */
-		$cacheId = 'config_' . md5(df_request_o()->getOriginalPathInfo());
-		 /** @var array(string => mixed) $topLevel */
-		if (false !== ($d = df_cache_load($cacheId))) {
-			$topLevel = unserialize($d);
-		}
-		else {
-			$topLevel = [];
-			foreach (wolf_tree_load() as $c) { /** @var array(string => mixed) $c */
-				if (isset($r['params'][0]) && $r['params'][0]['name'] === wolf_u2n($c['name'])) {
-					$r['params'][0]['id'] = $c['id'];
-				}
-				array_push($topLevel, ['id' => $c['id'], 'name' => $c['name']]);
-			}
-			usort($topLevel, function($a, $b) {return strtolower($a['name']) > strtolower($b['name']);});
-			df_cache_save(serialize($topLevel), $cacheId, [Ob::CACHE_TAG]);
-		}
-		$r['topLevel'] = $topLevel;
-		return $r;
-	});}
-
 	/**
 	 * 2019-09-08
 	 * @used-by vendor/wolfautoparts.com/filter/view/frontend/templates/sidebar.phtml
@@ -41,31 +13,6 @@ class Navigation extends _P implements IWidget {
 	 */
 	function hDropdowns() {
 		$r = '';
-		/**
-		 * 2019-09-08
-		 *	[
-		 *		{
-		 *			"id": 1721,
-		 *			"name": "Audi",
-		 * 			"url": null,
-		 *			"selected": false
-		 *		},
-		 *		{
-		 *			"id": 3613,
-		 *			"name": "BMW",
-		 *			"url": null,
-		 *			"selected": false
-		 *		},
-		 *		{
-		 *			"id": 3,
-		 *			"name": "Volkswagen",
-		 *			"url": null,
-		 *			"selected": false
-		 *		}
-		 *	]
-		 * @var array(array(string => string|int|bool|null)) $topLevel
-		 */
-		$topLevel = $this->getConfigJson()['topLevel'];
 		$levels = $this['levels'];
 		$lastLevel = $levels - 1;
 		$labels = df_csv_parse($this['select_labels']); /** @var string[] $labels */
@@ -85,7 +32,7 @@ class Navigation extends _P implements IWidget {
 									$this->labelsAreInside() && $label ? $label : 'Please Select'
 								)
 							]
-							,$l ? [] : df_map($topLevel, function($c) {return df_tag(
+							,$l ? [] : df_map($this->topLevel(), function($c) {return df_tag(
 								'option', ['value' => $c['id']], $c['name']
 							);})
 						)
@@ -132,4 +79,35 @@ class Navigation extends _P implements IWidget {
 	 * @see \Magento\Catalog\Block\Navigation::_construct()
 	 */
 	protected function _construct() {parent::_construct(); $this->setTemplate('sidebar.phtml');}
+
+	/**
+	 * 2019-09-08
+	 *	[
+	 *		{"id": 1721, "name": "Audi"},
+	 *		{"id": 3613, "name": "BMW"},
+	 *		{"id": 3, "name": "Volkswagen"}
+	 *	]
+	 * @used-by hDropdowns()
+	 * @return array
+	 */
+	private function topLevel() {return dfc($this, function() {
+		/** 2019-09-08 @uses \Magento\Framework\App\Request\Http::getOriginalPathInfo() removes the `?...` part. */
+		$cacheId = 'config_' . md5(df_request_o()->getOriginalPathInfo());
+		 /** @var array(string => mixed) $topLevel */
+		if (false !== ($d = df_cache_load($cacheId))) {
+			$r = unserialize($d);
+		}
+		else {
+			$r = [];
+			foreach (wolf_tree_load() as $c) { /** @var array(string => mixed) $c */
+				if (isset($r['params'][0]) && $r['params'][0]['name'] === wolf_u2n($c['name'])) {
+					$r['params'][0]['id'] = $c['id'];
+				}
+				array_push($r, ['id' => $c['id'], 'name' => $c['name']]);
+			}
+			usort($r, function($a, $b) {return strtolower($a['name']) > strtolower($b['name']);});
+			df_cache_save(serialize($r), $cacheId, [Ob::CACHE_TAG]);
+		}
+		return $r;
+	});}
 }
