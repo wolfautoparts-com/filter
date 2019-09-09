@@ -13,65 +13,34 @@ class Navigation extends _P implements IWidget {
 	 * @return array
 	 */
 	function getConfigJson() {return dfc($this, function() {
-		$r = [
-			'id' => "cd-{$this->getNameInLayout()}"
-			,'levels' => $this['levels']
-			,'params' => WC::params()
-		];
+		$r = ['id' => "cd-{$this->getNameInLayout()}", 'levels' => $this['levels'], 'params' => WC::params()];
 		$cacheTags = [Ob::CACHE_TAG];
-		$menuTree = wolf_tree_load();
 		/** 2019-09-08 @uses \Magento\Framework\App\Request\Http::getOriginalPathInfo() removes the `?...` part. */
 		$configCacheId = 'config_' . md5(df_request_o()->getOriginalPathInfo());
-		// Build categories by level
 		$da = unserialize(df_cache_load($configCacheId));
-		if (false !==($data = df_cache_load($configCacheId)) && count($da[0])>0) {
-			$categoriesByLevel = unserialize($data);
+		if (false !== ($d = df_cache_load($configCacheId)) && count($da[0])) {
+			$topLevel = unserialize($d);
 		}
 		else {
-			$categoriesByLevel = [];
-			// 2019-09-05 Dmitry Fedyuk https://www.upwork.com/fl/mage2pro
-			// «Decrease TTFB(time to first byte) for uncached category pages to 5 seconds»:
-			// https://www.upwork.com/ab/f/contracts/22684975
-			for ($l = 0; $l < 1 /*$config['levels']*/; $l++) {
-				$categoriesByLevel[$l] = [];
-				$nextTree = null;
-				if ($menuTree) {
-                    foreach($menuTree as $menuTreeEntry) {
-                        $category = null;
-                        $category = array(
-                            'id' => $menuTreeEntry['id'],
-                            'name' => $menuTreeEntry['name'],
-                            'url' => dfa($menuTreeEntry, 'url'),
-                            'selected' => false
-                      );
-                        if (
-                        	isset($r['params'][$l])
-							&&
-									$r['params'][$l]['name']
-								===
-									str_replace(['.', '-'], ' ', df_strip_ext(strtolower($menuTreeEntry['name'])))
-						) {
-                            $r['params'][$l]['id'] = $menuTreeEntry['id'];
-                            $category['selected'] = true;
-                            if (isset($menuTreeEntry['children']) && !empty($menuTreeEntry['children'])) {
-                                $nextTree = $menuTreeEntry['children'];
-                            } else {
-                                $nextTree = null;
-                            }
-                        }
-                        array_push($categoriesByLevel[$l], $category);
-                    }
-                }
-                $menuTree = $nextTree;
-                if (!empty($categoriesByLevel[$l])) {
-                    usort($categoriesByLevel[$l], function($first, $second) {
-                        return strtolower($first['name']) > strtolower($second['name']);
-                    });
-                }
+			$topLevel = [];
+			foreach(wolf_tree_load() as $c) {
+				$category = null;
+				$category = array(
+					'id' => $c['id'],
+					'name' => $c['name'],
+					'url' => dfa($c, 'url'),
+					'selected' => false
+			  );
+				if (isset($r['params'][0]) && $r['params'][0]['name'] === wolf_u2n($c['name'])) {
+					$r['params'][0]['id'] = $c['id'];
+					$category['selected'] = true;
+				}
+				array_push($topLevel, $category);
 			}
-			df_cache_save(serialize($categoriesByLevel), $configCacheId, $cacheTags);
+			usort($topLevel, function($a, $b) {return strtolower($a['name']) > strtolower($b['name']);});
+			df_cache_save(serialize($topLevel), $configCacheId, $cacheTags);
 		}
-		$r['categoriesByLevel'] = $categoriesByLevel;
+		$r['topLevel'] = $topLevel;
 		return $r;
 	});}
 
@@ -104,9 +73,9 @@ class Navigation extends _P implements IWidget {
 		 *			"selected": false
 		 *		}
 		 *	]
-		 * @var array(array(string => string|int|bool|null)) $topLevelCategories
+		 * @var array(array(string => string|int|bool|null)) $topLevel
 		 */
-		$topLevelCategories = $this->getConfigJson()['categoriesByLevel'][0];
+		$topLevel = $this->getConfigJson()['topLevel'];
 		$levels = $this['levels'];
 		$lastLevel = $levels - 1;
 		$labels = df_csv_parse($this['select_labels']); /** @var string[] $labels */
@@ -129,8 +98,8 @@ class Navigation extends _P implements IWidget {
 									$this->labelsAreInside() && $label ? $label : 'Please Select'
 								)
 							]
-							,$l ? [] : df_map($topLevelCategories, function($c) {return df_tag('option'
-								,['dataUrl' => $c['url'], 'value' => $c['id']]
+							,$l ? [] : df_map($topLevel, function($c) {return df_tag('option'
+								,['dataUrl' => null, 'value' => $c['id']]
 								,$c['name']
 							);})
 						)

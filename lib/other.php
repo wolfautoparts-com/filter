@@ -1,6 +1,7 @@
 <?php
 /**
  * 2019-09-09
+ * @used-by \Wolf\Filter\Block\Navigation::getConfigJson()
  * @used-by \Wolf\Filter\Block\Navigation::selectedName()
  * @used-by \Wolf\Filter\Observer\ControllerActionPredispatch::execute()
  * @param string|null $s
