@@ -3,7 +3,7 @@ use Wolf\Filter\Observer\TopMenuGetHTMLBefore as Ob;
 
 /**
  * 2019-09-07
- * @used-by \Wolf\Filter\Block\Navigation::getConfigJson()
+ * @used-by \Wolf\Filter\Block\Navigation::topLevel()
  * @used-by \Wolf\Filter\Controller\Index\Change::execute()
  * @used-by \Wolf\Filter\Observer\TopMenuGetHTMLBefore::execute()
  * @return mixed[]
