@@ -8,7 +8,6 @@ use Wolf\Filter\Observer\TopMenuGetHTMLBefore as Ob;
 class Navigation extends _P implements IWidget {
 	/**                                                                              
 	 * 2019-09-08
-	 * @used-by vendor/wolfautoparts.com/filter/view/frontend/templates/sidebar.phtml 
 	 * @used-by hDropdowns()
 	 * @return array
 	 */
