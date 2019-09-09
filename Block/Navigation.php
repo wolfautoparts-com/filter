@@ -66,10 +66,8 @@ class Navigation extends _P implements IWidget {
 	 * @return string|null
 	 */
 	function selectedPath() {return dfc($this, function() {$s = df_o(Sess::class); /** @var Sess $s */ return
-		!WC::garage() ? null : (
-			!($id = intval(df_request('cat') ?: $s->getMyvalue()))
-				? WC::categoryPath()
-				: '/' . df_category($id)['url_path']
+		!WC::garage() ? null : (!($id = intval(df_request('cat') ?: $s->getMyvalue()))
+			? WC::categoryPath() : '/' . df_category($id)['url_path']
 		)
 	;});}
 
@@ -88,17 +86,11 @@ class Navigation extends _P implements IWidget {
 	 *		{"id": 3, "name": "Volkswagen"}
 	 *	]
 	 * @used-by hDropdowns()
-	 * @return array
+	 * @return array(array(string => string))
 	 */
-	private function topLevel() {return dfc($this, function() {
-		/** 2019-09-08 @uses \Magento\Framework\App\Request\Http::getOriginalPathInfo() removes the `?...` part. */
-		$cacheId = 'config_' . md5(df_request_o()->getOriginalPathInfo());
-		 /** @var array(string => mixed) $topLevel */
-		if (false !== ($d = df_cache_load($cacheId))) {
-			$r = unserialize($d);
-		}
-		else {
-			$r = [];
+	private function topLevel() {return dfc($this, function() {return df_cache_get_simple(
+		'config_' . md5(df_request_o()->getOriginalPathInfo()), function() {
+			$r = []; /** @var array(array(string => string)) $r */
 			foreach (wolf_tree_load() as $c) { /** @var array(string => mixed) $c */
 				if (isset($r['params'][0]) && $r['params'][0]['name'] === wolf_u2n($c['name'])) {
 					$r['params'][0]['id'] = $c['id'];
@@ -106,8 +98,7 @@ class Navigation extends _P implements IWidget {
 				array_push($r, ['id' => $c['id'], 'name' => $c['name']]);
 			}
 			usort($r, function($a, $b) {return strtolower($a['name']) > strtolower($b['name']);});
-			df_cache_save(serialize($r), $cacheId, [Ob::CACHE_TAG]);
-		}
-		return $r;
-	});}
+			return $r;
+		}, [Ob::CACHE_TAG]
+	);});}
 }
