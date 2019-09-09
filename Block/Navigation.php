@@ -14,23 +14,22 @@ class Navigation extends _P implements IWidget {
 	 */
 	function getConfigJson() {return dfc($this, function() {
 		$r = ['id' => "cd-{$this->getNameInLayout()}", 'levels' => $this['levels'], 'params' => WC::params()];
-		$cacheTags = [Ob::CACHE_TAG];
 		/** 2019-09-08 @uses \Magento\Framework\App\Request\Http::getOriginalPathInfo() removes the `?...` part. */
-		$configCacheId = 'config_' . md5(df_request_o()->getOriginalPathInfo());
-		$da = unserialize(df_cache_load($configCacheId));
-		if (false !== ($d = df_cache_load($configCacheId)) && count($da[0])) {
+		$cacheId = 'config_' . md5(df_request_o()->getOriginalPathInfo());
+		 /** @var array(string => mixed) $topLevel */
+		if (false !== ($d = df_cache_load($cacheId))) {
 			$topLevel = unserialize($d);
 		}
 		else {
 			$topLevel = [];
-			foreach (wolf_tree_load() as $c) {
+			foreach (wolf_tree_load() as $c) { /** @var array(string => mixed) $c */
 				if (isset($r['params'][0]) && $r['params'][0]['name'] === wolf_u2n($c['name'])) {
 					$r['params'][0]['id'] = $c['id'];
 				}
 				array_push($topLevel, ['id' => $c['id'], 'name' => $c['name']]);
 			}
 			usort($topLevel, function($a, $b) {return strtolower($a['name']) > strtolower($b['name']);});
-			df_cache_save(serialize($topLevel), $configCacheId, $cacheTags);
+			df_cache_save(serialize($topLevel), $cacheId, [Ob::CACHE_TAG]);
 		}
 		$r['topLevel'] = $topLevel;
 		return $r;
