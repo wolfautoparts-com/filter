@@ -1,8 +1,12 @@
 <?php
 use Wolf\Filter\Block\Navigation as B;
 $b = $block; /** @var B $block */ /** @var B $b */
+// 2019-09-12
+// I have added the `catalog_product_view` value to fix the issue
+// «The filter block is missed from frontend product pages»:
+// https://github.com/wolfautoparts-com/filter/issues/2
 list($selectedCarContStyle, $selectedCarContStyle1) =
-	!df_action_is('catalog_category_view', 'catalogsearch_result_index', 'cms_noroute_index')
+	!df_action_is('catalog_category_view', 'catalog_product_view', 'catalogsearch_result_index', 'cms_noroute_index')
 	? ['', ''] : ['style="display: block;"', 'style="display: none;"']
 ;
 ?>

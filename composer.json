@@ -1,6 +1,6 @@
 {
 	"name": "wolfautoparts.com/filter"
-	,"version": "0.0.5"
+	,"version": "0.0.6"
 	,"description": "A custom product filtering module for wolfautoparts.com (Magento 2)"
 	,"type": "magento2-module"
 	,"homepage": "https://github.com/wolfautoparts-com/filter"
