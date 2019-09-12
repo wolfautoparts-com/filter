@@ -259,14 +259,9 @@
 					$('#change-car').hide();
 				}
 				if (window.location.pathname == '/') {// homepage
-
 					$('.garage-cont').css('display', 'inline-block');
 					$('.garage-selected-car-cont').css('display', 'none');
-
 				} else {
-
-
-
 					if (self.selected) {
 						$('.garage-selected-car-cont').css('display', 'inline-block');
 						if (!keepGarageOpen) {$('.garage-cont').css('display', 'none'); }
