@@ -21,7 +21,7 @@ class Change extends _P {
 			array_values(df_map(function(C $c) use($needURL) {return df_clean([
 				'id' => (int)$c->getId(), 'name' => $c->getName(), 'url' => $needURL ? $c->getUrl() : null
 			]);}, df_category($id)->getChildrenCategories()))
-			,function($a, $b) use($rev) {$r = strcasecmp($a, $b); return $rev ? -$r : $r;}
+			,function($a, $b) use($rev) {$r = strcasecmp($a['name'], $b['name']); return $rev ? -$r : $r;}
 		);}
 	,[CT::TAG], (int)df_request('selectedValue'), 1 === $i, 4 === $i));}
 }
