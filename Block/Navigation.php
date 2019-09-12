@@ -69,7 +69,15 @@ class Navigation extends _P implements IWidget {
 	 */
 	function selectedPath() {return dfc($this, function() {$s = df_o(Sess::class); /** @var Sess $s */ return
 		!WC::garage() ? null : (!($id = intval(df_request('cat') ?: $s->getMyvalue()))
-			? WC::categoryPath() : '/' . df_category($id)['url_path']
+			? WC::categoryPath() : '/' .
+			   /**
+				* 2019-09-12
+				* My previous code was: `df_category($id)['url_path']`.
+				* It works incorrectly for some URLs.
+				* "The «Selected Car» URL contains a wrong value on frontend product pages":
+				* https://github.com/wolfautoparts-com/filter/issues/4
+				*/
+				df_url_path(df_category($id)->getUrl())
 		)
 	;});}
 
