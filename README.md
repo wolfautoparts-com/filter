@@ -21,7 +21,8 @@ bin/magento setup:static-content:deploy \
 	-f en_US
 bin/magento maintenance:disable
 bin/magento cache:enable
-/usr/share/stratus/cli cache.all.clear
+/usr/share/stratus/cli cache.all.clear 
+/usr/share/stratus/cli autoscaling.reinit
 ```
 
 ## How to upgrade
@@ -46,7 +47,8 @@ bin/magento setup:static-content:deploy \
 	-f en_US
 bin/magento maintenance:disable
 bin/magento cache:enable
-/usr/share/stratus/cli cache.all.clear
+/usr/share/stratus/cli cache.all.clear 
+/usr/share/stratus/cli autoscaling.reinit
 ```
 
 If you have problems with these commands, please check the [detailed instruction](https://mage2.pro/t/263).
