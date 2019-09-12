@@ -234,24 +234,16 @@
 					$('.garage-selected-car-link').html(self.selectedText);
 				}
 				if (listStr.length) {
-
 					listStr = listStr + '<tr><td colspan="2" style="text-align: right"><a class="remove-all-button" href="#remove-all">Remove All</a></td></tr>'
 					listStr = '<table class="garage-table">' +  listStr + '</table>';
-
 					$('#change-car').html('');
 					$('#change-car').append(listStr);
 					$('#change-car').show();
-
-
 					// link newly added buttons to its actions
 					this.removeAllButton = $('.remove-all-button');
 					this.removeAllButton.on('click', this, this._onClickRemoveAll)
 					this.removeCarButtons = $('.change-car-form').find('.remove-car-button');
 					this.removeCarButtons.on('click', this, this._onClickRemoveCar);
-					// this.garageTableRows = $('.garage-table-row');
-					// this.garageTableRows.on('mouseenter', this, this._onGarageTableRowMouseenter);
-					// this.garageTableRows.on('mouseleave', this, this._onGarageTableRowMouseleave);
-					//
 					$('.garage-table-row').mouseover(function() {
 						$(this).addClass('garage-table-row-over');
 						$(this).find('.remove-car-button').show();
@@ -262,17 +254,10 @@
 						$(this).find('.remove-car-button').hide();
 						$(this).find('span').css('color', '#E0E0E0');
 					});
-
-
-
-
 				} else {
-
 					$('#change-car').html('');
 					$('#change-car').hide();
-
 				}
-
 				if (window.location.pathname == '/') {// homepage
 
 					$('.garage-cont').css('display', 'inline-block');
