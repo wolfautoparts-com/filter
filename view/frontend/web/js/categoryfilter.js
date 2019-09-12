@@ -232,15 +232,7 @@
 					$('.garage-selected-car-cont').css('display', 'inline-block');
 					$('.garage-selected-car-link').attr("href", self.selectedValue);
 					$('.garage-selected-car-link').html(self.selectedText);
-				} else {
-					//$('.garage-selected-car-cont').css('display', 'none');
 				}
-
-				// console.log('listStr', listStr);
-
-
-
-
 				if (listStr.length) {
 
 					listStr = listStr + '<tr><td colspan="2" style="text-align: right"><a class="remove-all-button" href="#remove-all">Remove All</a></td></tr>'
@@ -294,41 +286,24 @@
 						$('.garage-selected-car-cont').css('display', 'inline-block');
 						if (!keepGarageOpen) {$('.garage-cont').css('display', 'none'); }
 					} else {
-						//$('.garage-selected-car-cont').css('display', 'none');
 						if (listStr.length) {
-							//$('.garage-cont').css('display', 'inline-block');
 						}
 					}
-
-
-
 				}
-
-				// $('.garage-selected-car-cont').css('display', 'inline-block');
-
 				$('.loading-message').css('display', 'none');
 				$('.garage-opening-message').css('display', 'none');
-
-
 			},
 
 			_onClickChangeCar: function() {
-
-				// console.log('_onClickChangeCar');
-
 				var garageContDisplay = $('.garage-cont').css('display');
 				if (garageContDisplay == 'none') {
 					$('.garage-cont').css('display', 'inline-block');
 				} else {
 					$('.garage-cont').css('display', 'none');
 				}
-
 			},
 
 			_onClickRemoveAll: function() {
-
-				// console.log('_onClickRemoveAll');
-
 				$('.loading-message').html('Loading...');
 				$('.loading-message').css('display', 'inline-block');
 
